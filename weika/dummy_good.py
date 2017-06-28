@@ -5,6 +5,7 @@ from sklearn.metrics import recall_score, precision_score
  
 #导入随机森林算法库
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression 
 from sklearn.metrics import confusion_matrix
  
   
@@ -22,14 +23,13 @@ print df_dummies.loc[:30]
 
 
 df_X = pd.concat([df_All[["day_week_filled","hour_filled","tfr_dt_tm_filled","trans_at_filled","total_disc_at_filled"]],df_dummies], axis=1)
-
-#df_X.loc[0:200].to_csv("dummy_1608.csv")
+ 
 
 df_y = df_All["label_filled"]
 
-X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=.4)
+X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
 
-clf = RandomForestClassifier()
+clf = RandomForestClassifier(n_estimators=10, max_depth=None,min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
 
 clf = clf.fit(X_train, y_train)
   
