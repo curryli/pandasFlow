@@ -7,16 +7,17 @@ from sklearn.metrics import recall_score, precision_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix
 
- 
-  
+
 df_All = pd.read_csv("dummy_all_withlabel.csv", header=0, sep=',')  
 print df_All.shape[1]
  
  
-df_X =  df_All.iloc[:, 0:-2] 
+df_X =  df_All.iloc[:, 0:-1] 
  
 
-df_y = df_All.iloc[:, [-1]] 
+df_y = df_All.iloc[:, -1] 
+print df_y
+
 
 X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
 
@@ -43,3 +44,13 @@ precision = precision_score(y_test, pred, average="macro")
 recall = recall_score(y_test, pred, average="macro") 
 print ("Precision:", precision) 
 print ("Recall:", recall) 
+
+
+#0.977356207597
+#('Precision:', 0.97629591497568735)
+#('Recall:', 0.97735620759690589)
+#[[21608   114]
+# [  410  1009]]
+#('Precision:', 0.93993253475845506)
+#('Recall:', 0.85290799706899123)
+#[root@localhost weika]

@@ -6,6 +6,8 @@ from sklearn.metrics import recall_score, precision_score
 #导入随机森林算法库
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression 
+from sklearn.grid_search import GridSearchCV
+from sklearn.grid_search import RandomizedSearchCV
 from sklearn.metrics import confusion_matrix
  
   
@@ -29,7 +31,9 @@ df_y = df_All["label_filled"]
 
 X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
 
-clf = RandomForestClassifier(n_estimators=10, max_depth=None,min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
+
+#n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
+clf = RandomForestClassifier(n_estimators=100, max_depth=None,min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
 
 clf = clf.fit(X_train, y_train)
   
@@ -51,3 +55,17 @@ precision = precision_score(y_test, pred, average="weighted")
 recall = recall_score(y_test, pred, average="weighted") 
 print ("Precision:", precision) 
 print ("Recall:", recall) 
+
+
+#0.990622704291  10棵树
+#[[21721    84]
+# [  133  1203]]
+#('Precision:', 0.96432304616161124)
+#('Recall:', 0.94829838717428705)
+#('Precision:', 0.99049738866427095)
+#('Recall:', 0.99062270429108512)
+
+#100棵树
+#[[21621   109]
+# [  100  1311]]
+ 
