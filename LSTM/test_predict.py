@@ -77,6 +77,14 @@ classifier=load_model('lstm_model.h5')
 predict=classifier.predict(X_test,batch_size=batchsize) #输出预测结果
 predict =  [i[0] for i in predict]
 print y_test[:10]
+ 
+predict = np.where(np.array(predict)<0.5,0,1)
 print predict[:10]
 
- 
+confusion_matrix=confusion_matrix(y_test,predict)
+print  confusion_matrix
+
+precision = precision_score(y_test, predict, average='macro') 
+recall = recall_score(y_test, predict, average='macro') 
+print ("Precision:", precision) 
+print ("Recall:", recall) 

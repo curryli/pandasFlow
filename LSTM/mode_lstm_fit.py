@@ -43,7 +43,7 @@ warnings.filterwarnings('ignore')
 
 labelName="label"
 cardname="card"
-runEpoch=50
+runEpoch=5
 
 train_all = pd.read_csv('train.csv')
 test_all = pd.read_csv('test.csv')
@@ -51,11 +51,10 @@ test_all = pd.read_csv('test.csv')
 y_train = train_all.label
 y_test = test_all.label
 
-X_train = train_all.drop(labelName, axis = 1, inplace=False)
-X_train = X_train.drop(cardname, axis = 1, inplace=False)
-
-X_test = test_all.drop(labelName, axis = 1, inplace=False)
-X_test = X_test.drop(cardname, axis = 1, inplace=False)
+X_train = train_all.drop(labelName, axis = 1)
+X_test = test_all.drop(labelName, axis = 1)
+X_train = train_all.drop(cardname, axis = 1)
+X_test = test_all.drop(cardname, axis = 1)
 
 sc = StandardScaler()
 
@@ -72,7 +71,7 @@ def classifier_builder ():
     classifier = Sequential()
     classifier.add(Embedding(max_features, output_dim=256))
     classifier.add(LSTM(128))
-    classifier.add(Dropout(0.3))
+    classifier.add(Dropout(0.5))
     classifier.add(Dense(1, activation='sigmoid'))
 
     classifier.compile(loss='binary_crossentropy',
@@ -85,7 +84,7 @@ def classifier_builder ():
 #Now we should create classifier object using our internal classifier object in the function above
 classifier = KerasClassifier(build_fn= classifier_builder,
                              batch_size = 1024,
-                             nb_epoch = runEpoch) #10)
+                             nb_epoch = 1) #10)
 
 if(os.access("lstm_model.h5", os.F_OK)):
     classifier=load_model('lstm_model.h5')

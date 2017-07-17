@@ -33,7 +33,7 @@ X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
 
 
 #n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
-clf = RandomForestClassifier(n_estimators=100, max_depth=None,min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
+clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
 
 clf = clf.fit(X_train, y_train)
   
