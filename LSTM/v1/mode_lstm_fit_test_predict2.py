@@ -46,7 +46,7 @@ warnings.filterwarnings('ignore')
 
 labelName="label"
 cardname="card"
-runEpoch=20
+runEpoch=50
 
 BS = 256
 #runLoop = 50
@@ -85,7 +85,7 @@ def classifier_builder ():
     max_features = size_data #256
     classifier = Sequential()
     classifier.add(Embedding(max_features, output_dim=256))
-    classifier.add(LSTM(128))
+    classifier.add(LSTM(512))
     classifier.add(Dropout(0.5))
     classifier.add(Dense(1, activation='sigmoid'))
 
@@ -106,14 +106,7 @@ classifier = KerasClassifier(build_fn= classifier_builder,
  
  
 classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights, validation_data=(X_test, y_test))
-
-score, acc = classifier.evaluate(X_test, y_test,
-                            batch_size=BS)
-print('Test score:', score)
-print('Test accuracy:', acc)
-
- 
-
+  
 y_predict=classifier.predict(X_test,batch_size=BS)
 y_predict =  [j[0] for j in y_predict]
 y_predict = np.where(np.array(y_predict)<0.5,0,1)
@@ -125,5 +118,5 @@ print ("Recall:", recall)
 
  
 print(classifier.model.summary())
-classifier.model.save('lstm_model.h5')
+classifier.model.save('lstm_model.h5_2')
 

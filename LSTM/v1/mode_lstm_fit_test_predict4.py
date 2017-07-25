@@ -107,11 +107,6 @@ classifier = KerasClassifier(build_fn= classifier_builder,
  
 classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights, validation_data=(X_test, y_test))
 
-score, acc = classifier.evaluate(X_test, y_test,
-                            batch_size=BS)
-print('Test score:', score)
-print('Test accuracy:', acc)
-
  
 
 y_predict=classifier.predict(X_test,batch_size=BS)

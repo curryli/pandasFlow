@@ -1,0 +1,5 @@
+trans_fwd_st_label	trans_rcv_st_label
+resp_cd1_label	resp_cd2_label
+resp_cd3_label	resp_cd4_label
+trans_id_label	trans_tp_label
+fwd_settle_conv_rt_label	rcv_settle_conv_rt_label
