@@ -61,17 +61,17 @@ Size2 = 256
 Size3 = 128
 
 inputSize =67
-Epochs = 200
+Epochs = 10
 
-Encoder1 = Sequential([Dense(Size1, input_dim=inputSize, activation='relu'  )])                # , activity_regularizer=regularizers.l1(10e-5))])
-Encoder2 = Sequential([Dense(Size2, input_dim=Size1, activation='relu'  )])                # , activity_regularizer=regularizers.l1(10e-5))])
-Encoder3 = Sequential([Dense(Size3, input_dim=Size2, activation='relu'  )])                # , activity_regularizer=regularizers.l1(10e-5))])
+Encoder1 = Sequential([Dense(Size1, input_dim=inputSize), Activation('relu')])
+Encoder2 = Sequential([Dense(Size2, input_dim=Size1), Activation('relu')])
+Encoder3 = Sequential([Dense(Size3, input_dim=Size2), Activation('sigmoid')])
 
 
 #解码器为：
-Decoder1 = Sequential([Dense(Size2, input_dim=Size3, activation='relu'  )])                # , activity_regularizer=regularizers.l1(10e-5))])
-Decoder2 = Sequential([Dense(Size1, input_dim=Size2, activation='relu'  )])                # , activity_regularizer=regularizers.l1(10e-5))])
-Decoder3 = Sequential([Dense(inputSize, input_dim=Size1, activation='relu'  )])                # , activity_regularizer=regularizers.l1(10e-5))])
+Decoder1 = Sequential([Dense(Size2, input_dim=Size3), Activation('relu')])
+Decoder2 = Sequential([Dense(Size1, input_dim=Size2), Activation('relu')])
+Decoder3 = Sequential([Dense(inputSize, input_dim=Size1), Activation('sigmoid')])
 
 #autoencoder为：
 Autoencoder = Sequential()

@@ -66,18 +66,18 @@ Size5 = 128
 inputSize =67
 Epochs = 10
 
-Encoder1 = Sequential([Dense(Size1, input_dim=inputSize), Activation('sigmoid')])
-Encoder2 = Sequential([Dense(Size2, input_dim=Size1), Activation('sigmoid')])
-Encoder3 = Sequential([Dense(Size3, input_dim=Size2), Activation('sigmoid')])
-Encoder4 = Sequential([Dense(Size4, input_dim=Size3), Activation('sigmoid')])
+Encoder1 = Sequential([Dense(Size1, input_dim=inputSize), Activation('relu')])
+Encoder2 = Sequential([Dense(Size2, input_dim=Size1), Activation('relu')])
+Encoder3 = Sequential([Dense(Size3, input_dim=Size2), Activation('relu')])
+Encoder4 = Sequential([Dense(Size4, input_dim=Size3), Activation('relu')])
 Encoder5 = Sequential([Dense(Size5, input_dim=Size4), Activation('sigmoid')])
 
 
 #解码器为：
-Decoder1 = Sequential([Dense(Size4, input_dim=Size5), Activation('sigmoid')])
-Decoder2 = Sequential([Dense(Size3, input_dim=Size4), Activation('sigmoid')])
-Decoder3 = Sequential([Dense(Size2, input_dim=Size3), Activation('sigmoid')])
-Decoder4 = Sequential([Dense(Size1, input_dim=Size2), Activation('sigmoid')])
+Decoder1 = Sequential([Dense(Size4, input_dim=Size5), Activation('relu')])
+Decoder2 = Sequential([Dense(Size3, input_dim=Size4), Activation('relu)])
+Decoder3 = Sequential([Dense(Size2, input_dim=Size3), Activation('relu')])
+Decoder4 = Sequential([Dense(Size1, input_dim=Size2), Activation('relu')])
 Decoder5 = Sequential([Dense(inputSize, input_dim=Size1), Activation('sigmoid')])
 
 #autoencoder为：
