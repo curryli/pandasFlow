@@ -37,7 +37,6 @@ from keras import metrics
 import keras.backend as K
 from sklearn.utils import shuffle 
 from sklearn.metrics import confusion_matrix
-from keras import regularizers
  
 import os                          #python miscellaneous OS system tool
 #os.chdir("C:/work/unionpay/") #changing our directory to which we have our data file
@@ -46,17 +45,14 @@ import os                          #python miscellaneous OS system tool
 import warnings
 warnings.filterwarnings('ignore')
 
-labelName="label" 
-runEpoch=1000
+labelName="label"
+cardname="pri_acct_no_conv"
+runEpoch=100
 
 BS = 256
 #runLoop = 50
 
-
-modelName = "lstm_reshape_5.md"
-
-timesteps = 5
-Alldata = pd.read_csv('LSTM_converted_5.csv')
+Alldata = pd.read_csv('idx_sort_test.csv')
 Alldata = shuffle(Alldata)
 
 train_all,test_all=train_test_split(Alldata, test_size=0.2)
@@ -67,22 +63,16 @@ train_all,test_all=train_test_split(Alldata, test_size=0.2)
 
 
 
-y_train = train_all.label
-y_test = test_all.label
+y_train = train_all.iloc[:, 0]
+y_test = test_all.iloc[:, 0]
+print y_train[0]
 
-X_train = train_all.drop(labelName, axis = 1, inplace=False) 
-X_test = test_all.drop(labelName, axis = 1, inplace=False) 
 
-print X_train.columns
-
-print len(X_train.columns)
-
-size_data = X_train.shape[1];
-print "size_data= ", size_data
-
-data_dim = size_data/timesteps
-print "data dimension=", data_dim
-
+X_train = np.array(train_all.iloc[:, 1:])
+X_test = np.array(test_all.iloc[:, 1:])
+print X_train[0]
+print X_train.shape
+ 
 
 sc = StandardScaler()
 
@@ -95,22 +85,25 @@ X_test = sc.transform(X_test)
 # Defining our classifier builder object to do all layers in once using layer codes from previous part
 
 
- 
+size_data = X_train.shape[1];
+
+
+timesteps = 3
+data_dim = size_data/timesteps
+print "data dimension=", data_dim
+
 def classifier_builder ():
  
     classifier = Sequential()
     classifier.add(Reshape((timesteps, data_dim), input_shape=(size_data,)))
     classifier.add(Masking(mask_value= -1, input_shape=(timesteps, data_dim)))
     #classifier.add(LSTM(128))#               , input_shape=(timesteps, data_dim)))
-    classifier.add(LSTM(256, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))   # activation='sigmoid', recurrent_activation='hard_sigmoid', unit_forget_bias=True, kernel_regularizer=regularizers.l2(0.01), recurrent_regularizer=regularizers.l2(0.01), bias_regularizer=regularizers.l1(0.01), activity_regularizer=regularizers.l1(0.01)))
-    classifier.add(Dropout(0.6))
+    classifier.add(LSTM(256,  input_shape=(timesteps, data_dim)))
+    classifier.add(Dropout(0.3))
     classifier.add(Dense(1, activation='sigmoid'))  #'tanh'  'sigmoid'
  
-    
-    
-    
     classifier.compile(loss='binary_crossentropy',
-              optimizer= 'Adam',                           #RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.01),                  #'rmsprop', #'rmsprop','Adam'
+              optimizer='rmsprop', #'rmsprop','Adam'
               metrics=[metrics.mae,"accuracy"])
 
     return classifier
@@ -124,10 +117,7 @@ classifier = KerasClassifier(build_fn= classifier_builder,
                              nb_epoch = runEpoch) 
  
 
-if(os.access(modelName, os.F_OK)):
-    classifier=load_model(modelName)
-
-classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights, validation_data=(X_test, y_test), verbose=2)
+classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights, validation_data=(X_test, y_test))
   
 y_predict=classifier.predict(X_test,batch_size=BS)
 y_predict =  [j[0] for j in y_predict]
@@ -140,14 +130,5 @@ print ("Recall:", recall)
 
 confusion_matrix=confusion_matrix(y_test,y_predict)
 print  confusion_matrix
+
  
-
-precision_p = float(confusion_matrix[1][1])/float((confusion_matrix[0][1] + confusion_matrix[1][1]))
-recall_p = float(confusion_matrix[1][1])/float((confusion_matrix[1][0] + confusion_matrix[1][1]))
-
-if(os.access(modelName, os.F_OK)):
-    print(classifier.summary()) 
-    classifier.save(modelName)
-else:
-    print(classifier.model.summary())
-    classifier.model.save(modelName)
