@@ -60,7 +60,7 @@ X_test = sc.transform(X_test)
 
   # Parameters
 learning_rate = 0.01 #how fast to learn? too low, too long to converge, too high overshoot minimum
-training_epochs = 50
+training_epochs = 20
 batch_size = 128
 display_step = 1
 

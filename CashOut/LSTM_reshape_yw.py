@@ -13,7 +13,7 @@ import numpy as np
 np.random.seed(1234)
 
 from IPython.display import display
-from sklearn.preprocessing import StandardScaler                   # for normalization of our data
+from sklearn.preprocessing import StandardScaler,MinMaxScaler                   # for normalization of our data
 from keras.wrappers.scikit_learn import KerasClassifier            #package allowing keras to work with python
 from sklearn.model_selection import cross_val_score, GridSearchCV  #using Kfold and if needed, GridSearch object in analysis
 from sklearn.utils import shuffle                                  # shuffling our own made dataset
@@ -49,12 +49,12 @@ warnings.filterwarnings('ignore')
 labelName="label" 
 runEpoch=2
 
-modelName = "lstm_reshape_3.md"
+modelName = "lstm_reshape_5.md"
 
 BS = 256
 #runLoop = 50
 
-Alldata = pd.read_csv('LSTM_converted_3.csv')
+Alldata = pd.read_csv('LSTM_converted_5.csv')
 Alldata = shuffle(Alldata)
 
 train_all,test_all=train_test_split(Alldata, test_size=0.2)
@@ -78,12 +78,12 @@ print len(X_train.columns)
 size_data = X_train.shape[1];
 print "size_data= ", size_data
 
-timesteps = 3
+timesteps = 5
 data_dim = size_data/timesteps
 print "data dimension=", data_dim
 
 
-sc = StandardScaler()
+sc = StandardScaler()    #MinMaxScaler()    不好
 
 #print X_train.loc[:1]
 
@@ -101,8 +101,11 @@ def classifier_builder ():
     classifier.add(Reshape((timesteps, data_dim), input_shape=(size_data,)))
     classifier.add(Masking(mask_value= -1, input_shape=(timesteps, data_dim)))
     #classifier.add(LSTM(128))#               , input_shape=(timesteps, data_dim)))
-	classifier.add(LSTM(256, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    classifier.add(LSTM(256, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))   # activation='sigmoid', recurrent_activation='hard_sigmoid', unit_forget_bias=True, kernel_regularizer=regularizers.l2(0.01), recurrent_regularizer=regularizers.l2(0.01), bias_regularizer=regularizers.l1(0.01), activity_regularizer=regularizers.l1(0.01)))
+    #classifier.add(LSTM(256, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
+    #classifier.add(Dropout(0.6))
+    classifier.add(LSTM(128, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
+    classifier.add(Dropout(0.6))
+    classifier.add(LSTM(64, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))   # activation='sigmoid', recurrent_activation='hard_sigmoid', unit_forget_bias=True, kernel_regularizer=regularizers.l2(0.01), recurrent_regularizer=regularizers.l2(0.01), bias_regularizer=regularizers.l1(0.01), activity_regularizer=regularizers.l1(0.01)))
     classifier.add(Dropout(0.6))
     classifier.add(Dense(1, activation='sigmoid'))  #'tanh'  'sigmoid'
  
@@ -124,8 +127,8 @@ classifier = KerasClassifier(build_fn= classifier_builder,
                              nb_epoch = runEpoch) 
  
 
-if(os.access(modelName, os.F_OK)):
-    classifier=load_model(modelName)
+#if(os.access(modelName, os.F_OK)):
+#    classifier=load_model(modelName)
 
 classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights, validation_data=(X_test, y_test), verbose=2)
   
@@ -141,9 +144,9 @@ print ("Recall:", recall)
 confusion_matrix=confusion_matrix(y_test,y_predict)
 print  confusion_matrix
 
-if(os.access(modelName, os.F_OK)):
-    print(classifier.summary()) 
-    classifier.save(modelName)
-else:
-    print(classifier.model.summary())
-    classifier.model.save(modelName)
+#if(os.access(modelName, os.F_OK)):
+#    print(classifier.summary()) 
+#    classifier.save(modelName)
+#else:
+#    print(classifier.model.summary())
+#    classifier.model.save(modelName)
