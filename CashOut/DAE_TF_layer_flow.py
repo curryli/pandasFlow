@@ -4,7 +4,7 @@ Created on Fri Jul 07 08:30:44 2017
 
 @author: lixurui
 """
-#降噪自动编码
+#降噪自动编码  目前1层比较好  sigmoid比relu tanh好
 
 from keras.layers import Input, Dense
 from keras.models import Model
@@ -65,10 +65,11 @@ batch_size = 128
 display_step = 1
 
 # Network Parameters (neurons )
-n_hidden_1 = 128 # 1st layer num features
-n_hidden_2 = 64 # 2nd layer num features
+n_hidden_1 = 256 # 1st layer num features
+n_hidden_2 = 128 # 2nd layer num features
+n_hidden_3 = 64 # 2nd layer num feature
 
-corruption_level = 0.3
+corruption_level = 0.4
  
 n_input = X_train.shape[1] # 67
 
@@ -81,17 +82,21 @@ mask = tf.placeholder("float", [None, n_input], name='mask')
 weights = {
     'encoder_h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
     'encoder_h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
-    
+    'encoder_h3': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_3])),
+     
+    'decoder_h3': tf.Variable(tf.random_normal([n_hidden_3, n_hidden_2])),
     'decoder_h2': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_1])),
     'decoder_h1': tf.Variable(tf.random_normal([n_hidden_1, n_input])),
 }
 biases = {
     'encoder_b1': tf.Variable(tf.random_normal([n_hidden_1])),
     'encoder_b2': tf.Variable(tf.random_normal([n_hidden_2])),
-  
+    'encoder_b3': tf.Variable(tf.random_normal([n_hidden_3])),
+     
+    'decoder_b3': tf.Variable(tf.random_normal([n_hidden_2])),
     'decoder_b2': tf.Variable(tf.random_normal([n_hidden_1])),
-    'decoder_b1': tf.Variable(tf.random_normal([n_input])),
-}
+    'decoder_b1': tf.Variable(tf.random_normal([n_input]))
+    }
 
 
 # Building the encoder
@@ -100,24 +105,27 @@ def encoder(x):
     # Encoder Hidden layer with sigmoid activation #1
     tilde_X = mask * X  # corrupted X
     
-    layer_1 = tf.nn.tanh(tf.add(tf.matmul(tilde_X, weights['encoder_h1']),
+    layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(tilde_X, weights['encoder_h1']),
                                    biases['encoder_b1']))
     
-    layer_2 = tf.nn.tanh(tf.add(tf.matmul(layer_1, weights['encoder_h2']),
+    layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1, weights['encoder_h2']),
                                    biases['encoder_b2']))
  
-    
-    return layer_2
+    layer_3 = tf.nn.sigmoid(tf.add(tf.matmul(layer_2, weights['encoder_h3']),
+                                   biases['encoder_b3']))
+    return layer_3
  
 # Building the decoder
 def decoder(x):
     # Encoder Hidden layer with sigmoid activation #1
  
+    layer_3 = tf.nn.sigmoid(tf.add(tf.matmul(x, weights['decoder_h3']),
+                                   biases['decoder_b3']))
     
-    layer_2 = tf.nn.tanh(tf.add(tf.matmul(x, weights['decoder_h2']),
+    layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_3, weights['decoder_h2']),
                                    biases['decoder_b2']))
     
-    layer_1 = tf.nn.tanh(tf.add(tf.matmul(layer_2, weights['decoder_h1']),
+    layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(layer_2, weights['decoder_h1']),
                                    biases['decoder_b1']))
      
     
@@ -173,9 +181,8 @@ with tf.Session() as sess:
         if epoch % display_step == 0:
             mask_train = np.random.binomial(1, 1 - corruption_level, X_train.shape)
             train_batch_mse = sess.run(batch_mse, feed_dict={X: X_train, mask: mask_train})
-            print("Epoch:", '%04d' % (epoch+1),
+            print("Epoch:", '%d' % (epoch+1),
                   "cost=", "{:.9f}".format(c), 
-                  "Train auc=", "{:.6f}".format(auc(y_train, train_batch_mse)), 
                   "Time elapsed=", "{}".format(datetime.now() - now))
 
     print("Optimization Finished!")
@@ -228,8 +235,10 @@ with tf.Session() as sess:
 X_train = train_encoding
 X_test = test_encoding
 
+
+
 #n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
-clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
+clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=10, max_features="auto",max_leaf_nodes=None, bootstrap=True)
 
 clf = clf.fit(X_train, y_train)
   

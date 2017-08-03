@@ -4,6 +4,7 @@ Created on Fri Jul 07 08:30:44 2017
 
 @author: lixurui
 """
+#降噪自动编码
 
 from keras.layers import Input, Dense
 from keras.models import Model
@@ -59,39 +60,35 @@ X_test = sc.transform(X_test)
 
   # Parameters
 learning_rate = 0.01 #how fast to learn? too low, too long to converge, too high overshoot minimum
-training_epochs = 10
+training_epochs = 20
 batch_size = 128
 display_step = 1
 
 # Network Parameters (neurons )
-n_hidden_1 = 512 # 1st layer num features
-n_hidden_2 = 256 # 2nd layer num features
-n_hidden_3 = 128 # 2nd layer num features
-n_hidden_4 = 64 # 2nd layer num features
+n_hidden_1 = 128 # 1st layer num features
+n_hidden_2 = 64 # 2nd layer num features
+
+corruption_level = 0.4
+ 
 n_input = X_train.shape[1] # 67
 
 
 X = tf.placeholder("float", [None, n_input])
 
+# 用于将部分输入数据置为0
+mask = tf.placeholder("float", [None, n_input], name='mask')
+
 weights = {
     'encoder_h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
     'encoder_h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
-    'encoder_h3': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_3])),
-    'encoder_h4': tf.Variable(tf.random_normal([n_hidden_3, n_hidden_4])),
     
-    'decoder_h4': tf.Variable(tf.random_normal([n_hidden_4, n_hidden_3])),
-    'decoder_h3': tf.Variable(tf.random_normal([n_hidden_3, n_hidden_2])),
     'decoder_h2': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_1])),
     'decoder_h1': tf.Variable(tf.random_normal([n_hidden_1, n_input])),
 }
 biases = {
     'encoder_b1': tf.Variable(tf.random_normal([n_hidden_1])),
     'encoder_b2': tf.Variable(tf.random_normal([n_hidden_2])),
-    'encoder_b3': tf.Variable(tf.random_normal([n_hidden_3])),
-    'encoder_b4': tf.Variable(tf.random_normal([n_hidden_4])),
-    
-    'decoder_b4': tf.Variable(tf.random_normal([n_hidden_3])),
-    'decoder_b3': tf.Variable(tf.random_normal([n_hidden_2])),
+  
     'decoder_b2': tf.Variable(tf.random_normal([n_hidden_1])),
     'decoder_b1': tf.Variable(tf.random_normal([n_input])),
 }
@@ -101,34 +98,26 @@ biases = {
 def encoder(x):
     #input times weight + bias. Activate! It rhymes.
     # Encoder Hidden layer with sigmoid activation #1
-    layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(x, weights['encoder_h1']),
+    tilde_X = mask * X  # corrupted X
+    
+    layer_1 = tf.nn.tanh(tf.add(tf.matmul(tilde_X, weights['encoder_h1']),
                                    biases['encoder_b1']))
     
-    layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1, weights['encoder_h2']),
+    layer_2 = tf.nn.tanh(tf.add(tf.matmul(layer_1, weights['encoder_h2']),
                                    biases['encoder_b2']))
+ 
     
-    layer_3 = tf.nn.sigmoid(tf.add(tf.matmul(layer_2, weights['encoder_h3']),
-                                   biases['encoder_b3']))
-    
-    layer_4 = tf.nn.sigmoid(tf.add(tf.matmul(layer_3, weights['encoder_h4']),
-                                   biases['encoder_b4']))
-    
-    
-    return layer_4
+    return layer_2
  
 # Building the decoder
 def decoder(x):
     # Encoder Hidden layer with sigmoid activation #1
-    layer_4 = tf.nn.sigmoid(tf.add(tf.matmul(x, weights['decoder_h4']),
-                                   biases['decoder_b4']))
+ 
     
-    layer_3 = tf.nn.sigmoid(tf.add(tf.matmul(layer_4, weights['decoder_h3']),
-                                   biases['decoder_b3']))
-    
-    layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_3, weights['decoder_h2']),
+    layer_2 = tf.nn.tanh(tf.add(tf.matmul(x, weights['decoder_h2']),
                                    biases['decoder_b2']))
     
-    layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(layer_2, weights['decoder_h1']),
+    layer_1 = tf.nn.tanh(tf.add(tf.matmul(layer_2, weights['decoder_h1']),
                                    biases['decoder_b1']))
      
     
@@ -176,11 +165,14 @@ with tf.Session() as sess:
             batch_xs = X_train[batch_idx]
             # Run optimization op (backprop) and cost op (to get loss value)
             #recursive weight updating via gradient computation. 
-            _, c = sess.run([optimizer, cost], feed_dict={X: batch_xs})
+            mask_np = np.random.binomial(1, 1 - corruption_level, batch_xs.shape)
+            
+            _, c = sess.run([optimizer, cost], feed_dict={X: batch_xs, mask: mask_np})
             
         # Display logs per epoch step
         if epoch % display_step == 0:
-            train_batch_mse = sess.run(batch_mse, feed_dict={X: X_train})
+            mask_train = np.random.binomial(1, 1 - corruption_level, X_train.shape)
+            train_batch_mse = sess.run(batch_mse, feed_dict={X: X_train, mask: mask_train})
             print("Epoch:", '%04d' % (epoch+1),
                   "cost=", "{:.9f}".format(c), 
                   "Train auc=", "{:.6f}".format(auc(y_train, train_batch_mse)), 
@@ -223,8 +215,13 @@ with tf.Session() as sess:
     
     saver.restore(sess, tf.train.latest_checkpoint('.'))
     
-    test_encoding = sess.run(encoder_op, feed_dict={X: X_test})
-    train_encoding = sess.run(encoder_op, feed_dict={X: X_train})
+    mask_train = np.ones(X_train.shape)
+    train_encoding = sess.run(encoder_op, feed_dict={X: X_train, mask: mask_train})
+    
+    mask_test =  np.ones(X_test.shape)
+    test_encoding = sess.run(encoder_op, feed_dict={X: X_test, mask: mask_test})
+    
+    
     
     print("Dim for test_encoding and train_encoding are: \n", test_encoding.shape, '\n', train_encoding.shape)
 
@@ -232,7 +229,7 @@ X_train = train_encoding
 X_test = test_encoding
 
 #n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
-clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
+clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=10, max_features="auto",max_leaf_nodes=None, bootstrap=True)
 
 clf = clf.fit(X_train, y_train)
   

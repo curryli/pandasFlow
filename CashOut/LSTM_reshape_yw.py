@@ -47,7 +47,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 labelName="label" 
-runEpoch=2
+runEpoch=1000
 
 modelName = "lstm_reshape_5.md"
 
@@ -93,7 +93,7 @@ X_test = sc.transform(X_test)
  
 # Defining our classifier builder object to do all layers in once using layer codes from previous part
 
-
+from keras.constraints import maxnorm
  
 def classifier_builder ():
  
@@ -104,10 +104,10 @@ def classifier_builder ():
     #classifier.add(LSTM(256, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
     #classifier.add(Dropout(0.6))
     classifier.add(LSTM(128, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    classifier.add(Dropout(0.6))
+    classifier.add(Dropout(0.7))
     classifier.add(LSTM(64, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))   # activation='sigmoid', recurrent_activation='hard_sigmoid', unit_forget_bias=True, kernel_regularizer=regularizers.l2(0.01), recurrent_regularizer=regularizers.l2(0.01), bias_regularizer=regularizers.l1(0.01), activity_regularizer=regularizers.l1(0.01)))
-    classifier.add(Dropout(0.6))
-    classifier.add(Dense(1, activation='sigmoid'))  #'tanh'  'sigmoid'
+    classifier.add(Dropout(0.7))
+    classifier.add(Dense(1, activation='sigmoid',kernel_constraint=maxnorm(2)))  #'tanh'  'sigmoid'
  
     
     
@@ -130,23 +130,28 @@ classifier = KerasClassifier(build_fn= classifier_builder,
 #if(os.access(modelName, os.F_OK)):
 #    classifier=load_model(modelName)
 
+from keras import backend as bk
+print "Before set", bk.learning_phase()
+
+
+bk.set_learning_phase(1)   #训练阶段
+print "After set 0", bk.learning_phase()
+
 classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights, validation_data=(X_test, y_test), verbose=2)
   
+bk.set_learning_phase(0)  #测试阶段
+print "After set 1", bk.learning_phase()
+
 y_predict=classifier.predict(X_test,batch_size=BS)
 y_predict =  [j[0] for j in y_predict]
 y_predict = np.where(np.array(y_predict)<0.5,0,1)
  
-precision = precision_score(y_test, y_predict, average='macro') 
-recall = recall_score(y_test,y_predict, average='macro') 
-print ("Precision:", precision) 
-print ("Recall:", recall) 
-
 confusion_matrix=confusion_matrix(y_test,y_predict)
 print  confusion_matrix
 
-#if(os.access(modelName, os.F_OK)):
-#    print(classifier.summary()) 
-#    classifier.save(modelName)
-#else:
-#    print(classifier.model.summary())
-#    classifier.model.save(modelName)
+
+precision_p = float(confusion_matrix[1][1])/float((confusion_matrix[0][1] + confusion_matrix[1][1]))
+recall_p = float(confusion_matrix[1][1])/float((confusion_matrix[1][0] + confusion_matrix[1][1]))
+ 
+print ("Precision:", precision_p) 
+print ("Recall:", recall_p) 

@@ -61,7 +61,7 @@ Size2 = 256
 Size3 = 128
 
 inputSize =67
-Epochs = 200
+Epochs = 10
 
 Encoder1 = Sequential([Dense(Size1, input_dim=inputSize, activation='relu'  )])                # , activity_regularizer=regularizers.l1(10e-5))])
 Encoder2 = Sequential([Dense(Size2, input_dim=Size1, activation='relu'  )])                # , activity_regularizer=regularizers.l1(10e-5))])
