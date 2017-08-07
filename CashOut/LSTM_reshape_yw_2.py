@@ -38,8 +38,7 @@ import keras.backend as K
 from sklearn.utils import shuffle 
 from sklearn.metrics import confusion_matrix
 from keras import regularizers
-from keras.layers.wrappers import Bidirectional
-
+ 
 import os                          #python miscellaneous OS system tool
 #os.chdir("C:/work/unionpay/") #changing our directory to which we have our data file
 
@@ -48,11 +47,11 @@ import warnings
 warnings.filterwarnings('ignore')
 
 labelName="label" 
-runEpoch=100
+runEpoch=1000
 
 modelName = "lstm_reshape_5.md"
 
-BS = 128
+BS = 256
 #runLoop = 50
 
 Alldata = pd.read_csv('LSTM_converted_5.csv')
@@ -102,32 +101,13 @@ def classifier_builder ():
     classifier.add(Reshape((timesteps, data_dim), input_shape=(size_data,)))
     classifier.add(Masking(mask_value= -1, input_shape=(timesteps, data_dim)))
     #classifier.add(LSTM(128))#               , input_shape=(timesteps, data_dim)))
-    
-#    classifier.add(Bidirectional(LSTM(32, input_shape=(timesteps, data_dim), recurrent_dropout=0.5, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True)))
-#    classifier.add(Dropout(0.8))
-#    classifier.add(Bidirectional(LSTM(32, input_shape=(timesteps, data_dim), recurrent_dropout=0.5, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True)))
-#    classifier.add(Dropout(0.8))
-    
-    #classifier.add(LSTM(128, input_shape=(timesteps, data_dim),  dropout_W=0.7, dropout_U=0.7,   activation='relu',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    #classifier.add(Dropout(0.7))
-    #classifier.add(LSTM(128, input_shape=(timesteps, data_dim),  dropout_W=0.7, dropout_U=0.7,   activation='relu',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))   # activation='sigmoid', recurrent_activation='hard_sigmoid', unit_forget_bias=True, kernel_regularizer=regularizers.l2(0.01), recurrent_regularizer=regularizers.l2(0.01), bias_regularizer=regularizers.l1(0.01), activity_regularizer=regularizers.l1(0.01)))
-    #classifier.add(Dropout(0.7))
-    
-    
-    
-    
-    #classifier.add(LSTM(128, input_shape=(timesteps, data_dim),  dropout=0.7, recurrent_dropout=0.7,  activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    #classifier.add(LSTM(128, input_shape=(timesteps, data_dim),  dropout=0.7, recurrent_dropout=0.7, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))   # activation='sigmoid', recurrent_activation='hard_sigmoid', unit_forget_bias=True, kernel_regularizer=regularizers.l2(0.01), recurrent_regularizer=regularizers.l2(0.01), bias_regularizer=regularizers.l1(0.01), activity_regularizer=regularizers.l1(0.01)))
-    
-    
-    
-    
-    classifier.add(LSTM(32, input_shape=(timesteps, data_dim), recurrent_dropout=0.5, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    classifier.add(Dropout(0.8))
-    classifier.add(LSTM(32, input_shape=(timesteps, data_dim), recurrent_dropout=0.5, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
-    classifier.add(Dropout(0.8))
-    
-    classifier.add(Dense(1, activation='sigmoid', kernel_constraint=maxnorm(2)))  #'tanh'  'sigmoid'
+    #classifier.add(LSTM(256, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
+    #classifier.add(Dropout(0.6))
+    classifier.add(LSTM(128, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
+    classifier.add(Dropout(0.7))
+    classifier.add(LSTM(64, input_shape=(timesteps, data_dim),     activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))   # activation='sigmoid', recurrent_activation='hard_sigmoid', unit_forget_bias=True, kernel_regularizer=regularizers.l2(0.01), recurrent_regularizer=regularizers.l2(0.01), bias_regularizer=regularizers.l1(0.01), activity_regularizer=regularizers.l1(0.01)))
+    classifier.add(Dropout(0.7))
+    classifier.add(Dense(1, activation='sigmoid',kernel_constraint=maxnorm(2)))  #'tanh'  'sigmoid'
  
     
     
@@ -137,10 +117,9 @@ def classifier_builder ():
               metrics=[metrics.mae,"accuracy"])
 
     return classifier
- 
+
 class_weights = compute_class_weight('balanced', np.unique(y_train), y_train)
 print "class weights = ", class_weights
-
 
 #Now we should create classifier object using our internal classifier object in the function above
 classifier = KerasClassifier(build_fn= classifier_builder,
@@ -156,12 +135,12 @@ print "Before set", bk.learning_phase()
 
 
 bk.set_learning_phase(1)   #训练阶段
-print "After set ", bk.learning_phase()
+print "After set 0", bk.learning_phase()
 
-classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights,  validation_data=(X_test, y_test), verbose=2)
+classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights, validation_data=(X_test, y_test), verbose=2)
   
 bk.set_learning_phase(0)  #测试阶段
-print "After set ", bk.learning_phase()
+print "After set 1", bk.learning_phase()
 
 y_predict=classifier.predict(X_test,batch_size=BS)
 y_predict =  [j[0] for j in y_predict]

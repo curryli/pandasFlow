@@ -21,20 +21,20 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.utils.class_weight import compute_class_weight, compute_sample_weight
 from sklearn.metrics import recall_score, precision_score
- 
+from sklearn.utils import shuffle 
 from sklearn.metrics import confusion_matrix
-from sklearn.metrics import roc_auc_score as auc 
+import os                          #python miscellaneous OS system tool
 
 import tensorflow as tf
  
 labelName="label" 
-runEpoch=50000
+runEpoch=400
  
-out_dim = 2
+out_dim = 1
 BS = 256
 #runLoop = 50
 
-Alldata = pd.read_csv('LSTM_converted_5.csv')
+Alldata = pd.read_csv('test_converted_5.csv')
 Alldata = shuffle(Alldata)
 
 train_all,test_all=train_test_split(Alldata, test_size=0.2)
@@ -47,17 +47,6 @@ train_all,test_all=train_test_split(Alldata, test_size=0.2)
 
 y_train = train_all.label
 y_test = test_all.label
-
-
-#ex_dict = {0:[0,1],1:[1,0]}
- 
-#y_train = y_train.map(lambda x: ex_dict[x]) 
-#y_test = y_test.map(lambda x: ex_dict[x])
-
-y_train = np.array([y_train, 1 - y_train]).T
-y_test = np.array([y_test, 1 - y_test]).T
-
-#print y_train.shape, y_test.shape
 
 X_train = train_all.drop(labelName, axis = 1, inplace=False) 
 X_test = test_all.drop(labelName, axis = 1, inplace=False) 
@@ -91,12 +80,12 @@ labels = y_train
 def get_next_batch(batch_size, index_in_epoch, contents, labels):
     start = index_in_epoch
     index_in_epoch = index_in_epoch + batch_size
-    contents = X_train
-    labels = y_train
+    contents = contents
+    labels = labels
     if index_in_epoch > num_train:
       # Shuffle the data
       perm = np.arange(num_train)
-      perm = np.random.shuffle(perm)
+      np.random.shuffle(perm)
       contents = X_train[perm]
       labels = y_train[perm]
       # Start next epoch
@@ -108,7 +97,7 @@ def get_next_batch(batch_size, index_in_epoch, contents, labels):
 
  
 _X = tf.placeholder(tf.float32, shape=[None, timesteps, data_dim], name='input')
-_y = tf.placeholder(tf.float32, [None, out_dim], name='label')
+y = tf.placeholder(tf.float32, [None, out_dim], name='label')
 dropout = tf.placeholder(tf.float32, name='dropout')
 batch_size = tf.placeholder(tf.int32, name='batch_size')  # 注意类型必须为 tf.int32
  
@@ -146,15 +135,16 @@ h_state = state[-1][1]
 # 开始训练和测试
 W = tf.Variable(tf.truncated_normal([num_units, out_dim], stddev=0.1), dtype=tf.float32)
 bias = tf.Variable(tf.constant(0.1,shape=[out_dim]), dtype=tf.float32)
-y_pre = tf.nn.softmax(tf.matmul(h_state, W) + bias,  name='predict')
+y_pre = tf.nn.softmax(tf.matmul(h_state, W) + bias)
 
 
 # 损失和评估函数
 lr = 1e-3
-batch_mse = tf.reduce_mean(tf.pow(y_pre - _y, 2), 1)
-
-cross_entropy = -tf.reduce_mean(_y * tf.log(y_pre))
+cross_entropy = -tf.reduce_mean(y * tf.log(y_pre))
 train_op = tf.train.AdamOptimizer(lr).minimize(cross_entropy)
+
+correct_prediction = tf.equal(tf.argmax(y_pre,1), tf.argmax(y,1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
  
 
 # TRAIN StARTS
@@ -167,30 +157,25 @@ with tf.Session() as sess:
         batch = get_next_batch(BS, index_in_epoch, contents, labels)
  
         _X_reshape = batch[0].reshape(-1, timesteps, data_dim)
-        _y_reshape = batch[1]#.values.reshape(-1,1) 
-        #print _X_reshape.shape
-        #print _y_reshape.shape
-         
-        _, cost, y_prediction = sess.run([train_op, cross_entropy, y_pre], feed_dict={_X:_X_reshape, _y: _y_reshape, dropout: 0.6, batch_size: BS})
-          
-        if (i+1)%BS == 0:
-            step = (i+1)/BS
-            train_batch_mse = sess.run(batch_mse, feed_dict={_X:_X_reshape, _y: _y_reshape, dropout: 0.6, batch_size: BS})
-            print "step:",step, " cost=", "{:.9f}".format(cost),  "Train auc=",  auc(batch[1], y_prediction)
-         
+        y_reshape = batch[1].values.reshape(-1,out_dim)
+        
+                          
+        if (i+1)%200 == 0:
+            train_accuracy = sess.run(accuracy, feed_dict={_X:_X_reshape, y: y_reshape, dropout: 0.6, batch_size: BS})
+            # 已经迭代完成的 epoch 数: mnist.train.epochs_completed
+            print "step %d, training accuracy %g" % ((i+1), train_accuracy)
+        sess.run(train_op, feed_dict={_X: _X_reshape, y: y_reshape, dropout: 0.6, batch_size: BS})
         
     # 计算测试数据的准确率
-#    _X_test_reshape = X_test.reshape(-1, timesteps, data_dim)
-#    _y_test_reshape = y_test#.values#.reshape(-1,out_dim)
-#    print "test accuracy %g"% sess.run(accuracy, feed_dict={_X: _X_test_reshape, _y: _y_test_reshape, dropout: 0, batch_size: _y_test_reshape.shape[0]})
+    _X_test_reshape = X_test.reshape(-1, timesteps, data_dim)
+    y_test_reshape = y_test.values.reshape(-1,out_dim)
+    print "test accuracy %g"% sess.run(accuracy, feed_dict={_X: _X_test_reshape, y: y_test_reshape, dropout: 0, batch_size: y_test_reshape.shape[0]})
     
     print("Optimization Finished!")
     save_path = saver.save(sess, save_model)
     print("Model saved in file: %s" % save_path)
 
 
-_X_test_reshape = X_test.reshape(-1, timesteps, data_dim)
-_y_test_reshape = y_test#.values#.reshape(-1,out_dim)
 
 # Initializing the variables
 init = tf.global_variables_initializer()
@@ -204,25 +189,32 @@ with tf.Session() as sess:
     saver = tf.train.import_meta_graph("./model_lstm_tf_za.meta")
     saver.restore(sess, "./model_lstm_tf_za")
     
-    y_predict = sess.run(y_pre, feed_dict={_X: _X_test_reshape, dropout: 0, batch_size: _y_test_reshape.shape[0]})
-    print y_predict.shape
-    print y_test.shape
- 
     
-y_predict = np.array( [x[0] for x in y_predict]).reshape(-1,1)
-y_test = np.array([x[0] for x in y_test]  ) .reshape(-1,1)
-print y_predict.shape
-print y_test.shape    
-
-y_predict = np.where(np.array(y_predict)<0.5,0,1)
-#print y_predict
+#    #还能得到palceholder  tensors, operations, collections, etc.  get_tensor_by_name  get_operation_by_name  get_collection
+#    graph = tf.get_default_graph()
+#    _X = graph.get_operation_by_name('input').outputs[0]
+#    y = graph.get_operation_by_name('label').outputs[0]
+#    dropout = graph.get_operation_by_name('dropout').outputs[0]
+#    batch_size = graph.get_operation_by_name('batch_size').outputs[0]
+  
+    _X_test_reshape = X_test.reshape(-1, timesteps, data_dim)
+    y_test_reshape = y_test.values.reshape(-1,out_dim)
+    print "test accuracy %g"% sess.run(accuracy, feed_dict={_X: _X_test_reshape, y: y_test_reshape, dropout: 0, batch_size: y_test_reshape.shape[0]})
     
-confusion_matrix=confusion_matrix(y_test,y_predict)
-print  confusion_matrix
+    prediction=tf.argmax(y_pre,1)
+    print prediction.eval(feed_dict={_X: _X_test_reshape, y: y_test_reshape, dropout: 0, batch_size: y_test_reshape.shape[0]}, session=sess)
 
 
-precision_p = float(confusion_matrix[1][1])/float((confusion_matrix[0][1] + confusion_matrix[1][1]))
-recall_p = float(confusion_matrix[1][1])/float((confusion_matrix[1][0] + confusion_matrix[1][1]))
- 
-print ("Precision:", precision_p) 
-print ("Recall:", recall_p) 
+
+#y_predict =  [j[0] for j in y_predict]
+#y_predict = np.where(np.array(y_predict)<0.5,0,1)
+# 
+#confusion_matrix=confusion_matrix(y_test,y_predict)
+#print  confusion_matrix
+#
+#
+#precision_p = float(confusion_matrix[1][1])/float((confusion_matrix[0][1] + confusion_matrix[1][1]))
+#recall_p = float(confusion_matrix[1][1])/float((confusion_matrix[1][0] + confusion_matrix[1][1]))
+# 
+#print ("Precision:", precision_p) 
+#print ("Recall:", recall_p) 
