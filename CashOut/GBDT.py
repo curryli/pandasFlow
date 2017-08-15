@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.utils import shuffle 
 from sklearn.ensemble import GradientBoostingClassifier
   
-df_All = pd.read_csv("idx_new_08_del.csv", sep=',') 
+df_All = pd.read_csv("idx_new_08_more.csv", sep=',') 
 df_All = shuffle(df_All) 
 print df_All.shape[1]
  

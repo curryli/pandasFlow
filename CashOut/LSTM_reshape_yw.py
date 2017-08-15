@@ -48,16 +48,17 @@ import warnings
 warnings.filterwarnings('ignore')
 
 labelName="label" 
-runEpoch=100
+runEpoch=200
 
 modelName = "lstm_reshape_5.md"
 
 BS = 128
 #runLoop = 50
 
-Alldata = pd.read_csv('LSTM_converted_5.csv')
+Alldata = pd.read_csv('cashout_3.csv')
 Alldata = shuffle(Alldata)
 
+print "Total samples:", Alldata.shape[0]
 train_all,test_all=train_test_split(Alldata, test_size=0.2)
 
 
@@ -79,7 +80,7 @@ print len(X_train.columns)
 size_data = X_train.shape[1];
 print "size_data= ", size_data
 
-timesteps = 5
+timesteps = 3
 data_dim = size_data/timesteps
 print "data dimension=", data_dim
 
@@ -122,10 +123,14 @@ def classifier_builder ():
     
     
     
-    classifier.add(LSTM(32, input_shape=(timesteps, data_dim), recurrent_dropout=0.5, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    classifier.add(Dropout(0.8))
-    classifier.add(LSTM(32, input_shape=(timesteps, data_dim), recurrent_dropout=0.5, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
-    classifier.add(Dropout(0.8))
+    classifier.add(LSTM(128, input_shape=(timesteps, data_dim), recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
+    classifier.add(Dropout(0.7))
+    classifier.add(LSTM(64,  recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
+    classifier.add(Dropout(0.7))
+     
+    classifier.add(Dense(32, activation='sigmoid'))
+    classifier.add(Dropout(0.7))
+    
     
     classifier.add(Dense(1, activation='sigmoid', kernel_constraint=maxnorm(2)))  #'tanh'  'sigmoid'
  
@@ -137,9 +142,15 @@ def classifier_builder ():
               metrics=[metrics.mae,"accuracy"])
 
     return classifier
- 
-class_weights = compute_class_weight('balanced', np.unique(y_train), y_train)
-print "class weights = ", class_weights
+
+class_weights= dict() 
+class_weights[0] =  1     #这个是正常的
+class_weights[1] = 10  #这个是欺诈的    
+
+#class_weights_2 = compute_class_weight('balanced', np.unique(y_train), y_train)
+#class_weights= dict()
+#for key in {0,1}:
+#        class_weights[key] = class_weights_2[key]
 
 
 #Now we should create classifier object using our internal classifier object in the function above
@@ -158,8 +169,11 @@ print "Before set", bk.learning_phase()
 bk.set_learning_phase(1)   #训练阶段
 print "After set ", bk.learning_phase()
 
-classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights,  validation_data=(X_test, y_test), verbose=2)
+#classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights,  validation_data=(X_test, y_test), verbose=2)
   
+classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch,  validation_data=(X_test, y_test), verbose=2)
+
+
 bk.set_learning_phase(0)  #测试阶段
 print "After set ", bk.learning_phase()
 
@@ -176,3 +190,10 @@ recall_p = float(confusion_matrix[1][1])/float((confusion_matrix[1][0] + confusi
  
 print ("Precision:", precision_p) 
 print ("Recall:", recall_p) 
+
+if(os.access("lstm_lxr.md", os.F_OK)):
+    print(classifier.summary()) 
+    classifier.save('lstm_lxr.md')
+else:
+    print(classifier.model.summary())
+    classifier.model.save('lstm_lxr.md')

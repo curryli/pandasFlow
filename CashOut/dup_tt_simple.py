@@ -9,10 +9,12 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils import shuffle  
 from sklearn.cross_validation import train_test_split
 
-df = pd.read_csv("idx_new_08_del.csv")
+df = pd.read_csv("idx_new_08_more.csv")
 label='label' # label的值就是二元分类的输出
 cardcol= 'pri_acct_no_conv'
  
+
+#df = df.drop('No',axis =1)
 df = shuffle(df) 
 total_size = df.shape[0]  
 
@@ -22,18 +24,18 @@ df_V = df.iloc[4*(total_size/5)+1:]
 print "total_size: " ,total_size, "df_T size: ", df_T.shape[0],"df_V size: ",df_V.shape[0]
 
 #采样
-fraud_size = 50
+fraud_size = 1
 normal_size = 1
 
 Fraud = df_T[df.label == 1]
 Fraud_train=Fraud
-for i in range(0,fraud_size):
-    Fraud_train=pd.concat([Fraud_train,Fraud], axis = 0)
+#for i in range(0,fraud_size-1):
+#    Fraud_train=pd.concat([Fraud_train,Fraud], axis = 0)
 
 normal = df_T[df.label == 0]
 normal_train=normal
-for i in range(0,normal_size):
-    normal_train=pd.concat([normal_train,normal], axis = 0)
+#for i in range(0,normal_size-1):
+#    normal_train=pd.concat([normal_train,normal], axis = 0)
  
 print "Fraud_train size", Fraud_train.shape[0], "normal_train size",normal_train.shape[0]
 
@@ -42,6 +44,7 @@ df_train = pd.concat([Fraud_train,normal_train], axis = 0)
  
 
 x_columns = [x for x in df_train.columns if x not in [label,cardcol]]
+print x_columns
 X_train = df_train[x_columns]
 y_train = df_train[label]
 

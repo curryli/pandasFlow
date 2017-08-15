@@ -36,7 +36,7 @@ transcationsPerRow=5
 
 start = time.clock()
 
-allsamples = pd.read_csv('idx_new_08_sort.csv')
+allsamples = pd.read_csv('idx_withlabel_0709.csv')
 sizeSamples= allsamples.shape[0]
 
 ## sort allsamples by card/time if needed
@@ -110,7 +110,7 @@ mergedData.columns = mergedIndex.columns
 mergedData = pd.concat([mergedData, labelcol ], axis=1)
 
 print mergedData.columns
-mergedData.to_csv('LSTM_converted_5.csv', index=False)
+mergedData.to_csv('0709_converted_5.csv', index=False)
 
 end = time.clock()
 print "process: %f s" % (end - start)

@@ -28,7 +28,7 @@ from sklearn.metrics import roc_auc_score as auc
 import tensorflow as tf
  
 labelName="label" 
-runEpoch=50000
+runEpoch=200000
  
 out_dim = 2
 BS = 256
@@ -54,8 +54,8 @@ y_test = test_all.label
 #y_train = y_train.map(lambda x: ex_dict[x]) 
 #y_test = y_test.map(lambda x: ex_dict[x])
 
-y_train = np.array([y_train, 1 - y_train]).T
-y_test = np.array([y_test, 1 - y_test]).T
+y_train = np.array([1-y_train, y_train]).T
+y_test = np.array([ 1 - y_test, y_test]).T
 
 #print y_train.shape, y_test.shape
 
@@ -209,14 +209,18 @@ with tf.Session() as sess:
     print y_test.shape
  
     
-y_predict = np.array( [x[0] for x in y_predict]).reshape(-1,1)
-y_test = np.array([x[0] for x in y_test]  ) .reshape(-1,1)
-print y_predict.shape
-print y_test.shape    
+#y_predict = np.array( [x[0] for x in y_predict]).reshape(-1,1)
+#y_predict = np.where(np.array(y_predict)<0.5,0,1)
+#y_test = np.array([x[0] for x in y_test]).reshape(-1,1)
 
-y_predict = np.where(np.array(y_predict)<0.5,0,1)
-#print y_predict
-    
+ 
+
+y_predict = np.argmax(y_predict, axis=1).reshape(-1,1)
+y_test = np.argmax(y_test, axis=1).reshape(-1,1)
+
+
+
+
 confusion_matrix=confusion_matrix(y_test,y_predict)
 print  confusion_matrix
 
