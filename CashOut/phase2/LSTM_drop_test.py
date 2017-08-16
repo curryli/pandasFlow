@@ -57,8 +57,8 @@ runEpoch=10
 BS = 128
 #runLoop = 50
 
-Alldata = pd.read_csv('convert_5_card_GBDT.csv')
-#Alldata = pd.read_csv('convert_5_card.csv')
+#Alldata = pd.read_csv('convert_5_card_GBDT.csv')
+Alldata = pd.read_csv('convert_5_card.csv')
 #Alldata = pd.read_csv('convert_5_card_more.csv')
 
 

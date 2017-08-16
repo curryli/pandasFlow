@@ -1,0 +1,120 @@
+Total memory: 11.17GiB
+Free memory: 10.98GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K40m, pci bus id: 0000:06:00.0)
+Train on 98176 samples, validate on 24545 samples
+Epoch 1/30
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 3031 get requests, put_count=2596 evicted_count=1000 eviction_rate=0.385208 and unsatisfied allocation rate=0.506434
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:259] Raising pool_size_limit_ from 100 to 110
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 3151 get requests, put_count=3204 evicted_count=1000 eviction_rate=0.31211 and unsatisfied allocation rate=0.307839
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:259] Raising pool_size_limit_ from 256 to 281
+36s - loss: 0.0884 - mean_absolute_error: 0.0535 - acc: 0.9643 - val_loss: 0.0573 - val_mean_absolute_error: 0.0318 - val_acc: 0.9796
+Epoch 2/30
+35s - loss: 0.0534 - mean_absolute_error: 0.0294 - acc: 0.9809 - val_loss: 0.0575 - val_mean_absolute_error: 0.0356 - val_acc: 0.9781
+Epoch 3/30
+34s - loss: 0.0499 - mean_absolute_error: 0.0276 - acc: 0.9818 - val_loss: 0.0502 - val_mean_absolute_error: 0.0287 - val_acc: 0.9819
+Epoch 4/30
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 2615976 get requests, put_count=2616013 evicted_count=2000 eviction_rate=0.000764522 and unsatisfied allocation rate=0.000771032
+35s - loss: 0.0469 - mean_absolute_error: 0.0260 - acc: 0.9831 - val_loss: 0.0493 - val_mean_absolute_error: 0.0269 - val_acc: 0.9822
+Epoch 5/30
+34s - loss: 0.0453 - mean_absolute_error: 0.0252 - acc: 0.9839 - val_loss: 0.0471 - val_mean_absolute_error: 0.0241 - val_acc: 0.9833
+Epoch 6/30
+33s - loss: 0.0430 - mean_absolute_error: 0.0238 - acc: 0.9845 - val_loss: 0.0506 - val_mean_absolute_error: 0.0244 - val_acc: 0.9817
+Epoch 7/30
+34s - loss: 0.0414 - mean_absolute_error: 0.0226 - acc: 0.9853 - val_loss: 0.0432 - val_mean_absolute_error: 0.0249 - val_acc: 0.9848
+Epoch 8/30
+35s - loss: 0.0401 - mean_absolute_error: 0.0220 - acc: 0.9859 - val_loss: 0.0428 - val_mean_absolute_error: 0.0229 - val_acc: 0.9848
+Epoch 9/30
+35s - loss: 0.0382 - mean_absolute_error: 0.0211 - acc: 0.9862 - val_loss: 0.0452 - val_mean_absolute_error: 0.0211 - val_acc: 0.9839
+Epoch 10/30
+35s - loss: 0.0379 - mean_absolute_error: 0.0209 - acc: 0.9864 - val_loss: 0.0403 - val_mean_absolute_error: 0.0209 - val_acc: 0.9857
+Epoch 11/30
+34s - loss: 0.0365 - mean_absolute_error: 0.0202 - acc: 0.9867 - val_loss: 0.0418 - val_mean_absolute_error: 0.0226 - val_acc: 0.9848
+Epoch 12/30
+36s - loss: 0.0357 - mean_absolute_error: 0.0197 - acc: 0.9868 - val_loss: 0.0396 - val_mean_absolute_error: 0.0225 - val_acc: 0.9859
+Epoch 13/30
+36s - loss: 0.0342 - mean_absolute_error: 0.0189 - acc: 0.9876 - val_loss: 0.0402 - val_mean_absolute_error: 0.0204 - val_acc: 0.9860
+Epoch 14/30
+35s - loss: 0.0335 - mean_absolute_error: 0.0186 - acc: 0.9880 - val_loss: 0.0478 - val_mean_absolute_error: 0.0250 - val_acc: 0.9830
+Epoch 15/30
+35s - loss: 0.0325 - mean_absolute_error: 0.0180 - acc: 0.9881 - val_loss: 0.0408 - val_mean_absolute_error: 0.0182 - val_acc: 0.9868
+Epoch 16/30
+34s - loss: 0.0315 - mean_absolute_error: 0.0172 - acc: 0.9886 - val_loss: 0.0392 - val_mean_absolute_error: 0.0201 - val_acc: 0.9865
+Epoch 17/30
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 13380456 get requests, put_count=13380493 evicted_count=12000 eviction_rate=0.000896828 and unsatisfied allocation rate=0.000898101
+35s - loss: 0.0304 - mean_absolute_error: 0.0168 - acc: 0.9892 - val_loss: 0.0383 - val_mean_absolute_error: 0.0203 - val_acc: 0.9857
+Epoch 18/30
+35s - loss: 0.0300 - mean_absolute_error: 0.0164 - acc: 0.9894 - val_loss: 0.0393 - val_mean_absolute_error: 0.0203 - val_acc: 0.9855
+Epoch 19/30
+35s - loss: 0.0287 - mean_absolute_error: 0.0160 - acc: 0.9893 - val_loss: 0.0414 - val_mean_absolute_error: 0.0183 - val_acc: 0.9862
+Epoch 20/30
+35s - loss: 0.0281 - mean_absolute_error: 0.0156 - acc: 0.9898 - val_loss: 0.0401 - val_mean_absolute_error: 0.0196 - val_acc: 0.9865
+Epoch 21/30
+35s - loss: 0.0277 - mean_absolute_error: 0.0153 - acc: 0.9900 - val_loss: 0.0389 - val_mean_absolute_error: 0.0174 - val_acc: 0.9863
+Epoch 22/30
+35s - loss: 0.0264 - mean_absolute_error: 0.0146 - acc: 0.9903 - val_loss: 0.0428 - val_mean_absolute_error: 0.0186 - val_acc: 0.9853
+Epoch 23/30
+35s - loss: 0.0265 - mean_absolute_error: 0.0146 - acc: 0.9905 - val_loss: 0.0379 - val_mean_absolute_error: 0.0181 - val_acc: 0.9868
+Epoch 24/30
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 18950568 get requests, put_count=18950605 evicted_count=22000 eviction_rate=0.00116091 and unsatisfied allocation rate=0.00116181
+35s - loss: 0.0256 - mean_absolute_error: 0.0142 - acc: 0.9908 - val_loss: 0.0373 - val_mean_absolute_error: 0.0178 - val_acc: 0.9866
+Epoch 25/30
+35s - loss: 0.0256 - mean_absolute_error: 0.0141 - acc: 0.9908 - val_loss: 0.0374 - val_mean_absolute_error: 0.0175 - val_acc: 0.9875
+Epoch 26/30
+35s - loss: 0.0247 - mean_absolute_error: 0.0136 - acc: 0.9912 - val_loss: 0.0366 - val_mean_absolute_error: 0.0169 - val_acc: 0.9872
+Epoch 27/30
+35s - loss: 0.0244 - mean_absolute_error: 0.0135 - acc: 0.9913 - val_loss: 0.0404 - val_mean_absolute_error: 0.0204 - val_acc: 0.9862
+Epoch 28/30
+35s - loss: 0.0234 - mean_absolute_error: 0.0131 - acc: 0.9913 - val_loss: 0.0375 - val_mean_absolute_error: 0.0160 - val_acc: 0.9875
+Epoch 29/30
+35s - loss: 0.0231 - mean_absolute_error: 0.0126 - acc: 0.9917 - val_loss: 0.0391 - val_mean_absolute_error: 0.0159 - val_acc: 0.9876
+Epoch 30/30
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 24321372 get requests, put_count=24321409 evicted_count=32000 eviction_rate=0.00131571 and unsatisfied allocation rate=0.00131641
+35s - loss: 0.0225 - mean_absolute_error: 0.0124 - acc: 0.9915 - val_loss: 0.0382 - val_mean_absolute_error: 0.0166 - val_acc: 0.9874
+After set  0
+24192/24545 [============================>.] - ETA: 0s 
+confusion_matrix:
+
+[[17354   108]
+ [  220  6863]]
+('Precision:', 0.9845072442978052)
+('Recall:', 0.9689397148101088)
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+reshape_1 (Reshape)          (None, 5, 167)            0         
+_________________________________________________________________
+masking_1 (Masking)          (None, 5, 167)            0         
+_________________________________________________________________
+lstm_1 (LSTM)                (None, 5, 128)            151552    
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 5, 128)            0         
+_________________________________________________________________
+lstm_2 (LSTM)                (None, 64)                49408     
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 64)                0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 32)                2080      
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 32)                0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 203,073
+Trainable params: 203,073
+Non-trainable params: 0
+_________________________________________________________________
+None
+(98176, 32)
+(98176, 199)
+(98176, 199)
+(24545, 199)
+start fit RF:
+
+0.992951721328
+
+confusion_matrix:
+
+[[17500    96]
+ [   77  6872]]

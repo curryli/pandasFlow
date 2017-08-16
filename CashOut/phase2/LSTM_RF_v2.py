@@ -39,32 +39,27 @@ from sklearn.utils import shuffle
 from sklearn.metrics import confusion_matrix
 from keras import regularizers
 from keras.layers.wrappers import Bidirectional
-from sklearn.cluster import KMeans
-from sklearn.datasets import make_blobs
-
+ 
+from sklearn.ensemble import RandomForestClassifier 
 
 import os                          #python miscellaneous OS system tool
 #os.chdir("C:/work/unionpay/") #changing our directory to which we have our data file
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
-
-
 #lets not be annoyed by any warnings unless they are errors
 import warnings
 warnings.filterwarnings('ignore')
 
 labelName="label"
 cardName = "pri_acct_no_conv" 
-runEpoch=3
+runEpoch=10
 
 #modelName = "lstm_reshape_5.md"
 
-BS = 64
+BS = 128
 #runLoop = 50
 
-
-
-Alldata = pd.read_csv('convert_5_card_GBDT.csv')
+Alldata = pd.read_csv('convert_5_card.csv')
 #Alldata = pd.read_csv('convert_5_card.csv')
 #Alldata = pd.read_csv('convert_5_card_more.csv')
 
@@ -81,22 +76,20 @@ card_c_F = Fraud['pri_acct_no_conv'].drop_duplicates()#涉欺诈交易卡号
 fine_N=Normal[(~Normal['pri_acct_no_conv'].isin(card_c_F))]
 print "True Fraud shape:", Fraud.shape, "True Normal shape:", fine_N.shape
 
-Alldata = shuffle(Alldata)
-print "Total samples:", Alldata.shape[0]
-
-
-card_c_N = fine_N['pri_acct_no_conv'].drop_duplicates()#完全正常的卡号
-
-Allcards = pd.concat([card_c_F,card_c_N], axis = 0)
-train_cards, test_cards = train_test_split(Allcards, test_size=0.2)
-
- 
 Alldata = pd.concat([Fraud,fine_N], axis = 0)
 
-train_all = Alldata[Alldata['pri_acct_no_conv'].isin(train_cards)]
-test_all = Alldata[Alldata['pri_acct_no_conv'].isin(test_cards)]
 
- 
+###############################
+Alldata = shuffle(Alldata)
+print "Total samples:", Alldata.shape[0]
+train_all,test_all=train_test_split(Alldata, test_size=0.2)
+
+
+#train_all = pd.read_csv('train-converted_4.csv')
+#test_all = pd.read_csv('train-converted_4.csv')
+
+
+
 y_train = train_all.label
 y_test = test_all.label
 
@@ -134,15 +127,10 @@ def classifier_builder ():
     
     classifier.add(LSTM(128, input_shape=(timesteps, data_dim), recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
     classifier.add(Dropout(0.7))
-    
-    #classifier.add(LSTM(128, recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    #classifier.add(Dropout(0.7))
-    
-    
     classifier.add(LSTM(64,  recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
     classifier.add(Dropout(0.7))
-      
-    classifier.add(Dense(64, activation='sigmoid'))
+     
+    classifier.add(Dense(32, activation='sigmoid'))
     classifier.add(Dropout(0.7))
     
     
@@ -157,8 +145,8 @@ def classifier_builder ():
 
     return classifier
 
-class_weights= dict()   #某种类型样本量越多，则权重越低，样本量越少，则权重越高。
-class_weights[0] = 1     #这个是正常的
+class_weights= dict() 
+class_weights[0] =  1     #这个是正常的
 class_weights[1] = 20  #这个是欺诈的    
 
 #class_weights_2 = compute_class_weight('balanced', np.unique(y_train), y_train)
@@ -184,9 +172,8 @@ bk.set_learning_phase(1)   #训练阶段
 print "After set ", bk.learning_phase()
 
 #classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights,  validation_data=(X_test, y_test), verbose=2)
-classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight='auto',  validation_data=(X_test, y_test), verbose=2)   #auto  balanced
   
-#classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch,  validation_data=(X_test, y_test), verbose=2)
+classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch,  validation_data=(X_test, y_test), verbose=2)
 
 
 bk.set_learning_phase(0)  #测试阶段
@@ -196,58 +183,107 @@ y_predict=classifier.predict(X_test,batch_size=BS)
 y_predict =  [j[0] for j in y_predict]
 y_predict = np.where(np.array(y_predict)<0.5,0,1)
  
-confusion_matrix=confusion_matrix(y_test,y_predict)
-print  confusion_matrix
+print  "\nconfusion_matrix:\n"
+confusion_matrix_1=confusion_matrix(y_test,y_predict)
+print  confusion_matrix_1
 
 
-precision_p = float(confusion_matrix[1][1])/float((confusion_matrix[0][1] + confusion_matrix[1][1]))
-recall_p = float(confusion_matrix[1][1])/float((confusion_matrix[1][0] + confusion_matrix[1][1]))
+precision_p = float(confusion_matrix_1[1][1])/float((confusion_matrix_1[0][1] + confusion_matrix_1[1][1]))
+recall_p = float(confusion_matrix_1[1][1])/float((confusion_matrix_1[1][0] + confusion_matrix_1[1][1]))
+ 
+print ("Precision:", precision_p) 
+print ("Recall:", recall_p) 
+
+if(os.access("lstm_model.h5", os.F_OK)):
+    print(classifier.summary())
+    f_dense1 = K.function([classifier.layers[0].input],   [classifier.layers[6].output])
+else:
+    print(classifier.model.summary())
+    f_dense1 = K.function([classifier.model.layers[0].input],  [classifier.model.layers[6].output])
+
+ 
+layer_output_train = f_dense1([X_train])[0]
+print layer_output_train.shape
+
+#把LSTM和随机森林特征结合
+layer_output_train = np.hstack((layer_output_train,X_train[:, (timesteps-1)*data_dim: ]))
+print layer_output_train.shape
+
+# LSTMs (None, 64)  不需要reshape
+#layer_output_train = layer_output_train.reshape(layer_output_train.shape[0],layer_output_train.shape[1]*layer_output_train.shape[2])
+print  layer_output_train.shape 
+#lo = pd.DataFrame(layer_output)
+#lo.to_csv("lstm_output.csv")
+    
+    
+
+layer_output_test = f_dense1([X_test])[0]
+layer_output_test = np.hstack((layer_output_test,X_test[:, (timesteps-1)*data_dim: ]))
+#layer_output_test = layer_output_test.reshape(layer_output_test.shape[0],layer_output_test.shape[1]*layer_output_test.shape[2])
+print  layer_output_test.shape 
+
+lstm_feature = np.vstack((layer_output_train,layer_output_test))
+
+#print y_train.shape, y_test.shape
+
+y_train = y_train.values.reshape(y_train.values.shape[0],1)
+y_test = y_test.values.reshape(y_test.values.shape[0],1)
+
+lstm_label  = np.vstack((y_train, y_test))
+  
+X_train, X_test, y_train, y_test = train_test_split(lstm_feature, lstm_label , test_size=0.2)
+ 
+
+#n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
+clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
+
+print  "start fit RF:\n"
+
+clf = clf.fit(X_train, y_train)
+  
+print clf.score(X_test, y_test)
+
+pred = clf.predict(X_test) 
+
+
+#print type(y_test),type(pred)
+#confusion_matrix=confusion_matrix(y_test.tolist(), pred.tolist())
+
+#上面confusion_matrix要新起一个名字，否则会报错  TypeError: 'numpy.ndarray' object is not callable，和内部变量冲突了
+confusion_matrix_2=confusion_matrix(y_test, pred)
+print  "\nconfusion_matrix:\n"
+print  confusion_matrix_2
+
+
+precision_p = float(confusion_matrix_2[1][1])/float((confusion_matrix_2[0][1] + confusion_matrix_2[1][1]))
+recall_p = float(confusion_matrix_2[1][1])/float((confusion_matrix_2[1][0] + confusion_matrix_2[1][1]))
  
 print ("Precision:", precision_p) 
 print ("Recall:", recall_p) 
 
  
-    
-#('Precision:', 0.9660511363636364)
-#('Recall:', 0.9601863617111394)
  
 
-print "COMPARE:::::::::::::::::::::::::::::::::::::::::::::::::"
- 
-
-y_test_kmeans = KMeans(n_clusters=10, precompute_distances=True, random_state=3).fit_predict(X_test)
 
 
-test_df = test_all
-  
-#compare_idx = y_predict^y_test  #相同为0，不同为1
-compare_idx = np.bitwise_xor(y_predict, y_test.values.astype(np.int32))
-print compare_idx.shape
- 
-compare_df = pd.DataFrame(compare_idx, index=test_df.index)
-
-y_kmeans = pd.DataFrame(y_test_kmeans, index=test_df.index)
-
- 
-test_df['compare'] = compare_df
-
-test_df['y_kmeans'] = y_kmeans
-
-
-test_df.to_csv('compare_results_LSTM_GBDT.csv')
-
-  
-#fraud_normal = test_df[(test_df["label"]==1) & (test_df["compare"]==1)]
-#print "fraud_normal.shape", fraud_normal.shape
-#
-##fraud_normal.to_csv('fraud_normal.csv',index=False,header=False)
-#
-#normal_fraud = test_df[(test_df["label"]==0) & (test_df["compare"]==1)]
-#print "normal_fraud.shape", normal_fraud.shape
-##normal_fraud.to_csv('normal_fraud.csv',index=False,header=False)
-
-
-
-
-
-
+#_________________________________________________________________
+#Layer (type)                 Output Shape                
+#=================================================================
+#reshape_1 (Reshape)          (None, 5, 67)             0        
+#_________________________________________________________________
+#masking_1 (Masking)          (None, 5, 67)             1         
+#_________________________________________________________________
+#lstm_1 (LSTM)                (None, 5, 128)            2    
+#_________________________________________________________________
+#dropout_1 (Dropout)          (None, 5, 128)            3         
+#_________________________________________________________________
+#lstm_2 (LSTM)                (None, 64)                4     
+#_________________________________________________________________
+#dropout_2 (Dropout)          (None, 64)                5        
+#_________________________________________________________________
+#dense_1 (Dense)              (None, 32)                6     
+#_________________________________________________________________
+#dropout_3 (Dropout)          (None, 32)                7         
+#_________________________________________________________________
+#dense_2 (Dense)              (None, 1)                 8       
+#=================================================================

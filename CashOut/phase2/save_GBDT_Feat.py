@@ -19,7 +19,7 @@ label='label' # label的值就是二元分类的输出
 cardcol= 'pri_acct_no_conv'
 time = "tfr_dt_tm"
 
-df_All = pd.read_csv("idx_new_08_del.csv", sep=',') 
+df_All = pd.read_csv("idx_weika_07.csv", sep=',') 
 df_All = shuffle(df_All) 
 print df_All.shape[1]
  
@@ -59,4 +59,4 @@ print test_new.shape
 newdata = pd.DataFrame(np.vstack((train_new,test_new)))
 print newdata.shape
 
-newdata.to_csv('idx_GBDT_08.csv',  index=False,header=False)
+newdata.to_csv('weika_GBDT_07.csv',  index=False,header=False)

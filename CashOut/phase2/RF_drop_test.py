@@ -19,7 +19,7 @@ cardcol= 'pri_acct_no_conv'
 time = "tfr_dt_tm"
  
 #df = pd.read_csv("idx_new_08_del.csv")
-df = pd.read_csv("idx_only_gbdt.csv") 
+df = pd.read_csv("idx_weika_07.csv") 
 
 
 label='label' # 
@@ -56,7 +56,7 @@ X_test =  test_all[x_columns]
  
 
 #n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
-clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
+clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=10, max_features="auto",max_leaf_nodes=None, bootstrap=True)
 
 clf = clf.fit(X_train, y_train)
   
