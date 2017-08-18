@@ -51,7 +51,7 @@ warnings.filterwarnings('ignore')
 
 labelName="label"
 cardName = "pri_acct_no_conv" 
-runEpoch=2
+runEpoch=20
 
 #modelName = "lstm_reshape_5.md"
 
@@ -59,7 +59,7 @@ BS = 128
 #runLoop = 50
 
 Alldata = pd.read_csv('convert5_weika_GBDT_07.csv')
-#Alldata = pd.read_csv('convert_5_card.csv')
+#Alldata = pd.read_csv('convert_5_card_GBDT.csv')
 #Alldata = pd.read_csv('convert_5_card_more.csv')
 
 
@@ -80,6 +80,9 @@ Alldata = pd.concat([Fraud,fine_N], axis = 0)
 
 ###############################
 Alldata = shuffle(Alldata)
+#Alldata = Alldata.head(10000)
+ 
+
 print "Total samples:", Alldata.shape[0]
 train_all,test_all=train_test_split(Alldata, test_size=0.2)
 
@@ -200,34 +203,88 @@ else:
     print(classifier.model.summary())
     f_dense1 = K.function([classifier.model.layers[0].input],  [classifier.model.layers[6].output])
 
- 
+
+
+#############Transform train##############################
+Read_batch = 10000
+index_in_epoch = 0 
+num_train = X_train.shape[0]
+contents = X_train
+labels = y_train.values.reshape(y_train.values.shape[0],1)
+def get_next_batch(batch_size, index_in_epoch, contents, labels):
+    start = index_in_epoch
+    index_in_epoch = index_in_epoch + batch_size
+     
+    end = index_in_epoch
+    return contents[start:end], labels[start:end]
+
+#初始化#
+(X_train,y_train) = get_next_batch(1, index_in_epoch, contents, labels)
 layer_output_train = f_dense1([X_train])[0]
-print layer_output_train.shape
-
-#把LSTM和随机森林特征结合
 layer_output_train = np.hstack((layer_output_train,X_train[:, (timesteps-1)*data_dim: ]))
-print layer_output_train.shape
+print  "layer_output_train.shape: ", layer_output_train.shape, "y_train.shape", y_train.shape
+#初始化#
 
-# LSTMs (None, 64)  不需要reshape
-#layer_output_train = layer_output_train.reshape(layer_output_train.shape[0],layer_output_train.shape[1]*layer_output_train.shape[2])
-print  layer_output_train.shape 
-#lo = pd.DataFrame(layer_output)
-#lo.to_csv("lstm_output.csv")
-    
-    
+i=1
+while(i<num_train):
+        print i
+        index_in_epoch = i
+        (X_batch, y_batch) = get_next_batch(Read_batch, index_in_epoch, contents, labels)
+        #print X_batch, y_batch
+        
+        i = i + Read_batch
+        layer_output_batch = f_dense1([X_batch])[0]
+        #把LSTM和随机森林特征结合
+        layer_output_batch = np.hstack((layer_output_batch,X_batch[:, (timesteps-1)*data_dim: ]))
+         
+        layer_output_train = np.vstack((layer_output_train, layer_output_batch)) 
+        y_train = np.vstack((y_train,y_batch)) 
+       
+ 
+print  "layer_output_train.shape: ", layer_output_train.shape, "y_train.shape", y_train.shape
+#############Transform train############################## 
 
+#############Transform test##############################
+Read_batch = 10000
+index_in_epoch = 0 
+num_test = X_test.shape[0]
+contents = X_test
+labels = y_test.values.reshape(y_test.values.shape[0],1)
+def get_next_batch(batch_size, index_in_epoch, contents, labels):
+    start = index_in_epoch
+    index_in_epoch = index_in_epoch + batch_size
+     
+    end = index_in_epoch
+    return contents[start:end], labels[start:end]
+
+#初始化#
+(X_test,y_test) = get_next_batch(1, index_in_epoch, contents, labels)
 layer_output_test = f_dense1([X_test])[0]
 layer_output_test = np.hstack((layer_output_test,X_test[:, (timesteps-1)*data_dim: ]))
-#layer_output_test = layer_output_test.reshape(layer_output_test.shape[0],layer_output_test.shape[1]*layer_output_test.shape[2])
-print  layer_output_test.shape 
+print  "layer_output_test.shape: ", layer_output_test.shape, "y_test.shape", y_test.shape
+#初始化#
 
+i=1
+while(i<num_test):
+        print i
+        index_in_epoch = i
+        (X_batch, y_batch) = get_next_batch(Read_batch, index_in_epoch, contents, labels)
+        #print X_batch, y_batch
+        
+        i = i + Read_batch
+        layer_output_batch = f_dense1([X_batch])[0]
+        #把LSTM和随机森林特征结合
+        layer_output_batch = np.hstack((layer_output_batch,X_batch[:, (timesteps-1)*data_dim: ]))
+         
+        layer_output_test = np.vstack((layer_output_test, layer_output_batch)) 
+        y_test = np.vstack((y_test,y_batch)) 
+       
+ 
+print  "layer_output_test.shape: ", layer_output_test.shape, "y_test.shape", y_test.shape
+#############Transform test############################## 
+
+ 
 lstm_feature = np.vstack((layer_output_train,layer_output_test))
-
-#print y_train.shape, y_test.shape
-
-y_train = y_train.values.reshape(y_train.values.shape[0],1)
-y_test = y_test.values.reshape(y_test.values.shape[0],1)
-
 lstm_label  = np.vstack((y_train, y_test))
   
 X_train, X_test, y_train, y_test = train_test_split(lstm_feature, lstm_label , test_size=0.2)

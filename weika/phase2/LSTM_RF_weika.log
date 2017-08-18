@@ -1,0 +1,877 @@
+nohup: ignoring input
+Using TensorFlow backend.
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K40m
+major: 3 minor: 5 memoryClockRate (GHz) 0.745
+pciBusID 0000:06:00.0
+Total memory: 11.17GiB
+Free memory: 10.98GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K40m, pci bus id: 0000:06:00.0)
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 3031 get requests, put_count=2590 evicted_count=1000 eviction_rate=0.3861 and unsatisfied allocation rate=0.508413
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:259] Raising pool_size_limit_ from 100 to 110
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 3148 get requests, put_count=3205 evicted_count=1000 eviction_rate=0.312012 and unsatisfied allocation rate=0.306861
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:259] Raising pool_size_limit_ from 256 to 281
+Ori Fraud shape: (6880, 862) Ori Normal shape: (944355, 862)
+True Fraud shape: (6880, 862) True Normal shape: (916365, 862)
+Total samples: 923245
+size_data=  860
+data dimension= 172
+Before set Tensor("keras_learning_phase:0", dtype=bool)
+After set  1
+Train on 738596 samples, validate on 184649 samples
+Epoch 1/100
+384s - loss: 0.0265 - mean_absolute_error: 0.0126 - acc: 0.9926 - val_loss: 0.0222 - val_mean_absolute_error: 0.0104 - val_acc: 0.9936
+Epoch 2/100
+384s - loss: 0.0206 - mean_absolute_error: 0.0095 - acc: 0.9944 - val_loss: 0.0202 - val_mean_absolute_error: 0.0093 - val_acc: 0.9946
+Epoch 3/100
+382s - loss: 0.0189 - mean_absolute_error: 0.0087 - acc: 0.9949 - val_loss: 0.0194 - val_mean_absolute_error: 0.0086 - val_acc: 0.9947
+Epoch 4/100
+388s - loss: 0.0178 - mean_absolute_error: 0.0083 - acc: 0.9951 - val_loss: 0.0195 - val_mean_absolute_error: 0.0074 - val_acc: 0.9947
+Epoch 5/100
+385s - loss: 0.0169 - mean_absolute_error: 0.0079 - acc: 0.9953 - val_loss: 0.0187 - val_mean_absolute_error: 0.0078 - val_acc: 0.9950
+Epoch 6/100
+388s - loss: 0.0163 - mean_absolute_error: 0.0077 - acc: 0.9954 - val_loss: 0.0181 - val_mean_absolute_error: 0.0081 - val_acc: 0.9951
+Epoch 7/100
+391s - loss: 0.0157 - mean_absolute_error: 0.0074 - acc: 0.9956 - val_loss: 0.0175 - val_mean_absolute_error: 0.0076 - val_acc: 0.9952
+Epoch 8/100
+398s - loss: 0.0151 - mean_absolute_error: 0.0071 - acc: 0.9957 - val_loss: 0.0169 - val_mean_absolute_error: 0.0075 - val_acc: 0.9955
+Epoch 9/100
+393s - loss: 0.0147 - mean_absolute_error: 0.0069 - acc: 0.9958 - val_loss: 0.0174 - val_mean_absolute_error: 0.0072 - val_acc: 0.9954
+Epoch 10/100
+386s - loss: 0.0145 - mean_absolute_error: 0.0068 - acc: 0.9959 - val_loss: 0.0171 - val_mean_absolute_error: 0.0066 - val_acc: 0.9955
+Epoch 11/100
+384s - loss: 0.0140 - mean_absolute_error: 0.0066 - acc: 0.9960 - val_loss: 0.0169 - val_mean_absolute_error: 0.0074 - val_acc: 0.9955
+Epoch 12/100
+382s - loss: 0.0135 - mean_absolute_error: 0.0064 - acc: 0.9961 - val_loss: 0.0174 - val_mean_absolute_error: 0.0076 - val_acc: 0.9954
+Epoch 13/100
+382s - loss: 0.0133 - mean_absolute_error: 0.0063 - acc: 0.9961 - val_loss: 0.0170 - val_mean_absolute_error: 0.0065 - val_acc: 0.9957
+Epoch 14/100
+386s - loss: 0.0130 - mean_absolute_error: 0.0062 - acc: 0.9963 - val_loss: 0.0164 - val_mean_absolute_error: 0.0069 - val_acc: 0.9956
+Epoch 15/100
+384s - loss: 0.0128 - mean_absolute_error: 0.0061 - acc: 0.9963 - val_loss: 0.0166 - val_mean_absolute_error: 0.0066 - val_acc: 0.9956
+Epoch 16/100
+371s - loss: 0.0123 - mean_absolute_error: 0.0059 - acc: 0.9964 - val_loss: 0.0170 - val_mean_absolute_error: 0.0062 - val_acc: 0.9956
+Epoch 17/100
+366s - loss: 0.0121 - mean_absolute_error: 0.0058 - acc: 0.9965 - val_loss: 0.0170 - val_mean_absolute_error: 0.0066 - val_acc: 0.9956
+Epoch 18/100
+367s - loss: 0.0119 - mean_absolute_error: 0.0057 - acc: 0.9965 - val_loss: 0.0164 - val_mean_absolute_error: 0.0068 - val_acc: 0.9957
+Epoch 19/100
+355s - loss: 0.0117 - mean_absolute_error: 0.0056 - acc: 0.9966 - val_loss: 0.0165 - val_mean_absolute_error: 0.0071 - val_acc: 0.9956
+Epoch 20/100
+352s - loss: 0.0115 - mean_absolute_error: 0.0056 - acc: 0.9967 - val_loss: 0.0169 - val_mean_absolute_error: 0.0059 - val_acc: 0.9959
+Epoch 21/100
+337s - loss: 0.0114 - mean_absolute_error: 0.0055 - acc: 0.9967 - val_loss: 0.0165 - val_mean_absolute_error: 0.0062 - val_acc: 0.9958
+Epoch 22/100
+329s - loss: 0.0113 - mean_absolute_error: 0.0055 - acc: 0.9967 - val_loss: 0.0164 - val_mean_absolute_error: 0.0062 - val_acc: 0.9958
+Epoch 23/100
+325s - loss: 0.0110 - mean_absolute_error: 0.0053 - acc: 0.9968 - val_loss: 0.0169 - val_mean_absolute_error: 0.0065 - val_acc: 0.9957
+Epoch 24/100
+321s - loss: 0.0108 - mean_absolute_error: 0.0053 - acc: 0.9968 - val_loss: 0.0165 - val_mean_absolute_error: 0.0058 - val_acc: 0.9958
+Epoch 25/100
+320s - loss: 0.0107 - mean_absolute_error: 0.0052 - acc: 0.9968 - val_loss: 0.0170 - val_mean_absolute_error: 0.0057 - val_acc: 0.9959
+Epoch 26/100
+311s - loss: 0.0106 - mean_absolute_error: 0.0051 - acc: 0.9969 - val_loss: 0.0162 - val_I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 231282858 get requests, put_count=231282878 evicted_count=2000 eviction_rate=8.64742e-06 and unsatisfied allocation rate=8.79443e-06
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 236691492 get requests, put_count=236691512 evicted_count=12000 eviction_rate=5.06989e-05 and unsatisfied allocation rate=5.08426e-05
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 241913580 get requests, put_count=241913601 evicted_count=22000 eviction_rate=9.09416e-05 and unsatisfied allocation rate=9.1078e-05
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 247324302 get requests, put_count=247324322 evicted_count=32000 eviction_rate=0.000129385 and unsatisfied allocation rate=0.000129522
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 252733980 get requests, put_count=252734000 evicted_count=42000 eviction_rate=0.000166183 and unsatisfied allocation rate=0.000166317
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 258143658 get requests, put_count=258143679 evicted_count=52000 eviction_rate=0.000201438 and unsatisfied allocation rate=0.000201566
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 263552292 get requests, put_count=263552312 evicted_count=62000 eviction_rate=0.000235247 and unsatisfied allocation rate=0.000235376
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 268961970 get requests, put_count=268961990 evicted_count=72000 eviction_rate=0.000267696 and unsatisfied allocation rate=0.000267822
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 274369560 get requests, put_count=274369581 evicted_count=82000 eviction_rate=0.000298867 and unsatisfied allocation rate=0.000298987
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 279778194 get requests, put_count=279778215 evicted_count=92000 eviction_rate=0.000328832 and unsatisfied allocation rate=0.00032895
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 284999238 get requests, put_count=284999259 evicted_count=102000 eviction_rate=0.000357896 and unsatisfied allocation rate=0.000358011
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 290407872 get requests, put_count=290407893 evicted_count=112000 eviction_rate=0.000385664 and unsatisfied allocation rate=0.000385778
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 295816506 get requests, put_count=295816526 evicted_count=122000 eviction_rate=0.000412418 and unsatisfied allocation rate=0.000412533
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 301225140 get requests, put_count=301225161 evicted_count=132000 eviction_rate=0.00043821 and unsatisfied allocation rate=0.00043832
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 306635862 get requests, put_count=306635882 evicted_count=142000 eviction_rate=0.00046309 and unsatisfied allocation rate=0.000463201
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 312043452 get requests, put_count=312043473 evicted_count=152000 eviction_rate=0.000487112 and unsatisfied allocation rate=0.000487217
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 317452086 get requests, put_count=317452107 evicted_count=162000 eviction_rate=0.000510313 and unsatisfied allocation rate=0.000510417
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 322674174 get requests, put_count=322674195 evicted_count=172000 eviction_rate=0.000533045 and unsatisfied allocation rate=0.000533148
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 328082808 get requests, put_count=328082829 evicted_count=182000 eviction_rate=0.000554738 and unsatisfied allocation rate=0.000554839
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 333491442 get requests, put_count=333491463 evicted_count=192000 eviction_rate=0.000575727 and unsatisfied allocation rate=0.000575826
+mean_absolute_error: 0.0066 - val_acc: 0.9958
+Epoch 27/100
+308s - loss: 0.0103 - mean_absolute_error: 0.0050 - acc: 0.9969 - val_loss: 0.0163 - val_mean_absolute_error: 0.0064 - val_acc: 0.9958
+Epoch 28/100
+303s - loss: 0.0103 - mean_absolute_error: 0.0051 - acc: 0.9969 - val_loss: 0.0174 - val_mean_absolute_error: 0.0058 - val_acc: 0.9958
+Epoch 29/100
+300s - loss: 0.0102 - mean_absolute_error: 0.0050 - acc: 0.9969 - val_loss: 0.0164 - val_mean_absolute_error: 0.0057 - val_acc: 0.9960
+Epoch 30/100
+303s - loss: 0.0100 - mean_absolute_error: 0.0049 - acc: 0.9970 - val_loss: 0.0166 - val_mean_absolute_error: 0.0060 - val_acc: 0.9959
+Epoch 31/100
+298s - loss: 0.0097 - mean_absolute_error: 0.0048 - acc: 0.9970 - val_loss: 0.0178 - val_mean_absolute_error: 0.0063 - val_acc: 0.9955
+Epoch 32/100
+300s - loss: 0.0098 - mean_absolute_error: 0.0048 - acc: 0.9970 - val_loss: 0.0165 - val_mean_absolute_error: 0.0061 - val_acc: 0.9960
+Epoch 33/100
+301s - loss: 0.0096 - mean_absolute_error: 0.0047 - acc: 0.9971 - val_loss: 0.0169 - val_mean_absolute_error: 0.0055 - val_acc: 0.9961
+Epoch 34/100
+298s - loss: 0.0094 - mean_absolute_error: 0.0046 - acc: 0.9971 - val_loss: 0.0166 - val_mean_absolute_error: 0.0058 - val_acc: 0.9959
+Epoch 35/100
+301s - loss: 0.0095 - mean_absolute_error: 0.0046 - acc: 0.9972 - val_loss: 0.0166 - val_mean_absolute_error: 0.0058 - val_acc: 0.9961
+Epoch 36/100
+298s - loss: 0.0094 - mean_absolute_error: 0.0046 - acc: 0.9971 - val_loss: 0.0175 - val_mean_absolute_error: 0.0055 - val_acc: 0.9960
+Epoch 37/100
+298s - loss: 0.0092 - mean_absolute_error: 0.0045 - acc: 0.9972 - val_loss: 0.0162 - val_mean_absolute_error: 0.0058 - val_acc: 0.9960
+Epoch 38/100
+288s - loss: 0.0091 - mean_absolute_error: 0.0045 - acc: 0.9972 - val_loss: 0.0169 - val_mean_absolute_error: 0.0060 - val_acc: 0.9959
+Epoch 39/100
+295s - loss: 0.0090 - mean_absolute_error: 0.0044 - acc: 0.9972 - val_loss: 0.0170 - val_mean_absolute_error: 0.0054 - val_acc: 0.9959
+Epoch 40/100
+293s - loss: 0.0090 - mean_absolute_error: 0.0045 - acc: 0.9972 - val_loss: 0.0170 - val_mean_absolute_error: 0.0061 - val_acc: 0.9959
+Epoch 41/100
+296s - loss: 0.0088 - mean_absolute_error: 0.0044 - acc: 0.9973 - val_loss: 0.0166 - val_mean_absolute_error: 0.0065 - val_acc: 0.9958
+Epoch 42/100
+302s - loss: 0.0089 - mean_absolute_error: 0.0045 - acc: 0.9972 - val_loss: 0.0176 - val_mean_absolute_error: 0.0066 - val_acc: 0.9957
+Epoch 43/100
+295s - loss: 0.0087 - mean_absolute_error: 0.0043 - acc: 0.9973 - val_loss: 0.0179 - val_mean_absolute_error: 0.0057 - val_acc: 0.9957
+Epoch 44/100
+297s - loss: 0.0086 - mean_absolute_error: 0.0043 - acc: 0.9973 - val_loss: 0.0167 - val_mean_absolute_error: 0.0055 - val_acc: 0.9961
+Epoch 45/100
+297s - loss: 0.0085 - mean_absolute_error: 0.0042 - acc: 0.9974 - val_loss: 0.0173 - val_mean_absolute_error: 0.0052 - val_acc: 0.9961
+Epoch 46/100
+295s - loss: 0.0085 - mean_absolute_error: 0.0042 - acc: 0.9974 - val_loss: 0.0166 - val_mean_absolute_error: 0.0058 - val_acc: 0.9960
+Epoch 47/100
+300s - loss: 0.0084 - mean_absolute_error: 0.0042 - acc: 0.9973 - val_loss: 0.0164 - val_mean_absolute_error: 0.0061 - val_acc: 0.9959
+Epoch 48/100
+299s - loss: 0.0084 - mean_absolute_error: 0.0042 - acc: 0.9974 - val_loss: 0.0170 - val_mean_absolute_error: 0.0063 - val_acc: 0.9959
+Epoch 49/100
+303s - loss: 0.0084 - mean_absolute_error: 0.0042 - acc: 0.9974 - val_loss: 0.0169 - val_mean_absolute_error: 0.0058 - val_acc: 0.9960
+Epoch 50/100
+302s - loss: 0.0082 - mean_absolute_error: 0.0041 - acc: 0.9974 - val_loss: 0.0172 - val_mean_absolute_error: 0.0056 - val_acc: 0.9960
+Epoch 51/100
+300s - loss: 0.0083 - mean_absolute_error: 0.0041 - acc: 0.9975 - val_loss: 0.0168 - val_mean_absolute_error: 0.0059 - val_acc: 0.9959
+Epoch 52/100
+297s - loss: 0.0081 - mean_absolute_error: 0.0041 - acc: 0.9975 - val_loss: 0.0163 - val_mean_absolute_error: 0.0059 - val_acc: 0.9961
+Epoch 53/100
+300s - loss: 0.0081 - mean_absolute_error: 0.0041 - acc: 0.9975 - val_loss: 0.0165 - val_mean_absolute_error: 0.0058 - val_acc: 0.9960
+Epoch 54/100
+301s - loss: 0.0080 - mean_absolute_errorI tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 338902164 get requests, put_count=338902184 evicted_count=202000 eviction_rate=0.000596042 and unsatisfied allocation rate=0.000596143
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 344309754 get requests, put_count=344309775 evicted_count=212000 eviction_rate=0.000615725 and unsatisfied allocation rate=0.00061582
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 349719432 get requests, put_count=349719452 evicted_count=222000 eviction_rate=0.000634795 and unsatisfied allocation rate=0.000634892
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 355128066 get requests, put_count=355128087 evicted_count=232000 eviction_rate=0.000653285 and unsatisfied allocation rate=0.000653378
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 360537744 get requests, put_count=360537764 evicted_count=242000 eviction_rate=0.00067122 and unsatisfied allocation rate=0.000671314
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 365758788 get requests, put_count=365758809 evicted_count=252000 eviction_rate=0.000688979 and unsatisfied allocation rate=0.000689069
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 371167422 get requests, put_count=371167442 evicted_count=262000 eviction_rate=0.000705881 and unsatisfied allocation rate=0.000705973
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 376576056 get requests, put_count=376576076 evicted_count=272000 eviction_rate=0.000722298 and unsatisfied allocation rate=0.000722388
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 381984690 get requests, put_count=381984710 evicted_count=282000 eviction_rate=0.000738249 and unsatisfied allocation rate=0.000738338
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 387393324 get requests, put_count=387393344 evicted_count=292000 eviction_rate=0.000753756 and unsatisfied allocation rate=0.000753844
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 392803002 get requests, put_count=392803022 evicted_count=302000 eviction_rate=0.000768833 and unsatisfied allocation rate=0.00076892
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 398210592 get requests, put_count=398210612 evicted_count=312000 eviction_rate=0.000783505 and unsatisfied allocation rate=0.00078359
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 403431636 get requests, put_count=403431656 evicted_count=322000 eviction_rate=0.000798153 and unsatisfied allocation rate=0.000798237
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 408840270 get requests, put_count=408840290 evicted_count=332000 eviction_rate=0.000812053 and unsatisfied allocation rate=0.000812136
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 414248904 get requests, put_count=414248925 evicted_count=342000 eviction_rate=0.000825591 and unsatisfied allocation rate=0.00082567
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 419656494 get requests, put_count=419656515 evicted_count=352000 eviction_rate=0.000838781 and unsatisfied allocation rate=0.00083886
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 425066172 get requests, put_count=425066192 evicted_count=362000 eviction_rate=0.000851632 and unsatisfied allocation rate=0.000851712
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 430473762 get requests, put_count=430473783 evicted_count=372000 eviction_rate=0.000864164 and unsatisfied allocation rate=0.000864241
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 435883440 get requests, put_count=435883460 evicted_count=382000 eviction_rate=0.000876381 and unsatisfied allocation rate=0.000876459
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 441291030 get requests, put_count=441291051 evicted_count=392000 eviction_rate=0.000888303 and unsatisfied allocation rate=0.000888377
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 446512074 get requests, put_count=446512095 evicted_count=402000 eviction_rate=0.000900312 and unsatisfied allocation rate=0.000900386
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 451920708 get requests, put_count=451920729 evicted_count=412000 eviction_rate=0.000911664 and unsatisfied allocation rate=0.000911737
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 457330386 get requests, put_count=457330406 evicted_count=422000 eviction_rate=0.000922746 and unsatisfied allocation rate=0.000922821
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 462737976 get requests, put_count=462737997 evicted_count=432000 eviction_rate=0.000933574 and unsatisfied allocation rate=0.000933645
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 468148698 get requests, put_count=468148718 evicted_count=442000 eviction_rate=0.000944144 and unsatisfied allocation rate=0.000944217
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 473556288 get requests, put_count=473556309 evicted_count=452000 eviction_rate=0.00095448 and unsatisfied allocation rate=0.00095455
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 478965966 get requests, put_count=478965986 evicted_count=462000 eviction_rate=0.000964578 and unsatisfied allocation rate=0.000964649
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 484188054 get requests, put_count=484188074 evicted_count=472000 eviction_rate=0.000974828 and unsatisfied allocation rate=0.000974898
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 489596688 get requests, put_count=489596709 evicted_count=482000 eviction_rate=0.000984484 and unsatisfied allocation rate=0.000984551
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 495006366 get requests, put_count=495006387 evicted_count=492000 eviction_rate=0.000993927 and unsatisfied allocation rate=0.000993993
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 500416044 get requests, put_count=500416064 evicted_count=502000 eviction_rate=0.00100317 and unsatisfied allocation rate=0.00100323
+: 0.0040 - acc: 0.9975 - val_loss: 0.0173 - val_mean_absolute_error: 0.0054 - val_acc: 0.9961
+Epoch 55/100
+302s - loss: 0.0081 - mean_absolute_error: 0.0040 - acc: 0.9975 - val_loss: 0.0168 - val_mean_absolute_error: 0.0056 - val_acc: 0.9960
+Epoch 56/100
+299s - loss: 0.0080 - mean_absolute_error: 0.0040 - acc: 0.9975 - val_loss: 0.0170 - val_mean_absolute_error: 0.0063 - val_acc: 0.9960
+Epoch 57/100
+302s - loss: 0.0079 - mean_absolute_error: 0.0040 - acc: 0.9975 - val_loss: 0.0178 - val_mean_absolute_error: 0.0055 - val_acc: 0.9961
+Epoch 58/100
+297s - loss: 0.0079 - mean_absolute_error: 0.0039 - acc: 0.9976 - val_loss: 0.0176 - val_mean_absolute_error: 0.0056 - val_acc: 0.9959
+Epoch 59/100
+300s - loss: 0.0079 - mean_absolute_error: 0.0040 - acc: 0.9975 - val_loss: 0.0177 - val_mean_absolute_error: 0.0055 - val_acc: 0.9960
+Epoch 60/100
+302s - loss: 0.0077 - mean_absolute_error: 0.0039 - acc: 0.9976 - val_loss: 0.0163 - val_mean_absolute_error: 0.0055 - val_acc: 0.9962
+Epoch 61/100
+298s - loss: 0.0075 - mean_absolute_error: 0.0038 - acc: 0.9976 - val_loss: 0.0164 - val_mean_absolute_error: 0.0060 - val_acc: 0.9961
+Epoch 62/100
+296s - loss: 0.0077 - mean_absolute_error: 0.0039 - acc: 0.9976 - val_loss: 0.0174 - val_mean_absolute_error: 0.0052 - val_acc: 0.9961
+Epoch 63/100
+304s - loss: 0.0075 - mean_absolute_error: 0.0037 - acc: 0.9977 - val_loss: 0.0170 - val_mean_absolute_error: 0.0057 - val_acc: 0.9963
+Epoch 64/100
+297s - loss: 0.0075 - mean_absolute_error: 0.0038 - acc: 0.9976 - val_loss: 0.0182 - val_mean_absolute_error: 0.0064 - val_acc: 0.9959
+Epoch 65/100
+296s - loss: 0.0075 - mean_absolute_error: 0.0038 - acc: 0.9977 - val_loss: 0.0176 - val_mean_absolute_error: 0.0055 - val_acc: 0.9961
+Epoch 66/100
+296s - loss: 0.0076 - mean_absolute_error: 0.0038 - acc: 0.9976 - val_loss: 0.0189 - val_mean_absolute_error: 0.0055 - val_acc: 0.9960
+Epoch 67/100
+296s - loss: 0.0075 - mean_absolute_error: 0.0038 - acc: 0.9976 - val_loss: 0.0188 - val_mean_absolute_error: 0.0052 - val_acc: 0.9960
+Epoch 68/100
+297s - loss: 0.0074 - mean_absolute_error: 0.0037 - acc: 0.9976 - val_loss: 0.0195 - val_mean_absolute_error: 0.0051 - val_acc: 0.9961
+Epoch 69/100
+299s - loss: 0.0074 - mean_absolute_error: 0.0037 - acc: 0.9976 - val_loss: 0.0177 - val_mean_absolute_error: 0.0054 - val_acc: 0.9960
+Epoch 70/100
+298s - loss: 0.0072 - mean_absolute_error: 0.0037 - acc: 0.9977 - val_loss: 0.0178 - val_mean_absolute_error: 0.0057 - val_acc: 0.9960
+Epoch 71/100
+298s - loss: 0.0072 - mean_absolute_error: 0.0036 - acc: 0.9978 - val_loss: 0.0178 - val_mean_absolute_error: 0.0054 - val_acc: 0.9961
+Epoch 72/100
+299s - loss: 0.0073 - mean_absolute_error: 0.0037 - acc: 0.9977 - val_loss: 0.0174 - val_mean_absolute_error: 0.0059 - val_acc: 0.9959
+Epoch 73/100
+301s - loss: 0.0073 - mean_absolute_error: 0.0037 - acc: 0.9977 - val_loss: 0.0175 - val_mean_absolute_error: 0.0053 - val_acc: 0.9961
+Epoch 74/100
+295s - loss: 0.0070 - mean_absolute_error: 0.0036 - acc: 0.9977 - val_loss: 0.0182 - val_mean_absolute_error: 0.0053 - val_acc: 0.9960
+Epoch 75/100
+300s - loss: 0.0071 - mean_absolute_error: 0.0037 - acc: 0.9977 - val_loss: 0.0193 - val_mean_absolute_error: 0.0051 - val_acc: 0.9961
+Epoch 76/100
+299s - loss: 0.0071 - mean_absolute_error: 0.0036 - acc: 0.9977 - val_loss: 0.0185 - val_mean_absolute_error: 0.0054 - val_acc: 0.9960
+Epoch 77/100
+301s - loss: 0.0072 - mean_absolute_error: 0.0036 - acc: 0.9977 - val_loss: 0.0185 - val_mean_absolute_error: 0.0051 - val_acc: 0.9962
+Epoch 78/100
+300s - loss: 0.0072 - mean_absolute_error: 0.0036 - acc: 0.9977 - val_loss: 0.0182 - val_mean_absolute_error: 0.0055 - val_acc: 0.9959
+Epoch 79/100
+302s - loss: 0.0072 - mean_absolute_error: 0.0037 - acc: 0.9977 - val_loss: 0.0183 - val_mean_absolute_error: 0.0052 - val_acc: 0.9961
+Epoch 80/100
+297s - loss: 0.0070 - mean_absolute_error: 0.0036 - acc: 0.9977 - val_loss: 0.0174 - val_mean_absolute_error: 0.0057 - val_acc: 0.9961
+Epoch 81/100
+295s - loss: 0.0069 - mean_absolute_error: 0.0035 - acc: 0.9978 - val_loss: 0.0194 - val_mean_absolute_error: 0.0050 - val_acc: 0.9961
+Epoch I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 505824678 get requests, put_count=505824698 evicted_count=512000 eviction_rate=0.00101221 and unsatisfied allocation rate=0.00101228
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 511234356 get requests, put_count=511234376 evicted_count=522000 eviction_rate=0.00102106 and unsatisfied allocation rate=0.00102112
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 516641946 get requests, put_count=516641967 evicted_count=532000 eviction_rate=0.00102973 and unsatisfied allocation rate=0.00102979
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 522050580 get requests, put_count=522050600 evicted_count=542000 eviction_rate=0.00103821 and unsatisfied allocation rate=0.00103828
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 527271624 get requests, put_count=527271644 evicted_count=552000 eviction_rate=0.0010469 and unsatisfied allocation rate=0.00104696
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 532680258 get requests, put_count=532680279 evicted_count=562000 eviction_rate=0.00105504 and unsatisfied allocation rate=0.0010551
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 538088892 get requests, put_count=538088913 evicted_count=572000 eviction_rate=0.00106302 and unsatisfied allocation rate=0.00106308
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 543498570 get requests, put_count=543498590 evicted_count=582000 eviction_rate=0.00107084 and unsatisfied allocation rate=0.0010709
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 548907204 get requests, put_count=548907224 evicted_count=592000 eviction_rate=0.00107851 and unsatisfied allocation rate=0.00107857
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 554314794 get requests, put_count=554314814 evicted_count=602000 eviction_rate=0.00108603 and unsatisfied allocation rate=0.00108609
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 559722384 get requests, put_count=559722405 evicted_count=612000 eviction_rate=0.0010934 and unsatisfied allocation rate=0.00109346
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 564943428 get requests, put_count=564943449 evicted_count=622000 eviction_rate=0.001101 and unsatisfied allocation rate=0.00110105
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 570352062 get requests, put_count=570352083 evicted_count=632000 eviction_rate=0.00110809 and unsatisfied allocation rate=0.00110815
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 575761740 get requests, put_count=575761761 evicted_count=642000 eviction_rate=0.00111504 and unsatisfied allocation rate=0.0011151
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 581170374 get requests, put_count=581170394 evicted_count=652000 eviction_rate=0.00112187 and unsatisfied allocation rate=0.00112193
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 586579008 get requests, put_count=586579028 evicted_count=662000 eviction_rate=0.00112858 and unsatisfied allocation rate=0.00112864
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 591988686 get requests, put_count=591988707 evicted_count=672000 eviction_rate=0.00113516 and unsatisfied allocation rate=0.00113521
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 597398364 get requests, put_count=597398384 evicted_count=682000 eviction_rate=0.00114162 and unsatisfied allocation rate=0.00114167
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 602808042 get requests, put_count=602808062 evicted_count=692000 eviction_rate=0.00114796 and unsatisfied allocation rate=0.00114802
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 608028042 get requests, put_count=608028063 evicted_count=702000 eviction_rate=0.00115455 and unsatisfied allocation rate=0.00115461
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 613436676 get requests, put_count=613436697 evicted_count=712000 eviction_rate=0.00116067 and unsatisfied allocation rate=0.00116073
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 618845310 get requests, put_count=618845330 evicted_count=722000 eviction_rate=0.00116669 and unsatisfied allocation rate=0.00116674
+82/100
+299s - loss: 0.0070 - mean_absolute_error: 0.0036 - acc: 0.9978 - val_loss: 0.0177 - val_mean_absolute_error: 0.0054 - val_acc: 0.9962
+Epoch 83/100
+304s - loss: 0.0069 - mean_absolute_error: 0.0035 - acc: 0.9978 - val_loss: 0.0181 - val_mean_absolute_error: 0.0062 - val_acc: 0.9957
+Epoch 84/100
+296s - loss: 0.0069 - mean_absolute_error: 0.0035 - acc: 0.9979 - val_loss: 0.0180 - val_mean_absolute_error: 0.0052 - val_acc: 0.9961
+Epoch 85/100
+298s - loss: 0.0069 - mean_absolute_error: 0.0035 - acc: 0.9978 - val_loss: 0.0184 - val_mean_absolute_error: 0.0051 - val_acc: 0.9961
+Epoch 86/100
+299s - loss: 0.0069 - mean_absolute_error: 0.0035 - acc: 0.9978 - val_loss: 0.0193 - val_mean_absolute_error: 0.0051 - val_acc: 0.9959
+Epoch 87/100
+297s - loss: 0.0069 - mean_absolute_error: 0.0035 - acc: 0.9978 - val_loss: 0.0177 - val_mean_absolute_error: 0.0055 - val_acc: 0.9962
+Epoch 88/100
+299s - loss: 0.0069 - mean_absolute_error: 0.0035 - acc: 0.9978 - val_loss: 0.0182 - val_mean_absolute_error: 0.0050 - val_acc: 0.9963
+Epoch 89/100
+298s - loss: 0.0068 - mean_absolute_error: 0.0035 - acc: 0.9978 - val_loss: 0.0171 - val_mean_absolute_error: 0.0055 - val_acc: 0.9962
+Epoch 90/100
+298s - loss: 0.0069 - mean_absolute_error: 0.0035 - acc: 0.9978 - val_loss: 0.0169 - val_mean_absolute_error: 0.0060 - val_acc: 0.9962
+Epoch 91/100
+298s - loss: 0.0067 - mean_absolute_error: 0.0034 - acc: 0.9979 - val_loss: 0.0191 - val_mean_absolute_error: 0.0050 - val_acc: 0.9960
+Epoch 92/100
+300s - loss: 0.0068 - mean_absolute_error: 0.0034 - acc: 0.9978 - val_loss: 0.0182 - val_mean_absolute_error: 0.0051 - val_acc: 0.9961
+Epoch 93/100
+297s - loss: 0.0067 - mean_absolute_error: 0.0034 - acc: 0.9979 - val_loss: 0.0188 - val_mean_absolute_error: 0.0049 - val_acc: 0.9962
+Epoch 94/100
+303s - loss: 0.0067 - mean_absolute_error: 0.0034 - acc: 0.9979 - val_loss: 0.0188 - val_mean_absolute_error: 0.0049 - val_acc: 0.9962
+Epoch 95/100
+297s - loss: 0.0067 - mean_absolute_error: 0.0034 - acc: 0.9978 - val_loss: 0.0174 - val_mean_absolute_error: 0.0057 - val_acc: 0.9961
+Epoch 96/100
+301s - loss: 0.0067 - mean_absolute_error: 0.0034 - acc: 0.9978 - val_loss: 0.0190 - val_mean_absolute_error: 0.0048 - val_acc: 0.9962
+Epoch 97/100
+297s - loss: 0.0067 - mean_absolute_error: 0.0034 - acc: 0.9978 - val_loss: 0.0193 - val_mean_absolute_error: 0.0048 - val_acc: 0.9962
+Epoch 98/100
+293s - loss: 0.0066 - mean_absolute_error: 0.0034 - acc: 0.9979 - val_loss: 0.0188 - val_mean_absolute_error: 0.0053 - val_acc: 0.9960
+Epoch 99/100
+297s - loss: 0.0066 - mean_absolute_error: 0.0034 - acc: 0.9979 - val_loss: 0.0189 - val_mean_absolute_error: 0.0049 - val_acc: 0.9961
+Epoch 100/100
+299s - loss: 0.0065 - mean_absolute_error: 0.0033 - acc: 0.9979 - val_loss: 0.0192 - val_mean_absolute_error: 0.0054 - val_acc: 0.9959
+After set  0
+   128/184649 [..............................] - ETA: 208s   640/184649 [..............................] - ETA: 58s   1152/184649 [..............................] - ETA: 41s  1664/184649 [..............................] - ETA: 35s  2176/184649 [..............................] - ETA: 31s  2688/184649 [..............................] - ETA: 29s  3200/184649 [..............................] - ETA: 27s  3712/184649 [..............................] - ETA: 26s  4224/184649 [..............................] - ETA: 25s  4736/184649 [..............................] - ETA: 24s  5248/184649 [..............................] - ETA: 23s  5760/184649 [..............................] - ETA: 23s  6272/184649 [>.............................] - ETA: 22s  6784/184649 [>.............................] - ETA: 22s  7296/184649 [>.............................] - ETA: 22s  7808/184649 [>.............................] - ETA: 21s  8320/184649 [>.............................] - ETA: 21s  8832/184649 [>.............................] - ETA: 21s  9344/184649 [>.............................] - ETA: 21s  9856/184649 [>.............................] - ETA: 20s 10368/184649 [>.............................] - ETA: 20s 10880/184649 [>.............................] - ETA: 20s 11392/184649 [>.............................] - ETA: 20s 11904/184649 [>.............................] - ETA: 20s 12416/184649 [=>............................] - ETA: 20s 12928/184649 [=>............................] - ETA: 20s 13440/184649 [=>............................] - ETA: 20s 13952/184649 [=>............................] - ETA: 20s 14464/184649 [=>............................] - ETA: 19s 14976/184649 [=>............................] - ETA: 19s 15488/184649 [=>............................] - ETA: 19s 16000/184649 [=>............................] - ETA: 19s 16512/184649 [=>............................] - ETA: 19s 17024/184649 [=>............................] - ETA: 19s 17536/184649 [=>............................] - ETA: 19s 18048/184649 [=>............................] - ETA: 19s 18560/184649 [==>...........................] - ETA: 19s 19072/184649 [==>...........................] - ETA: 19s 19584/184649 [==>...........................] - ETA: 19s 20096/184649 [==>...........................] - ETA: 18s 20608/184649 [==>...........................] - ETA: 18s 21120/184649 [==>...........................] - ETA: 18s 21632/184649 [==>...........................] - ETA: 18s 22144/184649 [==>...........................] - ETA: 18s 22656/184649 [==>...........................] - ETA: 18s 23168/184649 [==>...........................] - ETA: 18s 23680/184649 [==>...........................] - ETA: 18s 24192/184649 [==>...........................] - ETA: 18s 24704/184649 [===>..........................] - ETA: 18s 25216/184649 [===>..........................] - ETA: 18s 25728/184649 [===>..........................] - ETA: 18s 26240/184649 [===>..........................] - ETA: 17s 26752/184649 [===>..........................] - ETA: 17s 27264/184649 [===>..........................] - ETA: 17s 27776/184649 [===>..........................] - ETA: 17s 28288/184649 [===>..........................] - ETA: 17s 28800/184649 [===>..........................] - ETA: 17s 29312/184649 [===>..........................] - ETA: 17s 29824/184649 [===>..........................] - ETA: 17s 30336/184649 [===>..........................] - ETA: 17s 30848/184649 [====>.........................] - ETA: 17s 31360/184649 [====>.........................] - ETA: 17s 31872/184649 [====>.........................] - ETA: 17s 32384/184649 [====>.........................] - ETA: 17s 32896/184649 [====>.........................] - ETA: 17s 33408/184649 [====>.........................] - ETA: 17s 33920/184649 [====>.........................] - ETA: 16s 34432/184649 [====>.........................] - ETA: 16s 34944/184649 [====>.........................] - ETA: 16s 35456/184649 [====>.........................] - ETA: 16s 35968/184649 [====>.........................] - ETA: 16s 36480/184649 [====>.........................] - ETA: 16s 36992/184649 [=====>........................] - ETA: 16s 37504/184649 [=====>........................] - ETA: 16s 38016/184649 [=====>........................] - ETA: 16s 38528/184649 [=====>........................] - ETA: 16s 39040/184649 [=====>........................] - ETA: 16s 39552/184649 [=====>........................] - ETA: 16s 40064/184649 [=====>........................] - ETA: 16s 40576/184649 [=====>........................] - ETA: 16s 41088/184649 [=====>........................] - ETA: 16s 41600/184649 [=====>........................] - ETA: 15s 42112/184649 [=====>........................] - ETA: 15s 42624/184649 [=====>........................] - ETA: 15s 43136/184649 [======>.......................] - ETA: 15s 43648/184649 [======>.......................] - ETA: 15s 44160/184649 [======>.......................] - ETA: 15s 44672/184649 [======>.......................] - ETA: 15s 45184/184649 [======>.......................] - ETA: 15s 45696/184649 [======>.......................] - ETA: 15s 46208/184649 [======>.......................] - ETA: 15s 46720/184649 [======>.......................] - ETA: 15s 47232/184649 [======>.......................] - ETA: 15s 47744/184649 [======>.......................] - ETA: 15s 48256/184649 [======>.......................] - ETA: 15s 48768/184649 [======>.......................] - ETA: 15s 49280/184649 [=======>......................] - ETA: 15s 49792/184649 [=======>......................] - ETA: 15s 50304/184649 [=======>......................] - ETA: 14s 50816/184649 [=======>......................] - ETA: 14s 51328/184649 [=======>......................] - ETA: 14s 51840/184649 [=======>......................] - ETA: 14s 52352/184649 [=======>......................] - ETA: 14s 52992/184649 [=======>......................] - ETA: 14s 53632/184649 [=======>......................] - ETA: 14s 54144/184649 [=======>......................] - ETA: 14s 54784/184649 [=======>......................] - ETA: 14s 55424/184649 [========>.....................] - ETA: 14s 55936/184649 [========>.....................] - ETA: 14s 56448/184649 [========>.....................] - ETA: 14s 56960/184649 [========>.....................] - ETA: 14s 57472/184649 [========>.....................] - ETA: 13s 57984/184649 [========>.....................] - ETA: 13s 58496/184649 [========>.....................] - ETA: 13s 59008/184649 [========>.....................] - ETA: 13s 59648/184649 [========>.....................] - ETA: 13s 60288/184649 [========>.....................] - ETA: 13s 60800/184649 [========>.....................] - ETA: 13s 61312/184649 [========>.....................] - ETA: 13s 61824/184649 [=========>....................] - ETA: 13s 62336/184649 [=========>....................] - ETA: 13s 62848/184649 [=========>....................] - ETA: 13s 63360/184649 [=========>....................] - ETA: 13s 63872/184649 [=========>....................] - ETA: 13s 64384/184649 [=========>....................] - ETA: 13s 64896/184649 [=========>....................] - ETA: 13s 65408/184649 [=========>....................] - ETA: 13s 65920/184649 [=========>....................] - ETA: 12s 66432/184649 [=========>....................] - ETA: 12s 66944/184649 [=========>....................] - ETA: 12s 67456/184649 [=========>....................] - ETA: 12s 67968/184649 [==========>...................] - ETA: 12s 68480/184649 [==========>...................] - ETA: 12s 68992/184649 [==========>...................] - ETA: 12s 69504/184649 [==========>...................] - ETA: 12s 70016/184649 [==========>...................] - ETA: 12s 70528/184649 [==========>...................] - ETA: 12s 71040/184649 [==========>...................] - ETA: 12s 71552/184649 [==========>...................] - ETA: 12s 72064/184649 [==========>...................] - ETA: 12s 72576/184649 [==========>...................] - ETA: 12s 73088/184649 [==========>...................] - ETA: 12s 73600/184649 [==========>...................] - ETA: 12s 74112/184649 [===========>..................] - ETA: 12s 74624/184649 [===========>..................] - ETA: 11s 75136/184649 [===========>..................] - ETA: 11s 75648/184649 [===========>..................] - ETA: 11s 76160/184649 [===========>..................] - ETA: 11s 76672/184649 [===========>..................] - ETA: 11s 77184/184649 [===========>..................] - ETA: 11s 77824/184649 [===========>..................] - ETA: 11s 78464/184649 [===========>..................] - ETA: 11s 78976/184649 [===========>..................] - ETA: 11s 79488/184649 [===========>..................] - ETA: 11s 80000/184649 [===========>..................] - ETA: 11s 80512/184649 [============>.................] - ETA: 11s 81024/184649 [============>.................] - ETA: 11s 81536/184649 [============>.................] - ETA: 11s 82048/184649 [============>.................] - ETA: 11s 82560/184649 [============>.................] - ETA: 11s 83072/184649 [============>.................] - ETA: 10s 83584/184649 [============>.................] - ETA: 10s 84096/184649 [============>.................] - ETA: 10s 84608/184649 [============>.................] - ETA: 10s 85120/184649 [============>.................] - ETA: 10s 85632/184649 [============>.................] - ETA: 10s 86144/184649 [============>.................] - ETA: 10s 86656/184649 [=============>................] - ETA: 10s 87168/184649 [=============>................] - ETA: 10s 87680/184649 [=============>................] - ETA: 10s 88192/184649 [=============>................] - ETA: 10s 88704/184649 [=============>................] - ETA: 10s 89216/184649 [=============>................] - ETA: 10s 89728/184649 [=============>................] - ETA: 10s 90240/184649 [=============>................] - ETA: 10s 90880/184649 [=============>................] - ETA: 10s 91392/184649 [=============>................] - ETA: 10s 91904/184649 [=============>................] - ETA: 10s 92416/184649 [==============>...............] - ETA: 9s  92928/184649 [==============>...............] - ETA: 9s 93440/184649 [==============>...............] - ETA: 9s 93952/184649 [==============>...............] - ETA: 9s 94464/184649 [==============>...............] - ETA: 9s 94976/184649 [==============>...............] - ETA: 9s 95488/184649 [==============>...............] - ETA: 9s 96000/184649 [==============>...............] - ETA: 9s 96512/184649 [==============>...............] - ETA: 9s 97024/184649 [==============>...............] - ETA: 9s 97536/184649 [==============>...............] - ETA: 9s 98048/184649 [==============>...............] - ETA: 9s 98688/184649 [===============>..............] - ETA: 9s 99328/184649 [===============>..............] - ETA: 9s 99840/184649 [===============>..............] - ETA: 9s100352/184649 [===============>..............] - ETA: 9s100864/184649 [===============>..............] - ETA: 9s101376/184649 [===============>..............] - ETA: 8s101888/184649 [===============>..............] - ETA: 8s102400/184649 [===============>..............] - ETA: 8s102912/184649 [===============>..............] - ETA: 8s103424/184649 [===============>..............] - ETA: 8s103936/184649 [===============>..............] - ETA: 8s104448/184649 [===============>..............] - ETA: 8s104960/184649 [================>.............] - ETA: 8s105472/184649 [================>.............] - ETA: 8s105984/184649 [================>.............] - ETA: 8s106496/184649 [================>.............] - ETA: 8s107008/184649 [================>.............] - ETA: 8s107520/184649 [================>.............] - ETA: 8s108032/184649 [================>.............] - ETA: 8s108544/184649 [================>.............] - ETA: 8s109056/184649 [================>.............] - ETA: 8s109568/184649 [================>.............] - ETA: 8s110080/184649 [================>.............] - ETA: 8s110592/184649 [================>.............] - ETA: 7s111104/184649 [=================>............] - ETA: 7s111616/184649 [=================>............] - ETA: 7s112128/184649 [=================>............] - ETA: 7s112640/184649 [=================>............] - ETA: 7s113152/184649 [=================>............] - ETA: 7s113664/184649 [=================>............] - ETA: 7s114176/184649 [=================>............] - ETA: 7s114688/184649 [=================>............] - ETA: 7s115200/184649 [=================>............] - ETA: 7s115712/184649 [=================>............] - ETA: 7s116224/184649 [=================>............] - ETA: 7s116736/184649 [=================>............] - ETA: 7s117248/184649 [==================>...........] - ETA: 7s117760/184649 [==================>...........] - ETA: 7s118272/184649 [==================>...........] - ETA: 7s118784/184649 [==================>...........] - ETA: 7s119296/184649 [==================>...........] - ETA: 7s119808/184649 [==================>...........] - ETA: 7s120320/184649 [==================>...........] - ETA: 6s120832/184649 [==================>...........] - ETA: 6s121344/184649 [==================>...........] - ETA: 6s121856/184649 [==================>...........] - ETA: 6s122368/184649 [==================>...........] - ETA: 6s122880/184649 [==================>...........] - ETA: 6s123392/184649 [===================>..........] - ETA: 6s123904/184649 [===================>..........] - ETA: 6s124416/184649 [===================>..........] - ETA: 6s124928/184649 [===================>..........] - ETA: 6s125440/184649 [===================>..........] - ETA: 6s125824/184649 [===================>..........] - ETA: 6s126336/184649 [===================>..........] - ETA: 6s126720/184649 [===================>..........] - ETA: 6s127232/184649 [===================>..........] - ETA: 6s127744/184649 [===================>..........] - ETA: 6s128256/184649 [===================>..........] - ETA: 6s128768/184649 [===================>..........] - ETA: 6s129280/184649 [====================>.........] - ETA: 6s129792/184649 [====================>.........] - ETA: 5s130304/184649 [====================>.........] - ETA: 5s130816/184649 [====================>.........] - ETA: 5s131328/184649 [====================>.........] - ETA: 5s131840/184649 [====================>.........] - ETA: 5s132352/184649 [====================>.........] - ETA: 5s132864/184649 [====================>.........] - ETA: 5s133376/184649 [====================>.........] - ETA: 5s133888/184649 [====================>.........] - ETA: 5s134400/184649 [====================>.........] - ETA: 5s134912/184649 [====================>.........] - ETA: 5s135424/184649 [=====================>........] - ETA: 5s135936/184649 [=====================>........] - ETA: 5s136448/184649 [=====================>........] - ETA: 5s136960/184649 [=====================>........] - ETA: 5s137472/184649 [=====================>........] - ETA: 5s137984/184649 [=====================>........] - ETA: 5s138496/184649 [=====================>........] - ETA: 5s139008/184649 [=====================>........] - ETA: 5s139520/184649 [=====================>........] - ETA: 4s140032/184649 [=====================>........] - ETA: 4s140544/184649 [=====================>........] - ETA: 4s141056/184649 [=====================>........] - ETA: 4s141568/184649 [======================>.......] - ETA: 4s142080/184649 [======================>.......] - ETA: 4s142592/184649 [======================>.......] - ETA: 4s143104/184649 [======================>.......] - ETA: 4s143616/184649 [======================>.......] - ETA: 4s144128/184649 [======================>.......] - ETA: 4s144640/184649 [======================>.......] - ETA: 4s145152/184649 [======================>.......] - ETA: 4s145664/184649 [======================>.......] - ETA: 4s146176/184649 [======================>.......] - ETA: 4s146688/184649 [======================>.......] - ETA: 4s147200/184649 [======================>.......] - ETA: 4s147712/184649 [======================>.......] - ETA: 4s148224/184649 [=======================>......] - ETA: 4s148736/184649 [=======================>......] - ETA: 3s149248/184649 [=======================>......] - ETA: 3s149760/184649 [=======================>......] - ETA: 3s150272/184649 [=======================>......] - ETA: 3s150784/184649 [=======================>......] - ETA: 3s151424/184649 [=======================>......] - ETA: 3s151936/184649 [=======================>......] - ETA: 3s152448/184649 [=======================>......] - ETA: 3s152960/184649 [=======================>......] - ETA: 3s153472/184649 [=======================>......] - ETA: 3s153984/184649 [========================>.....] - ETA: 3s154496/184649 [========================>.....] - ETA: 3s155008/184649 [========================>.....] - ETA: 3s155520/184649 [========================>.....] - ETA: 3s156032/184649 [========================>.....] - ETA: 3s156544/184649 [========================>.....] - ETA: 3s157056/184649 [========================>.....] - ETA: 3s157568/184649 [========================>.....] - ETA: 2s158080/184649 [========================>.....] - ETA: 2s158592/184649 [========================>.....] - ETA: 2s159104/184649 [========================>.....] - ETA: 2s159616/184649 [========================>.....] - ETA: 2s160128/184649 [=========================>....] - ETA: 2s160640/184649 [=========================>....] - ETA: 2s161024/184649 [=========================>....] - ETA: 2s161536/184649 [=========================>....] - ETA: 2s162048/184649 [=========================>....] - ETA: 2s162560/184649 [=========================>....] - ETA: 2s163072/184649 [=========================>....] - ETA: 2s163584/184649 [=========================>....] - ETA: 2s164096/184649 [=========================>....] - ETA: 2s164608/184649 [=========================>....] - ETA: 2s165120/184649 [=========================>....] - ETA: 2s165632/184649 [=========================>....] - ETA: 2s166016/184649 [=========================>....] - ETA: 2s166528/184649 [==========================>...] - ETA: 2s167040/184649 [==========================>...] - ETA: 1s167552/184649 [==========================>...] - ETA: 1s168064/184649 [==========================>...] - ETA: 1s168576/184649 [==========================>...] - ETA: 1s169088/184649 [==========================>...] - ETA: 1s169600/184649 [==========================>...] - ETA: 1s170112/184649 [==========================>...] - ETA: 1s170624/184649 [==========================>...] - ETA: 1s171136/184649 [==========================>...] - ETA: 1s171648/184649 [==========================>...] - ETA: 1s172160/184649 [==========================>...] - ETA: 1s172672/184649 [===========================>..] - ETA: 1s173184/184649 [===========================>..] - ETA: 1s173696/184649 [===========================>..] - ETA: 1s174208/184649 [===========================>..] - ETA: 1s174720/184649 [===========================>..] - ETA: 1s175232/184649 [===========================>..] - ETA: 1s175744/184649 [===========================>..] - ETA: 0s176256/184649 [===========================>..] - ETA: 0s176768/184649 [===========================>..] - ETA: 0s177280/184649 [===========================>..] - ETA: 0s177792/184649 [===========================>..] - ETA: 0s178304/184649 [===========================>..] - ETA: 0s178816/184649 [============================>.] - ETA: 0s179328/184649 [============================>.] - ETA: 0s179840/184649 [============================>.] - ETA: 0s180352/184649 [============================>.] - ETA: 0s180864/184649 [============================>.] - ETA: 0s181376/184649 [============================>.] - ETA: 0s181888/184649 [============================>.] - ETA: 0s182400/184649 [============================>.] - ETA: 0s182912/184649 [============================>.] - ETA: 0s183424/184649 [============================>.] - ETA: 0s183936/184649 [============================>.] - ETA: 0s184448/184649 [============================>.] - ETA: 0sI tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (256): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (512): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (1024): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (2048): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (4096): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (8192): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (16384): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (32768): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (65536): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (131072): 	Total Chunks: 1, Chunks in use: 0 172.0KiB allocated for chunks. 86.0KiB client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (262144): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (524288): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (1048576): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (2097152): 	Total Chunks: 1, Chunks in use: 0 3.52MiB allocated for chunks. 3.52MiB client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (4194304): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (8388608): 	Total Chunks: 1, Chunks in use: 0 14.09MiB allocated for chunks. 3.52MiB client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (16777216): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (33554432): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (67108864): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (134217728): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (268435456): 	Total Chunks: 1, Chunks in use: 0 591.65MiB allocated for chunks. 36.5KiB client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:660] Bin for 1.76GiB was 256.00MiB, Chunk State: 
+I tensorflow/core/common_runtime/bfc_allocator.cc:666]   Size: 591.65MiB | Requested Size: 36.5KiB | in_use: 0, prev:   Size: 32.0KiB | Requested Size: 32.0KiB | in_use: 1, next:   Size: 32.0KiB | Requested Size: 32.0KiB | in_use: 1
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ba0000 of size 1280
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ba0500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ba0600 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305be0600 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305be0e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305be0f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305be1000 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305bf1000 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305bf1400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305bf1500 of size 131072
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c11500 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21500 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21a00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21b00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21c00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21d00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c22000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c22100 of size 8192
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c24100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c24200 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c24a00 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c24e00 of size 73984
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c36f00 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c76f00 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c77700 of size 352256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ccd700 of size 131072
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ced700 of size 352256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d43700 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d83700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d83800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d83900 of size 8192
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85a00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85b00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85c00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85d00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d86000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d86100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d86200 of size 8192
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d88200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d88300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d88400 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d88c00 of size 352256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ddec00 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e1ec00 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e1f000 of size 131072
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e3f000 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e4f000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e4f100 of size 8192
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e51100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e51200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e51300 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e51b00 of size 352256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ea7b00 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ee7b00 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ee7f00 of size 131072
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f07f00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f17f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18a00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18b00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18c00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18d00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19a00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19b00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19c00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19d00 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f1dd00 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f21d00 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f25d00 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f29d00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f29e00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f39e00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f49e00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f59e00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f69e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f69f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6aa00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ab00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ac00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ad00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ae00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6af00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ba00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6bb00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6bc00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6bd00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6be00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6bf00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ca00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6cb00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6cc00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6cd00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ce00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6cf00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6da00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6db00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6dc00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6dd00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6de00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6df00 of size 2540770304
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d6aa300 of size 88064
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d6bfb00 of size 88064
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d6d5300 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d6e5300 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d6f5300 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d705300 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239e52ba00 of size 32768
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34d9800 of size 32768
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34e1800 of size 32768
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34e9800 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34ed800 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34f1800 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34f5800 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34f9800 of size 3627776
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c386f300 of size 32768
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c3bfcd00 of size 2540770304
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x245b30e100 of size 1890805760
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x24cbe44900 of size 3580678144
+I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x239d67f300 of size 176128
+I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x239d715300 of size 14771968
+I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x239e533a00 of size 620387840
+I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x23c3877300 of size 3693056
+I tensorflow/core/common_runtime/bfc_allocator.cc:693]      Summary of in-use Chunks by size: 
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 125 Chunks of size 256 totalling 31.2KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 5 Chunks of size 1024 totalling 5.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 1280 totalling 1.2KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 5 Chunks of size 2048 totalling 10.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 4 Chunks of size 8192 totalling 32.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 8 Chunks of size 16384 totalling 128.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 4 Chunks of size 32768 totalling 128.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 12 Chunks of size 65536 totalling 768.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 73984 totalling 72.2KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 2 Chunks of size 88064 totalling 172.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 4 Chunks of size 131072 totalling 512.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 5 Chunks of size 262144 totalling 1.25MiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 4 Chunks of size 352256 totalling 1.34MiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 3627776 totalling 3.46MiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 1890805760 totalling 1.76GiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 2 Chunks of size 2540770304 totalling 4.73GiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 3580678144 totalling 3.33GiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:700] Sum Total of in-use chunks: 9.84GiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:702] Stats: 
+Limit:                 11200305562
+InUse:                 10561276416
+MaxInUse:              10572355584
+NumAllocs:              1071111412
+MaxAllocSize:           3580678144
+
+W tensorflow/core/common_runtime/bfc_allocator.cc:274] ***********************_____*********************************************************xxxxxxxxxxxxxxx
+W tensorflow/core/common_runtime/bfc_allocator.cc:275] Ran out of memory trying to allocate 1.76GiB.  See logs for memory state.
+W tensorflow/core/framework/op_kernel.cc:993] Resource exhausted: OOM when allocating tensor with shape[3692980,128]
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (256): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (512): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (1024): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (2048): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (4096): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (8192): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (16384): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (32768): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (65536): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (131072): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (262144): 	Total Chunks: 1, Chunks in use: 0 258.0KiB allocated for chunks. 86.0KiB client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (524288): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (1048576): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (2097152): 	Total Chunks: 1, Chunks in use: 0 3.52MiB allocated for chunks. 3.52MiB client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (4194304): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (8388608): 	Total Chunks: 1, Chunks in use: 0 14.09MiB allocated for chunks. 3.52MiB client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (16777216): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (33554432): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (67108864): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (134217728): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (268435456): 	Total Chunks: 1, Chunks in use: 0 591.65MiB allocated for chunks. 36.5KiB client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+I tensorflow/core/common_runtime/bfc_allocator.cc:660] Bin for 1.76GiB was 256.00MiB, Chunk State: 
+I tensorflow/core/common_runtime/bfc_allocator.cc:666]   Size: 591.65MiB | Requested Size: 36.5KiB | in_use: 0, prev:   Size: 32.0KiB | Requested Size: 32.0KiB | in_use: 1, next:   Size: 32.0KiB | Requested Size: 32.0KiB | in_use: 1
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ba0000 of size 1280
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ba0500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ba0600 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305be0600 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305be0e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305be0f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305be1000 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305bf1000 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305bf1400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305bf1500 of size 131072
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c11500 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21500 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21a00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21b00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21c00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21d00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c21f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c22000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c22100 of size 8192
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c24100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c24200 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c24a00 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c24e00 of size 73984
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c36f00 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c76f00 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305c77700 of size 352256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ccd700 of size 131072
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ced700 of size 352256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d43700 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d83700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d83800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d83900 of size 8192
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85a00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85b00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85c00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85d00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d85f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d86000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d86100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d86200 of size 8192
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d88200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d88300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d88400 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305d88c00 of size 352256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ddec00 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e1ec00 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e1f000 of size 131072
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e3f000 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e4f000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e4f100 of size 8192
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e51100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e51200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e51300 of size 2048
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305e51b00 of size 352256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ea7b00 of size 262144
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ee7b00 of size 1024
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305ee7f00 of size 131072
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f07f00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f17f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18a00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18b00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18c00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18d00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f18f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19a00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19b00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19c00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f19d00 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f1dd00 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f21d00 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f25d00 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f29d00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f29e00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f39e00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f49e00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f59e00 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f69e00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f69f00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6a900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6aa00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ab00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ac00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ad00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ae00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6af00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6b900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ba00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6bb00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6bc00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6bd00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6be00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6bf00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6c900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ca00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6cb00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6cc00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6cd00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6ce00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6cf00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d000 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d100 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d200 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d300 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d400 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d500 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d600 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d700 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d800 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6d900 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6da00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6db00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6dc00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6dd00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6de00 of size 256
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x2305f6df00 of size 2540770304
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d6bfb00 of size 88064
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d6d5300 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d6e5300 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d6f5300 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239d705300 of size 65536
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x239e52ba00 of size 32768
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34d9800 of size 32768
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34e1800 of size 32768
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34e9800 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34ed800 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34f1800 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34f5800 of size 16384
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c34f9800 of size 3627776
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c386f300 of size 32768
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x23c3bfcd00 of size 2540770304
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x245b30e100 of size 1890805760
+I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x24cbe44900 of size 3580678144
+I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x239d67f300 of size 264192
+I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x239d715300 of size 14771968
+I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x239e533a00 of size 620387840
+I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x23c3877300 of size 3693056
+I tensorflow/core/common_runtime/bfc_allocator.cc:693]      Summary of in-use Chunks by size: 
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 125 Chunks of size 256 totalling 31.2KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 5 Chunks of size 1024 totalling 5.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 1280 totalling 1.2KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 5 Chunks of size 2048 totalling 10.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 4 Chunks of size 8192 totalling 32.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 8 Chunks of size 16384 totalling 128.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 4 Chunks of size 32768 totalling 128.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 12 Chunks of size 65536 totalling 768.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 73984 totalling 72.2KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 88064 totalling 86.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 4 Chunks of size 131072 totalling 512.0KiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 5 Chunks of size 262144 totalling 1.25MiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 4 Chunks of size 352256 totalling 1.34MiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 3627776 totalling 3.46MiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 1890805760 totalling 1.76GiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 2 Chunks of size 2540770304 totalling 4.73GiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 3580678144 totalling 3.33GiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:700] Sum Total of in-use chunks: 9.83GiB
+I tensorflow/core/common_runtime/bfc_allocator.cc:702] Stats: 
+Limit:                 11200305562
+InUse:                 10561188352
+MaxInUse:              10572355584
+NumAllocs:              1071111412
+MaxAllocSize:           3580678144
+
+W tensorflow/core/common_runtime/bfc_allocator.cc:274] ***********************_____*********************************************************xxxxxxxxxxxxxxx
+W tensorflow/core/common_runtime/bfc_allocator.cc:275] Ran out of memory trying to allocate 1.76GiB.  See logs for memory state.
+W tensorflow/core/framework/op_kernel.cc:993] Resource exhausted: OOM when allocating tensor with shape[3692980,128]
+
+confusion_matrix:
+
+[[182990    249]
+ [   501    909]]
+('Precision:', 0.7849740932642487)
+('Recall:', 0.6446808510638298)
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+reshape_1 (Reshape)          (None, 5, 172)            0         
+_________________________________________________________________
+masking_1 (Masking)          (None, 5, 172)            0         
+_________________________________________________________________
+lstm_1 (LSTM)                (None, 5, 128)            154112    
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 5, 128)            0         
+_________________________________________________________________
+lstm_2 (LSTM)                (None, 64)                49408     
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 64)                0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 32)                2080      
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 32)                0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 205,633
+Trainable params: 205,633
+Non-trainable params: 0
+_________________________________________________________________
+None
+Traceback (most recent call last):
+  File "LSTM_RF.py", line 204, in <module>
+    layer_output_train = f_dense1([X_train])[0]
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/backend/tensorflow_backend.py", line 2103, in __call__
+    feed_dict=feed_dict)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.ResourceExhaustedError: OOM when allocating tensor with shape[3692980,128]
+	 [[Node: lstm_1/MatMul_2 = MatMul[T=DT_FLOAT, transpose_a=false, transpose_b=false, _device="/job:localhost/replica:0/task:0/gpu:0"](lstm_1/Reshape_5, lstm_1/strided_slice_2)]]
+	 [[Node: lstm_1/while/Identity/_674 = _Recv[client_terminated=false, recv_device="/job:localhost/replica:0/task:0/cpu:0", send_device="/job:localhost/replica:0/task:0/gpu:0", send_device_incarnation=1, tensor_name="edge_12_lstm_1/while/Identity", tensor_type=DT_FLOAT, _device="/job:localhost/replica:0/task:0/cpu:0"](^_clooplstm_1/while/Const_5/_637)]]
+
+Caused by op u'lstm_1/MatMul_2', defined at:
+  File "LSTM_RF.py", line 175, in <module>
+    classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight='balanced',  validation_data=(X_test, y_test), verbose=2)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/wrappers/scikit_learn.py", line 206, in fit
+    return super(KerasClassifier, self).fit(x, y, **kwargs)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/wrappers/scikit_learn.py", line 138, in fit
+    self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+  File "LSTM_RF.py", line 127, in classifier_builder
+    classifier.add(LSTM(128, input_shape=(timesteps, data_dim), recurrent_dropout=0.2, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/models.py", line 463, in add
+    output_tensor = layer(self.outputs[0])
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/layers/recurrent.py", line 257, in __call__
+    return super(Recurrent, self).__call__(inputs, **kwargs)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/engine/topology.py", line 578, in __call__
+    output = self.call(inputs, **kwargs)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/layers/recurrent.py", line 295, in call
+    preprocessed_input = self.preprocess_input(inputs, training=None)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/layers/recurrent.py", line 1034, in preprocess_input
+    timesteps, training=training)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/layers/recurrent.py", line 50, in _time_distributed_dense
+    x = K.dot(x, w)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/keras/backend/tensorflow_backend.py", line 848, in dot
+    out = tf.matmul(x, y)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/tensorflow/python/ops/math_ops.py", line 1855, in matmul
+    a, b, transpose_a=transpose_a, transpose_b=transpose_b, name=name)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/tensorflow/python/ops/gen_math_ops.py", line 1454, in _mat_mul
+    transpose_b=transpose_b, name=name)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2395, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/usr/local/anaconda/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1264, in __init__
+    self._traceback = _extract_stack()
+
+ResourceExhaustedError (see above for traceback): OOM when allocating tensor with shape[3692980,128]
+	 [[Node: lstm_1/MatMul_2 = MatMul[T=DT_FLOAT, transpose_a=false, transpose_b=false, _device="/job:localhost/replica:0/task:0/gpu:0"](lstm_1/Reshape_5, lstm_1/strided_slice_2)]]
+	 [[Node: lstm_1/while/Identity/_674 = _Recv[client_terminated=false, recv_device="/job:localhost/replica:0/task:0/cpu:0", send_device="/job:localhost/replica:0/task:0/gpu:0", send_device_incarnation=1, tensor_name="edge_12_lstm_1/while/Identity", tensor_type=DT_FLOAT, _device="/job:localhost/replica:0/task:0/cpu:0"](^_clooplstm_1/while/Const_5/_637)]]
+

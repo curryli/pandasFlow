@@ -1,0 +1,210 @@
+Train on 738596 samples, validate on 184649 samples
+Epoch 1/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 3031 get requests, put_count=2594 evicted_count=1000 eviction_rate=0.385505 and unsatisfied allocation rate=0.507093
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:259] Raising pool_size_limit_ from 100 to 110
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 3151 get requests, put_count=3209 evicted_count=1000 eviction_rate=0.311624 and unsatisfied allocation rate=0.306252
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:259] Raising pool_size_limit_ from 256 to 281
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 2686212 get requests, put_count=2686219 evicted_count=2000 eviction_rate=0.000744541 and unsatisfied allocation rate=0.00076204
+318s - loss: 0.0265 - mean_absolute_error: 0.0126 - acc: 0.9926 - val_loss: 0.0220 - val_mean_absolute_error: 0.0101 - val_acc: 0.9938
+Epoch 2/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 8085450 get requests, put_count=8085456 evicted_count=12000 eviction_rate=0.00148415 and unsatisfied allocation rate=0.00149008
+313s - loss: 0.0205 - mean_absolute_error: 0.0095 - acc: 0.9944 - val_loss: 0.0201 - val_mean_absolute_error: 0.0095 - val_acc: 0.9946
+Epoch 3/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 13491996 get requests, put_count=13492003 evicted_count=22000 eviction_rate=0.0016306 and unsatisfied allocation rate=0.00163408
+317s - loss: 0.0190 - mean_absolute_error: 0.0088 - acc: 0.9949 - val_loss: 0.0196 - val_mean_absolute_error: 0.0086 - val_acc: 0.9947
+Epoch 4/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 18898542 get requests, put_count=18898549 evicted_count=32000 eviction_rate=0.00169325 and unsatisfied allocation rate=0.00169574
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 24090354 get requests, put_count=24090361 evicted_count=42000 eviction_rate=0.00174344 and unsatisfied allocation rate=0.00174539
+319s - loss: 0.0178 - mean_absolute_error: 0.0083 - acc: 0.9951 - val_loss: 0.0192 - val_mean_absolute_error: 0.0076 - val_acc: 0.9950
+Epoch 5/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 29482284 get requests, put_count=29482290 evicted_count=52000 eviction_rate=0.00176377 and unsatisfied allocation rate=0.0017654
+320s - loss: 0.0171 - mean_absolute_error: 0.0080 - acc: 0.9953 - val_loss: 0.0187 - val_mean_absolute_error: 0.0083 - val_acc: 0.9951
+Epoch 6/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 34883610 get requests, put_count=34883617 evicted_count=62000 eviction_rate=0.00177734 and unsatisfied allocation rate=0.00177869
+321s - loss: 0.0164 - mean_absolute_error: 0.0077 - acc: 0.9954 - val_loss: 0.0196 - val_mean_absolute_error: 0.0089 - val_acc: 0.9946
+Epoch 7/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 40278672 get requests, put_count=40278678 evicted_count=72000 eviction_rate=0.00178755 and unsatisfied allocation rate=0.00178874
+320s - loss: 0.0156 - mean_absolute_error: 0.0073 - acc: 0.9957 - val_loss: 0.0176 - val_mean_absolute_error: 0.0081 - val_acc: 0.9953
+Epoch 8/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 45666426 get requests, put_count=45666432 evicted_count=82000 eviction_rate=0.00179563 and unsatisfied allocation rate=0.00179668
+312s - loss: 0.0151 - mean_absolute_error: 0.0071 - acc: 0.9957 - val_loss: 0.0175 - val_mean_absolute_error: 0.0075 - val_acc: 0.9953
+Epoch 9/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 51056268 get requests, put_count=51056274 evicted_count=92000 eviction_rate=0.00180193 and unsatisfied allocation rate=0.00180287
+299s - loss: 0.0148 - mean_absolute_error: 0.0070 - acc: 0.9958 - val_loss: 0.0177 - val_mean_absolute_error: 0.0071 - val_acc: 0.9952
+Epoch 10/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 56452374 get requests, put_count=56452380 evicted_count=102000 eviction_rate=0.00180683 and unsatisfied allocation rate=0.00180768
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 61649406 get requests, put_count=61649413 evicted_count=112000 eviction_rate=0.00181672 and unsatisfied allocation rate=0.00181749
+316s - loss: 0.0144 - mean_absolute_error: 0.0068 - acc: 0.9959 - val_loss: 0.0171 - val_mean_absolute_error: 0.0066 - val_acc: 0.9954
+Epoch 11/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 67054908 get requests, put_count=67054914 evicted_count=122000 eviction_rate=0.0018194 and unsatisfied allocation rate=0.00182012
+316s - loss: 0.0139 - mean_absolute_error: 0.0066 - acc: 0.9960 - val_loss: 0.0171 - val_mean_absolute_error: 0.0072 - val_acc: 0.9954
+Epoch 12/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 72454146 get requests, put_count=72454152 evicted_count=132000 eviction_rate=0.00182184 and unsatisfied allocation rate=0.0018225
+293s - loss: 0.0135 - mean_absolute_error: 0.0065 - acc: 0.9961 - val_loss: 0.0170 - val_mean_absolute_error: 0.0075 - val_acc: 0.9955
+Epoch 13/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 77852340 get requests, put_count=77852346 evicted_count=142000 eviction_rate=0.00182397 and unsatisfied allocation rate=0.00182458
+302s - loss: 0.0134 - mean_absolute_error: 0.0064 - acc: 0.9962 - val_loss: 0.0171 - val_mean_absolute_error: 0.0066 - val_acc: 0.9956
+Epoch 14/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 83246358 get requests, put_count=83246365 evicted_count=152000 eviction_rate=0.00182591 and unsatisfied allocation rate=0.00182647
+301s - loss: 0.0130 - mean_absolute_error: 0.0061 - acc: 0.9962 - val_loss: 0.0164 - val_mean_absolute_error: 0.0070 - val_acc: 0.9955
+Epoch 15/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 88648728 get requests, put_count=88648735 evicted_count=162000 eviction_rate=0.00182744 and unsatisfied allocation rate=0.00182797
+310s - loss: 0.0127 - mean_absolute_error: 0.0061 - acc: 0.9963 - val_loss: 0.0165 - val_mean_absolute_error: 0.0065 - val_acc: 0.9956
+Epoch 16/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 94043790 get requests, put_count=94043797 evicted_count=172000 eviction_rate=0.00182894 and unsatisfied allocation rate=0.00182943
+314s - loss: 0.0123 - mean_absolute_error: 0.0059 - acc: 0.9964 - val_loss: 0.0176 - val_mean_absolute_error: 0.0063 - val_acc: 0.9955
+Epoch 17/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 99439896 get requests, put_count=99439902 evicted_count=182000 eviction_rate=0.00183025 and unsatisfied allocation rate=0.00183073
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 104644236 get requests, put_count=104644243 evicted_count=192000 eviction_rate=0.00183479 and unsatisfied allocation rate=0.00183524
+314s - loss: 0.0122 - mean_absolute_error: 0.0058 - acc: 0.9964 - val_loss: 0.0165 - val_mean_absolute_error: 0.0064 - val_acc: 0.9957
+Epoch 18/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 110040342 get requests, put_count=110040348 evicted_count=202000 eviction_rate=0.00183569 and unsatisfied allocation rate=0.00183613
+310s - loss: 0.0120 - mean_absolute_error: 0.0058 - acc: 0.9965 - val_loss: 0.0166 - val_mean_absolute_error: 0.0066 - val_acc: 0.9957
+Epoch 19/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 115433316 get requests, put_count=115433323 evicted_count=212000 eviction_rate=0.00183656 and unsatisfied allocation rate=0.00183697
+310s - loss: 0.0118 - mean_absolute_error: 0.0057 - acc: 0.9965 - val_loss: 0.0162 - val_mean_absolute_error: 0.0071 - val_acc: 0.9957
+Epoch 20/20
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 120822114 get requests, put_count=120822120 evicted_count=222000 eviction_rate=0.00183741 and unsatisfied allocation rate=0.00183781
+285s - loss: 0.0115 - mean_absolute_error: 0.0055 - acc: 0.9966 - val_loss: 0.0171 - val_mean_absolute_error: 0.0057 - val_acc: 0.9959
+After set  0
+184448/184649 [============================>.] - ETA: 0s  
+confusion_matrix:
+
+[[183122    117]
+ [   650    760]]
+('Precision:', 0.8665906499429875)
+('Recall:', 0.5390070921985816)
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+reshape_1 (Reshape)          (None, 5, 172)            0         
+_________________________________________________________________
+masking_1 (Masking)          (None, 5, 172)            0         
+_________________________________________________________________
+lstm_1 (LSTM)                (None, 5, 128)            154112    
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 5, 128)            0         
+_________________________________________________________________
+lstm_2 (LSTM)                (None, 64)                49408     
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 64)                0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 32)                2080      
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 32)                0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 205,633
+Trainable params: 205,633
+Non-trainable params: 0
+_________________________________________________________________
+None
+layer_output_train.shape:  (1, 204) y_train.shape (1, 1)
+1
+10001
+20001
+30001
+40001
+50001
+60001
+70001
+80001
+90001
+100001
+110001
+120001
+130001
+140001
+150001
+160001
+170001
+180001
+190001
+200001
+210001
+220001
+230001
+240001
+250001
+260001
+270001
+280001
+290001
+300001
+310001
+320001
+330001
+340001
+350001
+360001
+370001
+380001
+390001
+400001
+410001
+420001
+430001
+440001
+450001
+460001
+470001
+480001
+490001
+500001
+510001
+520001
+530001
+540001
+550001
+560001
+570001
+580001
+590001
+600001
+610001
+620001
+630001
+640001
+650001
+660001
+670001
+680001
+690001
+700001
+710001
+720001
+730001
+layer_output_train.shape:  (738596, 204) y_train.shape (738596, 1)
+layer_output_test.shape:  (1, 204) y_test.shape (1, 1)
+1
+10001
+20001
+30001
+40001
+50001
+60001
+70001
+80001
+90001
+100001
+110001
+120001
+130001
+140001
+150001
+160001
+170001
+180001
+layer_output_test.shape:  (184649, 204) y_test.shape (184649, 1)
+start fit RF:
+
+0.996853489594
+
+confusion_matrix:
+
+[[183163    108]
+ [   473    905]]
+('Precision:', 0.8933859822309971)
+('Recall:', 0.6567489114658926)
+[root@localhost LSTM]# 

@@ -1,0 +1,138 @@
+828 - val_loss: 0.0674 - val_mean_absolute_error: 0.0428 - val_acc: 0.9820
+Epoch 20/20
+34s - loss: 0.0624 - mean_absolute_error: 0.0409 - acc: 0.9830 - val_loss: 0.0678 - val_mean_absolute_error: 0.0417 - val_acc: 0.9821
+After set  0
+24448/24545 [============================>.] - ETA: 0s 
+confusion_matrix:
+
+[[17245   217]
+ [  230  6853]]
+('Precision:', 0.9693069306930693)
+('Recall:', 0.9675278836651137)
+__________
+None
+(98176, 32)
+(98176, 32)
+start fit RF:
+
+0.984844163781
+
+confusion_matrix:
+
+[[17358   197]
+ [  175  6815]]
+('Precision:', 0.971905305191101)
+('Recall:', 0.974964234620887)
+
+
+
+
+
+
+  
+Epoch 1/1
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 3031 get requests, put_count=2591 evicted_count=1000 eviction_rate=0.385951 and unsatisfied allocation rate=0.508083
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:259] Raising pool_size_limit_ from 100 to 110
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:247] PoolAllocator: After 3150 get requests, put_count=3212 evicted_count=1000 eviction_rate=0.311333 and unsatisfied allocation rate=0.305079
+I tensorflow/core/common_runtime/gpu/pool_allocator.cc:259] Raising pool_size_limit_ from 256 to 281
+39s - loss: 0.1955 - mean_absolute_error: 0.1242 - acc: 0.9282 - val_loss: 0.1034 - val_mean_absolute_error: 0.0588 - val_acc: 0.9722
+After set  0
+24320/24545 [============================>.] - ETA: 0s 
+confusion_matrix:
+
+[[17072   390]
+ [  312  6771]]
+('Precision:', 0.9455383326351068)
+('Recall:', 0.9559508682761542)
+ 
+None
+(98176, 64)
+(98176, 899)
+(98176, 899)
+(24545, 899)
+start fit RF:
+
+0.983703401915
+
+confusion_matrix:
+
+[[17273   207]
+ [  193  6872]]
+('Precision:', 0.970758581720582)
+('Recall:', 0.9726822363765039)
+ 
+ 
+ 
+ 
+ 
+ 
+37s - loss: 0.0706 - mean_absolute_error: 0.0448 - acc: 0.9799 - val_loss: 0.0746 - val_mean_absolute_error: 0.0451 - val_acc: 0.9785
+Epoch 10/10
+37s - loss: 0.0698 - mean_absolute_error: 0.0441 - acc: 0.9810 - val_loss: 0.0699 - val_mean_absolute_error: 0.0448 - val_acc: 0.9811
+After set  0
+24545/24545 [==============================] - 2s      
+
+confusion_matrix:
+
+[[17248   214]
+ [  309  6774]]
+('Precision:', 0.9693760732684602)
+('Recall:', 0.9563744176196527) 
+0.985740476675
+
+confusion_matrix:
+
+[[17302   168]
+ [  182  6893]]
+('Precision:', 0.976207336071378)
+('Recall:', 0.9742756183745583)
+ 
+ 
+ 
+  [0]]
+(24545,)
+(2, 24545)
+(24545, 1)
+[[17228   234]
+ [  447  6636]]
+('Precision:', 0.965938864628821)
+('Recall:', 0.9368911478187208)
+
+
+根据周五讨论结果,去除标签不确定的样本，     
+较平衡数据下：
+正约18万，负约3万      正负笔5:1
+
+
+随机森林
+#[17429   149]
+# [  133  6834]
+('Precision:', 0.97.8)
+('Recall:', 0.98 )
+
+LSTM
+[[17223   239]
+ [  282  6801]]
+('Precision:', 0.9660511363636364)
+('Recall:', 0.9601863617111394)
+
+
+
+
+
+不平衡数据下的情况：
+正约55万，负约2万5   正负比22:1
+ 
+
+测试结果
+随机森林
+[[107917    398]
+ [   766   4166]]
+('Precision:', 0.9127957931638914)
+('Recall:', 0.8446877534468775)
+
+LSTM
+[[107872    490]
+ [  1086   3799]]
+('Precision:', 0.8857542550711122)
+('Recall:', 0.7776867963152507)

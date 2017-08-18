@@ -51,14 +51,14 @@ warnings.filterwarnings('ignore')
 
 labelName="label"
 cardName = "pri_acct_no_conv" 
-runEpoch=2
+runEpoch=10
 
 #modelName = "lstm_reshape_5.md"
 
 BS = 128
 #runLoop = 50
 
-Alldata = pd.read_csv('convert5_weika_GBDT_07.csv')
+Alldata = pd.read_csv('convert_5_card_GBDT.csv')
 #Alldata = pd.read_csv('convert_5_card.csv')
 #Alldata = pd.read_csv('convert_5_card_more.csv')
 
@@ -221,16 +221,16 @@ layer_output_test = np.hstack((layer_output_test,X_test[:, (timesteps-1)*data_di
 #layer_output_test = layer_output_test.reshape(layer_output_test.shape[0],layer_output_test.shape[1]*layer_output_test.shape[2])
 print  layer_output_test.shape 
 
-lstm_feature = np.vstack((layer_output_train,layer_output_test))
-
+ 
 #print y_train.shape, y_test.shape
 
 y_train = y_train.values.reshape(y_train.values.shape[0],1)
 y_test = y_test.values.reshape(y_test.values.shape[0],1)
 
-lstm_label  = np.vstack((y_train, y_test))
+ 
   
-X_train, X_test, y_train, y_test = train_test_split(lstm_feature, lstm_label , test_size=0.2)
+X_train = layer_output_train
+X_test = layer_output_test
  
 
 #n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
@@ -286,3 +286,11 @@ print ("Recall:", recall_p)
 #_________________________________________________________________
 #dense_2 (Dense)              (None, 1)                 8       
 #=================================================================
+
+
+#confusion_matrix:
+#
+#[[17500    96]
+# [   77  6872]]
+#('Precision:', 0.9862227324913893)
+#('Recall:', 0.9889192689595625)

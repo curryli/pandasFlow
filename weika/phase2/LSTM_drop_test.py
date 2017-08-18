@@ -28,6 +28,7 @@ from keras.optimizers import SGD
 from keras.datasets import mnist
 from keras.layers import BatchNormalization
 from sklearn.svm import SVC
+import theano
 from keras.utils import np_utils
 from keras.models import load_model
 from sklearn.utils.class_weight import compute_class_weight, compute_sample_weight
@@ -38,8 +39,6 @@ from sklearn.utils import shuffle
 from sklearn.metrics import confusion_matrix
 from keras import regularizers
 from keras.layers.wrappers import Bidirectional
- 
-from sklearn.ensemble import RandomForestClassifier 
 
 import os                          #python miscellaneous OS system tool
 #os.chdir("C:/work/unionpay/") #changing our directory to which we have our data file
@@ -51,15 +50,15 @@ warnings.filterwarnings('ignore')
 
 labelName="label"
 cardName = "pri_acct_no_conv" 
-runEpoch=2
+runEpoch=10
 
 #modelName = "lstm_reshape_5.md"
 
 BS = 128
 #runLoop = 50
 
-Alldata = pd.read_csv('convert5_weika_GBDT_07.csv')
-#Alldata = pd.read_csv('convert_5_card.csv')
+#Alldata = pd.read_csv('convert_5_card_GBDT.csv')
+Alldata = pd.read_csv('convert_5_card.csv')
 #Alldata = pd.read_csv('convert_5_card_more.csv')
 
 
@@ -124,13 +123,13 @@ def classifier_builder ():
     classifier.add(Masking(mask_value= -1, input_shape=(timesteps, data_dim)))
  
     
-    classifier.add(LSTM(128, input_shape=(timesteps, data_dim), recurrent_dropout=0.2, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    classifier.add(Dropout(0.2))
-    classifier.add(LSTM(64,  recurrent_dropout=0.2, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
-    classifier.add(Dropout(0.2))
+    classifier.add(LSTM(128, input_shape=(timesteps, data_dim), recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
+    classifier.add(Dropout(0.7))
+    classifier.add(LSTM(64,  recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
+    classifier.add(Dropout(0.7))
      
-    classifier.add(Dense(32, activation='relu'))
-    classifier.add(Dropout(0.2))
+    classifier.add(Dense(32, activation='sigmoid'))
+    classifier.add(Dropout(0.7))
     
     
     classifier.add(Dense(1, activation='sigmoid', kernel_constraint=maxnorm(2)))  #'tanh'  'sigmoid'
@@ -172,7 +171,7 @@ print "After set ", bk.learning_phase()
 
 #classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights,  validation_data=(X_test, y_test), verbose=2)
   
-classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight='balanced',  validation_data=(X_test, y_test), verbose=2)
+classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch,  validation_data=(X_test, y_test), verbose=2)
 
 
 bk.set_learning_phase(0)  #测试阶段
@@ -182,107 +181,24 @@ y_predict=classifier.predict(X_test,batch_size=BS)
 y_predict =  [j[0] for j in y_predict]
 y_predict = np.where(np.array(y_predict)<0.5,0,1)
  
-print  "\nconfusion_matrix:\n"
-confusion_matrix_1=confusion_matrix(y_test,y_predict)
-print  confusion_matrix_1
+confusion_matrix=confusion_matrix(y_test,y_predict)
+print  confusion_matrix
 
 
-precision_p = float(confusion_matrix_1[1][1])/float((confusion_matrix_1[0][1] + confusion_matrix_1[1][1]))
-recall_p = float(confusion_matrix_1[1][1])/float((confusion_matrix_1[1][0] + confusion_matrix_1[1][1]))
+precision_p = float(confusion_matrix[1][1])/float((confusion_matrix[0][1] + confusion_matrix[1][1]))
+recall_p = float(confusion_matrix[1][1])/float((confusion_matrix[1][0] + confusion_matrix[1][1]))
  
 print ("Precision:", precision_p) 
 print ("Recall:", recall_p) 
 
-if(os.access("lstm_model.h5", os.F_OK)):
-    print(classifier.summary())
-    f_dense1 = K.function([classifier.layers[0].input],   [classifier.layers[6].output])
+if(os.access("lstm_lxr.md", os.F_OK)):
+    print(classifier.summary()) 
+    classifier.save('lstm_lxr.md')
 else:
     print(classifier.model.summary())
-    f_dense1 = K.function([classifier.model.layers[0].input],  [classifier.model.layers[6].output])
-
- 
-layer_output_train = f_dense1([X_train])[0]
-print layer_output_train.shape
-
-#把LSTM和随机森林特征结合
-layer_output_train = np.hstack((layer_output_train,X_train[:, (timesteps-1)*data_dim: ]))
-print layer_output_train.shape
-
-# LSTMs (None, 64)  不需要reshape
-#layer_output_train = layer_output_train.reshape(layer_output_train.shape[0],layer_output_train.shape[1]*layer_output_train.shape[2])
-print  layer_output_train.shape 
-#lo = pd.DataFrame(layer_output)
-#lo.to_csv("lstm_output.csv")
+    classifier.model.save('lstm_lxr.md')
     
     
-
-layer_output_test = f_dense1([X_test])[0]
-layer_output_test = np.hstack((layer_output_test,X_test[:, (timesteps-1)*data_dim: ]))
-#layer_output_test = layer_output_test.reshape(layer_output_test.shape[0],layer_output_test.shape[1]*layer_output_test.shape[2])
-print  layer_output_test.shape 
-
-lstm_feature = np.vstack((layer_output_train,layer_output_test))
-
-#print y_train.shape, y_test.shape
-
-y_train = y_train.values.reshape(y_train.values.shape[0],1)
-y_test = y_test.values.reshape(y_test.values.shape[0],1)
-
-lstm_label  = np.vstack((y_train, y_test))
-  
-X_train, X_test, y_train, y_test = train_test_split(lstm_feature, lstm_label , test_size=0.2)
+#('Precision:', 0.9660511363636364)
+#('Recall:', 0.9601863617111394)
  
-
-#n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
-clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
-
-print  "start fit RF:\n"
-
-clf = clf.fit(X_train, y_train)
-  
-print clf.score(X_test, y_test)
-
-pred = clf.predict(X_test) 
-
-
-#print type(y_test),type(pred)
-#confusion_matrix=confusion_matrix(y_test.tolist(), pred.tolist())
-
-#上面confusion_matrix要新起一个名字，否则会报错  TypeError: 'numpy.ndarray' object is not callable，和内部变量冲突了
-confusion_matrix_2=confusion_matrix(y_test, pred)
-print  "\nconfusion_matrix:\n"
-print  confusion_matrix_2
-
-
-precision_p = float(confusion_matrix_2[1][1])/float((confusion_matrix_2[0][1] + confusion_matrix_2[1][1]))
-recall_p = float(confusion_matrix_2[1][1])/float((confusion_matrix_2[1][0] + confusion_matrix_2[1][1]))
- 
-print ("Precision:", precision_p) 
-print ("Recall:", recall_p) 
-
- 
- 
-
-
-
-#_________________________________________________________________
-#Layer (type)                 Output Shape                
-#=================================================================
-#reshape_1 (Reshape)          (None, 5, 67)             0        
-#_________________________________________________________________
-#masking_1 (Masking)          (None, 5, 67)             1         
-#_________________________________________________________________
-#lstm_1 (LSTM)                (None, 5, 128)            2    
-#_________________________________________________________________
-#dropout_1 (Dropout)          (None, 5, 128)            3         
-#_________________________________________________________________
-#lstm_2 (LSTM)                (None, 64)                4     
-#_________________________________________________________________
-#dropout_2 (Dropout)          (None, 64)                5        
-#_________________________________________________________________
-#dense_1 (Dense)              (None, 32)                6     
-#_________________________________________________________________
-#dropout_3 (Dropout)          (None, 32)                7         
-#_________________________________________________________________
-#dense_2 (Dense)              (None, 1)                 8       
-#=================================================================

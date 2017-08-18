@@ -28,6 +28,7 @@ from keras.optimizers import SGD
 from keras.datasets import mnist
 from keras.layers import BatchNormalization
 from sklearn.svm import SVC
+import theano
 from keras.utils import np_utils
 from keras.models import load_model
 from sklearn.utils.class_weight import compute_class_weight, compute_sample_weight
@@ -51,14 +52,14 @@ warnings.filterwarnings('ignore')
 
 labelName="label"
 cardName = "pri_acct_no_conv" 
-runEpoch=2
+runEpoch=10
 
 #modelName = "lstm_reshape_5.md"
 
 BS = 128
 #runLoop = 50
 
-Alldata = pd.read_csv('convert5_weika_GBDT_07.csv')
+Alldata = pd.read_csv('convert_5_card.csv')
 #Alldata = pd.read_csv('convert_5_card.csv')
 #Alldata = pd.read_csv('convert_5_card_more.csv')
 
@@ -124,13 +125,13 @@ def classifier_builder ():
     classifier.add(Masking(mask_value= -1, input_shape=(timesteps, data_dim)))
  
     
-    classifier.add(LSTM(128, input_shape=(timesteps, data_dim), recurrent_dropout=0.2, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    classifier.add(Dropout(0.2))
-    classifier.add(LSTM(64,  recurrent_dropout=0.2, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
-    classifier.add(Dropout(0.2))
+    classifier.add(LSTM(128, input_shape=(timesteps, data_dim), recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
+    classifier.add(Dropout(0.7))
+    classifier.add(LSTM(64,  recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
+    classifier.add(Dropout(0.7))
      
-    classifier.add(Dense(32, activation='relu'))
-    classifier.add(Dropout(0.2))
+    classifier.add(Dense(32, activation='sigmoid'))
+    classifier.add(Dropout(0.7))
     
     
     classifier.add(Dense(1, activation='sigmoid', kernel_constraint=maxnorm(2)))  #'tanh'  'sigmoid'
@@ -172,7 +173,7 @@ print "After set ", bk.learning_phase()
 
 #classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights,  validation_data=(X_test, y_test), verbose=2)
   
-classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight='balanced',  validation_data=(X_test, y_test), verbose=2)
+classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch,  validation_data=(X_test, y_test), verbose=2)
 
 
 bk.set_learning_phase(0)  #测试阶段

@@ -51,14 +51,14 @@ warnings.filterwarnings('ignore')
 
 labelName="label"
 cardName = "pri_acct_no_conv" 
-runEpoch=2
+runEpoch=30
 
 #modelName = "lstm_reshape_5.md"
 
 BS = 128
 #runLoop = 50
 
-Alldata = pd.read_csv('convert5_weika_GBDT_07.csv')
+Alldata = pd.read_csv('convert_5_card_GBDT.csv')
 #Alldata = pd.read_csv('convert_5_card.csv')
 #Alldata = pd.read_csv('convert_5_card_more.csv')
 
@@ -286,3 +286,11 @@ print ("Recall:", recall_p)
 #_________________________________________________________________
 #dense_2 (Dense)              (None, 1)                 8       
 #=================================================================
+
+
+#confusion_matrix:
+#
+#[[17500    96]
+# [   77  6872]]
+#('Precision:', 0.9862227324913893)
+#('Recall:', 0.9889192689595625)

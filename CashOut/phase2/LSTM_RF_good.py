@@ -51,7 +51,7 @@ warnings.filterwarnings('ignore')
 
 labelName="label"
 cardName = "pri_acct_no_conv" 
-runEpoch=30
+runEpoch=10
 
 #modelName = "lstm_reshape_5.md"
 
@@ -221,16 +221,16 @@ layer_output_test = np.hstack((layer_output_test,X_test[:, (timesteps-1)*data_di
 #layer_output_test = layer_output_test.reshape(layer_output_test.shape[0],layer_output_test.shape[1]*layer_output_test.shape[2])
 print  layer_output_test.shape 
 
-lstm_feature = np.vstack((layer_output_train,layer_output_test))
-
+ 
 #print y_train.shape, y_test.shape
 
 y_train = y_train.values.reshape(y_train.values.shape[0],1)
 y_test = y_test.values.reshape(y_test.values.shape[0],1)
 
-lstm_label  = np.vstack((y_train, y_test))
+ 
   
-X_train, X_test, y_train, y_test = train_test_split(lstm_feature, lstm_label , test_size=0.2)
+X_train = layer_output_train
+X_test = layer_output_test
  
 
 #n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
@@ -259,8 +259,9 @@ recall_p = float(confusion_matrix_2[1][1])/float((confusion_matrix_2[1][0] + con
  
 print ("Precision:", precision_p) 
 print ("Recall:", recall_p) 
+F1_Score = 2*precision_p*recall_p/(precision_p+recall_p)
 
- 
+print F1_Score 
  
 
 

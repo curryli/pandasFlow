@@ -28,6 +28,7 @@ from keras.optimizers import SGD
 from keras.datasets import mnist
 from keras.layers import BatchNormalization
 from sklearn.svm import SVC
+import theano
 from keras.utils import np_utils
 from keras.models import load_model
 from sklearn.utils.class_weight import compute_class_weight, compute_sample_weight
@@ -51,14 +52,14 @@ warnings.filterwarnings('ignore')
 
 labelName="label"
 cardName = "pri_acct_no_conv" 
-runEpoch=2
+runEpoch=20
 
 #modelName = "lstm_reshape_5.md"
 
 BS = 128
 #runLoop = 50
 
-Alldata = pd.read_csv('convert5_weika_GBDT_07.csv')
+Alldata = pd.read_csv('convert_5_card_GBDT.csv')
 #Alldata = pd.read_csv('convert_5_card.csv')
 #Alldata = pd.read_csv('convert_5_card_more.csv')
 
@@ -124,13 +125,13 @@ def classifier_builder ():
     classifier.add(Masking(mask_value= -1, input_shape=(timesteps, data_dim)))
  
     
-    classifier.add(LSTM(128, input_shape=(timesteps, data_dim), recurrent_dropout=0.2, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
-    classifier.add(Dropout(0.2))
-    classifier.add(LSTM(64,  recurrent_dropout=0.2, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
-    classifier.add(Dropout(0.2))
+    classifier.add(LSTM(128, input_shape=(timesteps, data_dim), recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True, return_sequences=True))
+    classifier.add(Dropout(0.7))
+    classifier.add(LSTM(64,  recurrent_dropout=0.3, activation='sigmoid',  recurrent_activation='hard_sigmoid',   unit_forget_bias=True))
+    classifier.add(Dropout(0.7))
      
-    classifier.add(Dense(32, activation='relu'))
-    classifier.add(Dropout(0.2))
+    classifier.add(Dense(32, activation='sigmoid'))
+    classifier.add(Dropout(0.7))
     
     
     classifier.add(Dense(1, activation='sigmoid', kernel_constraint=maxnorm(2)))  #'tanh'  'sigmoid'
@@ -172,7 +173,7 @@ print "After set ", bk.learning_phase()
 
 #classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight=class_weights,  validation_data=(X_test, y_test), verbose=2)
   
-classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch, class_weight='balanced',  validation_data=(X_test, y_test), verbose=2)
+classifier.fit(X_train, y_train, batch_size=BS, epochs=runEpoch,  validation_data=(X_test, y_test), verbose=2)
 
 
 bk.set_learning_phase(0)  #测试阶段
@@ -195,20 +196,16 @@ print ("Recall:", recall_p)
 
 if(os.access("lstm_model.h5", os.F_OK)):
     print(classifier.summary())
-    f_dense1 = K.function([classifier.layers[0].input],   [classifier.layers[6].output])
+    f = K.function([classifier.layers[0].input],   [classifier.layers[6].output])
 else:
     print(classifier.model.summary())
-    f_dense1 = K.function([classifier.model.layers[0].input],  [classifier.model.layers[6].output])
+    f = K.function([classifier.model.layers[0].input],  [classifier.model.layers[6].output])
 
  
-layer_output_train = f_dense1([X_train])[0]
+layer_output_train = f([X_train])[0]
 print layer_output_train.shape
 
-#把LSTM和随机森林特征结合
-layer_output_train = np.hstack((layer_output_train,X_train[:, (timesteps-1)*data_dim: ]))
-print layer_output_train.shape
-
-# LSTMs (None, 64)  不需要reshape
+#Dense层不需要reshape，LSTM由于我们上面reshape过，所以现在重新reshape一下
 #layer_output_train = layer_output_train.reshape(layer_output_train.shape[0],layer_output_train.shape[1]*layer_output_train.shape[2])
 print  layer_output_train.shape 
 #lo = pd.DataFrame(layer_output)
@@ -216,10 +213,9 @@ print  layer_output_train.shape
     
     
 
-layer_output_test = f_dense1([X_test])[0]
-layer_output_test = np.hstack((layer_output_test,X_test[:, (timesteps-1)*data_dim: ]))
+layer_output_test = f([X_test])[0]
 #layer_output_test = layer_output_test.reshape(layer_output_test.shape[0],layer_output_test.shape[1]*layer_output_test.shape[2])
-print  layer_output_test.shape 
+#print  layer_output_test.shape 
 
 lstm_feature = np.vstack((layer_output_train,layer_output_test))
 
@@ -234,7 +230,7 @@ X_train, X_test, y_train, y_test = train_test_split(lstm_feature, lstm_label , t
  
 
 #n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
-clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
+clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=5, max_features="auto",max_leaf_nodes=None, bootstrap=True)
 
 print  "start fit RF:\n"
 

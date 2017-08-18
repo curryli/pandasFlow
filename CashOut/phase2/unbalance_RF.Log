@@ -1,0 +1,45 @@
+RF
+Ori Fraud shape: (6880, 74) Ori Normal shape: (944355, 74)
+True Fraud shape: (6880, 74) True Normal shape: (916365, 74)
+0.995542894898
+[[183150     56]
+ [   767    676]]
+('Precision:', 0.9234972677595629)
+('Recall:', 0.46846846846846846)
+
+Ori Fraud shape: (6880, 74) Ori Normal shape: (944355, 74)
+True Fraud shape: (6880, 74) True Normal shape: (916365, 74)
+0.995819094607
+[[183244     58]
+ [   714    633]]
+('Precision:', 0.9160636758321273)
+('Recall:', 0.46993318485523383)
+[root@localhost LSTM]# python RF_drop_test.py 
+/usr/local/anaconda/lib/python2.7/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+  "This module will be removed in 0.20.", DeprecationWarning)
+Ori Fraud shape: (6880, 74) Ori Normal shape: (944355, 74)
+True Fraud shape: (6880, 74) True Normal shape: (916365, 74)
+0.995488738092
+[[183176     67]
+ [   766    640]]
+('Precision:', 0.9052333804809052)
+('Recall:', 0.45519203413940257)
+[root@localhost LSTM]# python RF_drop_test.py 
+/usr/local/anaconda/lib/python2.7/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+  "This module will be removed in 0.20.", DeprecationWarning)
+Ori Fraud shape: (6880, 74) Ori Normal shape: (944355, 74)
+True Fraud shape: (6880, 74) True Normal shape: (916365, 74)
+0.995586220342
+[[183219     72]
+ [   743    615]]
+('Precision:', 0.8951965065502183)
+('Recall:', 0.4528718703976436)
+
+
+
+
+LSTM
+[[182990    249]
+ [   501    909]]
+('Precision:', 0.7849740932642487)
+('Recall:', 0.6446808510638298)
