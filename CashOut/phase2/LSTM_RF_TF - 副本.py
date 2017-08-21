@@ -40,7 +40,7 @@ def bias_variable(shape):
 
 labelName="label" 
 cardName = "pri_acct_no_conv" 
-runEpoch=10
+runEpoch=30
  
 out_dim = 2
 BS = 128
@@ -88,7 +88,7 @@ y_test = test_all.label
 y_train = np.array([1-y_train, y_train]).T
 y_test = np.array([ 1 - y_test, y_test]).T
 
-print y_train.shape, y_test.shape
+#print y_train.shape, y_test.shape
 
 X_train = train_all.drop(labelName, axis = 1, inplace=False).drop(cardName, axis = 1, inplace=False)  
 X_test = test_all.drop(labelName, axis = 1, inplace=False).drop(cardName, axis = 1, inplace=False)  
@@ -113,7 +113,6 @@ X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
 
 train_size = X_train.shape[0]  
-test_size = X_test.shape[0]  
  
 
 global index_in_epoch
@@ -301,85 +300,28 @@ F1_Score = 2*precision_p*recall_p/(precision_p+recall_p)
 print "LSTM F1:", F1_Score
 
 
-####################transform train###################################################### 
+ 
 init = tf.global_variables_initializer()
+
 with tf.Session() as sess:
     saver = tf.train.import_meta_graph("./model_lstm_tf_za.meta")
     saver.restore(sess, "./model_lstm_tf_za")
     graph = tf.get_default_graph()
     
     feature_lstm = graph.get_operation_by_name("dense").outputs[0] 
+    test_y_pre, test_feature = sess.run([y_pre, feature_lstm], feed_dict={_X: _X_test_reshape, dropout: 0, batch_size: _y_test_reshape.shape[0]})
+    train_y_pre, train_feature = sess.run([y_pre, feature_lstm], feed_dict={_X: _X_train_reshape, dropout: 0, batch_size: _y_train_reshape.shape[0]})
     
-    
-    
-####################初始化####################
-    contents = X_train
-    labels = y_train
-    index_in_epoch = 0
-    
-    batch = get_next_batch(1, index_in_epoch, contents, labels)
-    train_y = batch[1]
-    _X_train_reshape = batch[0].reshape(-1, timesteps, data_dim)
-    _y_train_reshape = batch[1]#.values.reshape(-1,1) 
-            
-    train_feature = sess.run(feature_lstm, feed_dict={_X: _X_train_reshape, dropout: 0, batch_size: _y_train_reshape.shape[0]})
-    train_feature = np.hstack((train_feature,batch[0][:, (timesteps-1)*data_dim: ]))
-######################trasform################
-    i=1
-    while(i<train_size):
-        index_in_epoch = i
-        batch = get_next_batch(BS, index_in_epoch, contents, labels)
-        i = i + BS
-        
-        _X_train_reshape = batch[0].reshape(-1, timesteps, data_dim)
-        _y_train_reshape = batch[1]#.values.reshape(-1,1) 
- 
-        train_feature_batch = sess.run(feature_lstm, feed_dict={_X: _X_train_reshape, dropout: 0, batch_size: _y_train_reshape.shape[0]})
-        train_feature_batch = np.hstack((train_feature_batch,batch[0][:, (timesteps-1)*data_dim: ]))
-        train_feature = np.vstack((train_feature, train_feature_batch)) 
-        
-        train_y = np.vstack((train_y,batch[1]))
-   
- 
-####################transform test###################################################### 
-    #初始化#
-    contents = X_test
-    labels = y_test
-    index_in_epoch = 0
-    
-    batch = get_next_batch(1, index_in_epoch, contents, labels)
-    test_y = batch[1]
-    _X_test_reshape = batch[0].reshape(-1, timesteps, data_dim)
-    _y_test_reshape = batch[1]#.values.reshape(-1,1) 
-            
-    test_feature = sess.run(feature_lstm, feed_dict={_X: _X_test_reshape, dropout: 0, batch_size: _y_test_reshape.shape[0]})
-    test_feature = np.hstack((test_feature,batch[0][:, (timesteps-1)*data_dim: ]))
- 
-######################trasform################
-    i=1
-    while(i<test_size):
-        index_in_epoch = i
-        batch = get_next_batch(BS, index_in_epoch, contents, labels)
-        i = i + BS
-        
-        _X_test_reshape = batch[0].reshape(-1, timesteps, data_dim)
-        _y_test_reshape = batch[1]#.values.reshape(-1,1) 
- 
-        test_feature_batch = sess.run(feature_lstm, feed_dict={_X: _X_test_reshape, dropout: 0, batch_size: _y_test_reshape.shape[0]})
-        test_feature_batch = np.hstack((test_feature_batch,batch[0][:, (timesteps-1)*data_dim: ]))
-    
-        test_feature = np.vstack((test_feature, test_feature_batch)) 
-        test_y = np.vstack((test_y,batch[1]))
-   
-#y_test = np.argmax(y_test, axis=1).reshape(-1,1).ravel()
+print test_y_pre.shape, test_feature.shape
 
-y_train = np.argmax(train_y, axis=1).reshape(-1,1).ravel()
-y_test = test_y 
+y_train = np.argmax(y_train, axis=1).reshape(-1,1).ravel()
+
+layer_output_train = np.hstack((train_feature,X_train[:, (timesteps-1)*data_dim: ]))
+layer_output_test = np.hstack((test_feature,X_test[:, (timesteps-1)*data_dim: ]))
 
 
-
-X_train = train_feature
-X_test = test_feature
+X_train = layer_output_train
+X_test = layer_output_test
  
 
 #n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
@@ -396,7 +338,6 @@ pred = clf.predict(X_test)
 
 #print type(y_test),type(pred)
 #confusion_matrix=confusion_matrix(y_test.tolist(), pred.tolist())
-
 
 #上面confusion_matrix要新起一个名字，否则会报错  TypeError: 'numpy.ndarray' object is not callable，和内部变量冲突了
 confusion_matrix_2=confusion_matrix(y_test, pred)
