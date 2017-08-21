@@ -25,7 +25,7 @@ from sklearn.ensemble import RandomForestClassifier
 import os                          #python miscellaneous OS system tool
 #os.chdir("C:/work/unionpay/") #changing our directory to which we have our data file
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
  
 
 def weight_variable(shape):
@@ -40,15 +40,15 @@ def bias_variable(shape):
 
 labelName="label" 
 cardName = "pri_acct_no_conv" 
-runEpoch=1
+runEpoch=5
  
 out_dim = 2
 BS = 128
 #runLoop = 50
 
 #Alldata = pd.read_csv('convert_5_card.csv')
-#Alldata = pd.read_csv('convert_5_card_GBDT.csv')
-Alldata = pd.read_csv('convert5_weika_GBDT_07.csv')
+Alldata = pd.read_csv('convert_5_card_GBDT.csv')
+#Alldata = pd.read_csv('convert5_weika_GBDT_07.csv')
 
 Fraud = Alldata[Alldata.label == 1]
 Normal = Alldata[Alldata.label == 0]
@@ -129,7 +129,7 @@ def get_next_batch(batch_size, index_in_epoch, contents, labels):
     if index_in_epoch<train_size:
         return contents[start:end], labels[start:end]
     else:
-        return contents[train_size-BS:train_size], labels[train_size-BS:train_size]
+        return contents[train_size-batch_size:train_size], labels[train_size-batch_size:train_size]
 
  
 _X = tf.placeholder(tf.float32, shape=[None, timesteps, data_dim], name='input')
@@ -139,28 +139,25 @@ batch_size = tf.placeholder(tf.int32, name='batch_size')  # 注意类型必须�
  
  
 lstm_size1 = 256
-lstm_size2 = 256
-lstm_size3 = 256
+lstm_size2 = 128
+lstm_size3 = 64
 
-cells = []
 
-# **第1层lstm
-cell = tf.contrib.rnn.LSTMCell(lstm_size1)  # Or GRUCell(num_units)
-cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=1.0 - dropout)
-cells.append(cell)
-# **第2层lstm
-cell = tf.contrib.rnn.LSTMCell(lstm_size2)  # Or GRUCell(num_units)
-cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=1.0 - dropout)
-cells.append(cell)
-# **第3层lstm
-cell = tf.contrib.rnn.LSTMCell(lstm_size3)  # Or GRUCell(num_units)
-cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=1.0 - dropout)
-cells.append(cell)
+# **正向lstm cell
+cells_fw = []
+cell_fw = tf.contrib.rnn.LSTMCell(lstm_size1)  # Or GRUCell(num_units)
+cell_fw = tf.contrib.rnn.DropoutWrapper(cell_fw, output_keep_prob=1.0 - dropout)
+cells_fw = [].append(cell_fw)
 
-mlstm_cell = tf.contrib.rnn.MultiRNNCell(cells)
-
+# **反向lstm
+cells_bw = []
+cell_bw = tf.contrib.rnn.LSTMCell(lstm_size2)  # Or GRUCell(num_units)
+cell_bw = tf.contrib.rnn.DropoutWrapper(cell_bw, output_keep_prob=1.0 - dropout)
+cells_bw.append(cell_bw)
+  
 # **用全零来初始化state
-init_state = mlstm_cell.zero_state(batch_size, dtype=tf.float32)
+init_state_fw = cells_fw.zero_state(batch_size, dtype=tf.float32)
+init_state_bw = cells_bw.zero_state(batch_size, dtype=tf.float32)
 
 
 # **方法一，调用 dynamic_rnn() 来让我们构建好的网络运行起来
@@ -172,14 +169,16 @@ init_state = mlstm_cell.zero_state(batch_size, dtype=tf.float32)
  
 X_reshape = tf.reshape(_X, [-1, timesteps, data_dim])
 
-output, state = tf.nn.dynamic_rnn(mlstm_cell, X_reshape, dtype=tf.float32, initial_state=init_state)
+outputs, states =tf.nn.bidirectional_dynamic_rnn(cell_fw, cell_bw, X_reshape, dtype=tf.float32,  initial_state_fw=init_state_fw, initial_state_bw=init_state_bw)
+out = tf.concat(outputs, 2)
+state = tf.concat(states, 2)
 h_state = state[-1][1]
 
 #h_state = output[:, -1, :]  # 或者 h_state = state[-1][1]
 
 
 ##加一个全连接层  输入维数num_units, 输出维数为64
-dense_size1= 128
+dense_size1= 64
 W_fc1 = weight_variable([lstm_size3, dense_size1])
 b_fc1 = bias_variable([dense_size1])
 h_fc1=tf.nn.sigmoid(tf.matmul(h_state,W_fc1)+b_fc1, name='dense')
@@ -241,7 +240,7 @@ with tf.Session() as sess:
               
 
             step = i/BS
-            if step%100==0:
+            if step%10==0:
                 acc, cost = sess.run([batch_accuracy,cross_entropy], feed_dict={_X:_X_reshape, _y: _y_reshape, dropout: 0.4, batch_size: BS})
                 print "Epoch:", e, "step:",step, " cost=", "{:.9f}".format(cost),  "acc=", "{:.9f}".format(acc)
 
@@ -337,17 +336,10 @@ with tf.Session() as sess:
     
         if i==0:
             train_feature = train_feature_batch
-            train_y = _y_train_reshape
         else:
             train_feature = np.vstack((train_feature, train_feature_batch)) 
-            train_y = np.vstack((train_y,_y_train_reshape))
             
         i = i + BS
-        
-        step = i/BS
-        if step%100==0:
-            print "transform train step:", step
-                
    
  
 ####################transform test###################################################### 
@@ -373,20 +365,15 @@ with tf.Session() as sess:
     
         if i==0:
             test_feature = test_feature_batch
-            test_y = _y_test_reshape
         else:
             test_feature = np.vstack((test_feature, test_feature_batch)) 
-            test_y = np.vstack((test_y,_y_test_reshape))
             
         i = i + BS
-        step = i/BS
-        if step%100==0:
-            print "transform test step:", step
    
 #y_test = np.argmax(y_test, axis=1).reshape(-1,1).ravel()
 
-y_train = np.argmax(train_y, axis=1).reshape(-1,1).ravel()
-y_test = test_y
+y_train = np.argmax(y_train, axis=1).reshape(-1,1).ravel()
+  
 
 
 

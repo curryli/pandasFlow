@@ -4,7 +4,7 @@
 import pandas as pd                #data analysing tool for python
 import matplotlib.pyplot as plt    #data visualising tool for python
 import numpy as np
-#np.random.seed(1234)
+np.random.seed(1234)
 
 from IPython.display import display
 from sklearn.preprocessing import StandardScaler,MinMaxScaler                   # for normalization of our data
@@ -25,7 +25,7 @@ from sklearn.ensemble import RandomForestClassifier
 import os                          #python miscellaneous OS system tool
 #os.chdir("C:/work/unionpay/") #changing our directory to which we have our data file
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
  
 
 def weight_variable(shape):
@@ -40,7 +40,7 @@ def bias_variable(shape):
 
 labelName="label" 
 cardName = "pri_acct_no_conv" 
-runEpoch=1
+runEpoch=2
  
 out_dim = 2
 BS = 128
@@ -129,7 +129,7 @@ def get_next_batch(batch_size, index_in_epoch, contents, labels):
     if index_in_epoch<train_size:
         return contents[start:end], labels[start:end]
     else:
-        return contents[train_size-BS:train_size], labels[train_size-BS:train_size]
+        return contents[train_size-batch_size:train_size], labels[train_size-batch_size:train_size]
 
  
 _X = tf.placeholder(tf.float32, shape=[None, timesteps, data_dim], name='input')
@@ -137,33 +137,23 @@ _y = tf.placeholder(tf.float32, [None, out_dim], name='label')
 dropout = tf.placeholder(tf.float32, name='dropout')
 batch_size = tf.placeholder(tf.int32, name='batch_size')  # 注意类型必须为 tf.int32
  
+num_units = 300
+num_layers = 3
+
  
-lstm_size1 = 256
-lstm_size2 = 256
-lstm_size3 = 256
+
 
 cells = []
-
-# **第1层lstm
-cell = tf.contrib.rnn.LSTMCell(lstm_size1)  # Or GRUCell(num_units)
-cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=1.0 - dropout)
-cells.append(cell)
-# **第2层lstm
-cell = tf.contrib.rnn.LSTMCell(lstm_size2)  # Or GRUCell(num_units)
-cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=1.0 - dropout)
-cells.append(cell)
-# **第3层lstm
-cell = tf.contrib.rnn.LSTMCell(lstm_size3)  # Or GRUCell(num_units)
-cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=1.0 - dropout)
-cells.append(cell)
-
+for _ in range(num_layers):
+  cell = tf.contrib.rnn.LSTMCell(num_units)  # Or GRUCell(num_units)
+  cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=1.0 - dropout)
+  cells.append(cell)
 mlstm_cell = tf.contrib.rnn.MultiRNNCell(cells)
 
-# **用全零来初始化state
 init_state = mlstm_cell.zero_state(batch_size, dtype=tf.float32)
 
 
-# **方法一，调用 dynamic_rnn() 来让我们构建好的网络运行起来
+# **步骤6：方法一，调用 dynamic_rnn() 来让我们构建好的网络运行起来
 # ** 当 time_major==False 时， outputs.shape = [batch_size, timestep_size, hidden_size] 
 # ** 所以，可以取 h_state = outputs[:, -1, :] 作为最后输出
 # ** state.shape = [layer_num, 2, batch_size, hidden_size], 
@@ -178,17 +168,25 @@ h_state = state[-1][1]
 #h_state = output[:, -1, :]  # 或者 h_state = state[-1][1]
 
 
+
 ##加一个全连接层  输入维数num_units, 输出维数为64
-dense_size1= 128
-W_fc1 = weight_variable([lstm_size3, dense_size1])
-b_fc1 = bias_variable([dense_size1])
-h_fc1=tf.nn.sigmoid(tf.matmul(h_state,W_fc1)+b_fc1, name='dense')
+W_fc1 = weight_variable([num_units, 128])
+b_fc1 = bias_variable([128])
+h_fc1=tf.nn.relu(tf.matmul(h_state,W_fc1)+b_fc1)
 h_fc1_drop=tf.nn.dropout(h_fc1,1-dropout)
 
+
+##加一个全连接层  输入维数num_units, 输出维数为64
+W_fc2 = weight_variable([128, 64])
+b_fc2 = bias_variable([64])
+h_fc2=tf.nn.relu(tf.matmul(h_fc1_drop,W_fc2)+b_fc2, name='dense')
+h_fc2_drop=tf.nn.dropout(h_fc2,1-dropout)
+
+
 # 开始训练和测试
-W = tf.Variable(tf.truncated_normal([dense_size1, out_dim], stddev=0.1), dtype=tf.float32)
+W = tf.Variable(tf.truncated_normal([64, out_dim], stddev=0.1), dtype=tf.float32)
 bias = tf.Variable(tf.constant(0.1,shape=[out_dim]), dtype=tf.float32)
-y_pre = tf.nn.softmax(tf.matmul(h_fc1_drop, W) + bias,  name='predict')
+y_pre = tf.nn.softmax(tf.matmul(h_fc2_drop, W) + bias,  name='predict')
 
 
 # 损失和评估函数
@@ -241,7 +239,7 @@ with tf.Session() as sess:
               
 
             step = i/BS
-            if step%100==0:
+            if step%10==0:
                 acc, cost = sess.run([batch_accuracy,cross_entropy], feed_dict={_X:_X_reshape, _y: _y_reshape, dropout: 0.4, batch_size: BS})
                 print "Epoch:", e, "step:",step, " cost=", "{:.9f}".format(cost),  "acc=", "{:.9f}".format(acc)
 
@@ -318,36 +316,29 @@ with tf.Session() as sess:
     contents = X_train
     labels = y_train
     index_in_epoch = 0
-
-#变量名引用分为三个作用域进行查找：首先是本地，然后是函数内（如果有的话），之后是全局，最后是内置。  这里不定义global好像也可以   
-    global train_feature  
- 
+    
+    batch = get_next_batch(1, index_in_epoch, contents, labels)
+    train_y = batch[1]
+    _X_train_reshape = batch[0].reshape(-1, timesteps, data_dim)
+    _y_train_reshape = batch[1]#.values.reshape(-1,1) 
+            
+    train_feature = sess.run(feature_lstm, feed_dict={_X: _X_train_reshape, dropout: 0, batch_size: _y_train_reshape.shape[0]})
+    train_feature = np.hstack((train_feature,batch[0][:, (timesteps-1)*data_dim: ]))
 ######################trasform################
-    i=0
+    i=1
     while(i<train_size):
         index_in_epoch = i
         batch = get_next_batch(BS, index_in_epoch, contents, labels)
-        
+        i = i + BS
         
         _X_train_reshape = batch[0].reshape(-1, timesteps, data_dim)
         _y_train_reshape = batch[1]#.values.reshape(-1,1) 
  
         train_feature_batch = sess.run(feature_lstm, feed_dict={_X: _X_train_reshape, dropout: 0, batch_size: _y_train_reshape.shape[0]})
         train_feature_batch = np.hstack((train_feature_batch,batch[0][:, (timesteps-1)*data_dim: ]))
-    
-        if i==0:
-            train_feature = train_feature_batch
-            train_y = _y_train_reshape
-        else:
-            train_feature = np.vstack((train_feature, train_feature_batch)) 
-            train_y = np.vstack((train_y,_y_train_reshape))
-            
-        i = i + BS
+        train_feature = np.vstack((train_feature, train_feature_batch)) 
         
-        step = i/BS
-        if step%100==0:
-            print "transform train step:", step
-                
+        train_y = np.vstack((train_y,batch[1]))
    
  
 ####################transform test###################################################### 
@@ -355,15 +346,21 @@ with tf.Session() as sess:
     contents = X_test
     labels = y_test
     index_in_epoch = 0
- 
-    global test_feature  
+    
+    batch = get_next_batch(1, index_in_epoch, contents, labels)
+    test_y = batch[1]
+    _X_test_reshape = batch[0].reshape(-1, timesteps, data_dim)
+    _y_test_reshape = batch[1]#.values.reshape(-1,1) 
+            
+    test_feature = sess.run(feature_lstm, feed_dict={_X: _X_test_reshape, dropout: 0, batch_size: _y_test_reshape.shape[0]})
+    test_feature = np.hstack((test_feature,batch[0][:, (timesteps-1)*data_dim: ]))
  
 ######################trasform################
-    i=0
+    i=1
     while(i<test_size):
         index_in_epoch = i
         batch = get_next_batch(BS, index_in_epoch, contents, labels)
-        
+        i = i + BS
         
         _X_test_reshape = batch[0].reshape(-1, timesteps, data_dim)
         _y_test_reshape = batch[1]#.values.reshape(-1,1) 
@@ -371,22 +368,13 @@ with tf.Session() as sess:
         test_feature_batch = sess.run(feature_lstm, feed_dict={_X: _X_test_reshape, dropout: 0, batch_size: _y_test_reshape.shape[0]})
         test_feature_batch = np.hstack((test_feature_batch,batch[0][:, (timesteps-1)*data_dim: ]))
     
-        if i==0:
-            test_feature = test_feature_batch
-            test_y = _y_test_reshape
-        else:
-            test_feature = np.vstack((test_feature, test_feature_batch)) 
-            test_y = np.vstack((test_y,_y_test_reshape))
-            
-        i = i + BS
-        step = i/BS
-        if step%100==0:
-            print "transform test step:", step
+        test_feature = np.vstack((test_feature, test_feature_batch)) 
+        test_y = np.vstack((test_y,batch[1]))
    
 #y_test = np.argmax(y_test, axis=1).reshape(-1,1).ravel()
 
 y_train = np.argmax(train_y, axis=1).reshape(-1,1).ravel()
-y_test = test_y
+y_test = test_y 
 
 
 
