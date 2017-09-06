@@ -40,7 +40,7 @@ def bias_variable(shape):
 
 labelName="label" 
 cardName = "pri_acct_no_conv" 
-runEpoch=10
+runEpoch=50
  
 out_dim = 2
 BS = 128
@@ -179,7 +179,7 @@ h_state = state[-1][1]
 
 
 ##加一个全连接层  输入维数num_units, 输出维数为64
-dense_size1= 128
+dense_size1= 64
 W_fc1 = weight_variable([lstm_size3, dense_size1])
 b_fc1 = bias_variable([dense_size1])
 h_fc1=tf.nn.sigmoid(tf.matmul(h_state,W_fc1)+b_fc1, name='dense')

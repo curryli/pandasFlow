@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-#如果 inputs 为 (batches, steps, inputs) ==> time_major=False;
-#如果 inputs 为 (steps, batches, inputs) ==> time_major=True;
+
 
 import pandas as pd                #data analysing tool for python
 import matplotlib.pyplot as plt    #data visualising tool for python
@@ -29,7 +28,7 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
  
 labelName="label" 
 cardName = "pri_acct_no_conv" 
-runEpoch=20
+runEpoch=50
  
 out_dim = 2
 BS = 128
@@ -120,66 +119,81 @@ def get_next_batch(batch_size, index_in_epoch, contents, labels):
         return contents[train_size-batch_size:train_size], labels[train_size-batch_size:train_size]
 
  
-_X = tf.placeholder(tf.float32, shape=[None, timesteps, data_dim], name='input')
-_y = tf.placeholder(tf.float32, [None, out_dim], name='label')
-dropout = tf.placeholder(tf.float32, name='dropout')
-batch_size = tf.placeholder(tf.int32, name='batch_size')  # 注意类型必须为 tf.int32
- 
-num_units = 300
-num_layers = 3
-
+# Parameters
+learning_rate = 0.01
  
 
+# Network Parameters
+n_input = data_dim # MNIST data input (img shape: 28*28)
+n_steps = timesteps # timesteps
+n_hidden = 256 # hidden layer num of features
+n_classes = 2 # MNIST total classes (0-9 digits)
 
-cells = []
-for _ in range(num_layers):
-  cell = tf.contrib.rnn.LSTMCell(num_units)  # Or GRUCell(num_units)
-  cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=1.0 - dropout)
-  cells.append(cell)
-mlstm_cell = tf.contrib.rnn.MultiRNNCell(cells)
+# tf Graph input
+x = tf.placeholder("float", [None, n_steps, n_input])
+y = tf.placeholder("float", [None, n_classes])
 
-init_state = mlstm_cell.zero_state(batch_size, dtype=tf.float32)
+# Define weights
+weights = {
+    # Hidden layer weights => 2*n_hidden because of foward + backward cells
+    'out': tf.Variable(tf.random_normal([2*n_hidden, n_classes]))
+}
+biases = {
+    'out': tf.Variable(tf.random_normal([n_classes]))
+}
 
 
-# **步骤6：方法一，调用 dynamic_rnn() 来让我们构建好的网络运行起来
-# ** 当 time_major==False 时， outputs.shape = [batch_size, timestep_size, hidden_size] 
-# ** 所以，可以取 h_state = outputs[:, -1, :] 作为最后输出
-# ** state.shape = [layer_num, 2, batch_size, hidden_size], 
-# ** 或者，可以取 h_state = state[-1][1] 作为最后输出
-# ** 最后输出维度是 [batch_size, hidden_size]
+def BiRNN(x, weights, biases):
+
+    # Prepare data shape to match `bidirectional_rnn` function requirements
+    # Current data input shape: (batch_size, n_steps, n_input)
+    # Required shape: 'n_steps' tensors list of shape (batch_size, n_input)
+    
+    # Permuting batch_size and n_steps
+    x = tf.transpose(x, [1, 0, 2])
+    # Reshape to (n_steps*batch_size, n_input)
+    x = tf.reshape(x, [-1, n_input])
+    # Split to get a list of 'n_steps' tensors of shape (batch_size, n_input)
+    x = tf.split(x, n_steps)
+
+    # Define lstm cells with tensorflow
+    # Forward direction cell
+    lstm_fw_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0)
+    # Backward direction cell
+    lstm_bw_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0)
+
+    # Get lstm cell output
+#    try:
+    outputs, _, _ = tf.contrib.rnn.static_bidirectional_rnn(lstm_fw_cell, lstm_bw_cell, x,
+                                           dtype=tf.float32)
+#    except Exception: # Old TensorFlow version only returns outputs not states
+#        outputs = rnn.bidirectional_rnn(lstm_fw_cell, lstm_bw_cell, x,
+#                                        dtype=tf.float32)
+
+    # Linear activation, using rnn inner loop last output
+    pred =  tf.matmul(outputs[-1], weights['out']) + biases['out']
+    y_pred = tf.argmax(pred,1)
+    return pred, y_pred
+    
+
+
+
+
+pred, y_pred = BiRNN(x, weights, biases)
+
+# Define loss and optimizer
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
+optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+
+# Evaluate model
+correct_pred = tf.equal(tf.argmax(pred,1), tf.argmax(y,1))
+accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+
+# Initializing the variables
+init = tf.global_variables_initializer()
+
+
  
-X_reshape = tf.reshape(_X, [-1, timesteps, data_dim])
-
-output, state = tf.nn.dynamic_rnn(mlstm_cell, X_reshape, dtype=tf.float32, initial_state=init_state)
-h_state = state[-1][1]
-
-#h_state = output[:, -1, :]  # 或者 h_state = state[-1][1]
-
-
-# 开始训练和测试
-W = tf.Variable(tf.truncated_normal([num_units, out_dim], stddev=0.1), dtype=tf.float32)
-bias = tf.Variable(tf.constant(0.1,shape=[out_dim]), dtype=tf.float32)
-y_pre = tf.nn.softmax(tf.matmul(h_state, W) + bias,  name='predict')
-
-
-# 损失和评估函数
-lr = 1e-3
-
-
-
-# 损失函数
-cross_entropy = -tf.reduce_mean(_y * tf.log(y_pre))
-
-
-#评估函数
-batch_mse = tf.reduce_mean(tf.pow(y_pre - _y, 2), 1)
-correct_prediction = tf.equal(tf.argmax(y_pre,1), tf.argmax(_y,1))
-batch_accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-
-
-train_op = tf.train.AdamOptimizer(lr).minimize(cross_entropy)
- 
-
 # TRAIN StARTS
 save_model = 'model_lstm_tf_za'
 saver = tf.train.Saver()
@@ -211,12 +225,12 @@ with tf.Session() as sess:
             #print _X_reshape.shape
             #print _y_reshape.shape
              
-            _, cost, y_prediction = sess.run([train_op, cross_entropy, y_pre], feed_dict={_X:_X_reshape, _y: _y_reshape, dropout: 0.4, batch_size: BS})
+            sess.run(optimizer, feed_dict={x:_X_reshape, y: _y_reshape})
               
 
             step = i/BS
             if step%10==0:
-                batch_accuracy, batch_mse = sess.run([batch_accuracy,batch_mse], feed_dict={_X:_X_reshape, _y: _y_reshape, dropout: 0.4, batch_size: BS})
+                batch_accuracy, batch_mse = sess.run([accuracy,cost], feed_dict={x:_X_reshape, y: _y_reshape})
                 print "Epoch:", e, "step:",step, " cost=", "{:.9f}".format(batch_mse),  "batch_accuracy=", "{:.9f}".format(batch_accuracy)
 
                 #print "Epoch:", e, "step:",step, " cost=", "{:.9f}".format(batch_mse),  "Train auc=",  auc(batch[1], y_prediction)
@@ -247,21 +261,23 @@ with tf.Session() as sess:
     saver = tf.train.import_meta_graph("./model_lstm_tf_za.meta")
     saver.restore(sess, "./model_lstm_tf_za")
     
-    y_predict = sess.run(y_pre, feed_dict={_X: _X_test_reshape, dropout: 0, batch_size: _y_test_reshape.shape[0]})
-    #print y_predict.shape
-    #print y_test.shape
- 
+    accuracy_train = sess.run(accuracy, feed_dict={x:_X_reshape, y: _y_reshape})
     
-#y_predict = np.array( [x[0] for x in y_predict]).reshape(-1,1)
-#y_predict = np.where(np.array(y_predict)<0.5,0,1)
-#y_test = np.array([x[0] for x in y_test]).reshape(-1,1)
-
+    pred_test, accuracy_test = sess.run([pred,accuracy], feed_dict={x:_X_test_reshape, y: _y_test_reshape})
+     
+    print "accuracy_train: ", accuracy_train
+    print "accuracy_test", accuracy_test
  
+  
+print "pred_test.shape: ", pred_test.shape
+ 
+print "y_test.shape: ", y_test.shape
 
-y_predict = np.argmax(y_predict, axis=1).reshape(-1,1)
+y_predict = np.argmax(pred_test, axis=1).reshape(-1,1)
 y_test = np.argmax(y_test, axis=1).reshape(-1,1)
 
-
+print "y_pred.shape: ", y_predict.shape
+print "y_test.shape: ", y_test.shape
 
 
 confusion_matrix=confusion_matrix(y_test,y_predict)

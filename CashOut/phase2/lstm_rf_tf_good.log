@@ -1,0 +1,105 @@
+Epoch: 19 step: 4400  cost= 0.000609742 acc= 1.000000000
+Epoch: 19 step: 4500  cost= 0.021212250 acc= 0.992187500
+Epoch: 19 step: 4600  cost= 0.000191399 acc= 1.000000000
+Epoch: 19 step: 4700  cost= 0.005219663 acc= 0.992187500
+Epoch: 19 step: 4800  cost= 0.000624956 acc= 1.000000000
+Epoch: 19 step: 4900  cost= 0.000569888 acc= 1.000000000
+Epoch: 19 step: 5000  cost= 0.000961384 acc= 1.000000000
+Epoch: 19 step: 5100  cost= 0.002942703 acc= 1.000000000
+Epoch: 19 step: 5200  cost= 0.000466019 acc= 1.000000000
+Epoch: 19 step: 5300  cost= 0.001451521 acc= 1.000000000
+Epoch: 19 step: 5400  cost= 0.001623345 acc= 1.000000000
+Epoch: 19 step: 5500  cost= 0.000570789 acc= 1.000000000
+Epoch: 19 step: 5600  cost= 0.003417864 acc= 1.000000000
+Epoch: 19 step: 5700  cost= 0.000334869 acc= 1.000000000
+Optimization Finished!
+Model saved in file: model_lstm_tf_za
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K40m, pci bus id: 0000:06:00.0)
+[[183190    124]
+ [   578    757]]
+('Precision:', 0.8592508513053349)
+('Recall:', 0.5670411985018726)
+LSTM F1: 0.68321299639
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K40m, pci bus id: 0000:06:00.0)
+transform train step: 100
+transform train step: 200
+transform train step: 300
+transform train step: 400
+transform train step: 500
+transform train step: 600
+transform train step: 700
+transform train step: 800
+transform train step: 900
+transform train step: 1000
+transform train step: 1100
+transform train step: 1200
+transform train step: 1300
+transform train step: 1400
+transform train step: 1500
+transform train step: 1600
+transform train step: 1700
+transform train step: 1800
+transform train step: 1900
+transform train step: 2000
+transform train step: 2100
+transform train step: 2200
+transform train step: 2300
+transform train step: 2400
+transform train step: 2500
+transform train step: 2600
+transform train step: 2700
+transform train step: 2800
+transform train step: 2900
+transform train step: 3000
+transform train step: 3100
+transform train step: 3200
+transform train step: 3300
+transform train step: 3400
+transform train step: 3500
+transform train step: 3600
+transform train step: 3700
+transform train step: 3800
+transform train step: 3900
+transform train step: 4000
+transform train step: 4100
+transform train step: 4200
+transform train step: 4300
+transform train step: 4400
+transform train step: 4500
+transform train step: 4600
+transform train step: 4700
+transform train step: 4800
+transform train step: 4900
+transform train step: 5000
+transform train step: 5100
+transform train step: 5200
+transform train step: 5300
+transform train step: 5400
+transform train step: 5500
+transform train step: 5600
+transform train step: 5700
+transform test step: 100
+transform test step: 200
+transform test step: 300
+transform test step: 400
+transform test step: 500
+transform test step: 600
+transform test step: 700
+transform test step: 800
+transform test step: 900
+transform test step: 1000
+transform test step: 1100
+transform test step: 1200
+transform test step: 1300
+transform test step: 1400
+start fit RF:
+
+0.996490638996
+
+confusion_matrix:
+
+[[183153    161]
+ [   487    848]]
+('Precision:', 0.8404360753221011)
+('Recall:', 0.6352059925093633)
+0.723549488055
