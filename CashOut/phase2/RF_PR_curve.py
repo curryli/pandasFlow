@@ -4,14 +4,41 @@ from sklearn.metrics import confusion_matrix
 from sklearn.ensemble import RandomForestClassifier 
 from sklearn.utils import shuffle  
 from sklearn.cross_validation import train_test_split
+from sklearn.metrics import precision_recall_curve, roc_curve, auc  
+import numpy as np
 
  
 label='label' # label的值就是二元分类的输出
 cardcol= 'pri_acct_no_conv'
 time = "tfr_dt_tm"
  
-df = pd.read_csv("201609_new_FE.csv", low_memory=False)
+reader = pd.read_csv("FE_trainNormal.csv", low_memory=False, iterator=True)
+     
+loop = True
+chunkSize = 100000 
+chunks = []
+i = 0
+while loop:
+    try:
+        chunk = reader.get_chunk(chunkSize)
+        chunks.append(chunk)
+        if (i%5)==0:
+            print i
+        i = i+1
+   
+    except StopIteration:
+        loop = False
+        print "Iteration is stopped."
+df_normal_train = pd.concat(chunks, ignore_index=True)
+
+df_normal_train = df_normal_train.sample(n=800000) 
+
+
+df_fraud_all = pd.read_csv("FE_Fraud.csv", low_memory=False)
+df_fraud_all = df_fraud_all.sample(n=8000) 
 #df = pd.read_csv("idx_weika_07.csv") 
+
+df = pd.concat([df_normal_train,df_fraud_all], axis = 0)
 
 
 label='label' # 
@@ -73,3 +100,29 @@ F1_Score = 2*precision_p*recall_p/(precision_p+recall_p)
 
 print F1_Score
  
+
+
+
+
+pred_pair = clf.predict_proba(X_test)  
+pred_proba = [x[1] for x in pred_pair]
+ 
+
+precision, recall, thresholds = precision_recall_curve(y_test,pred_proba)  
+ 
+import matplotlib.pyplot as plt
+ 
+
+plt.step(recall, precision, color='b', alpha=0.2,
+         where='post')
+plt.fill_between(recall, precision, step='post', alpha=0.2,
+                 color='b')
+
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.ylim([0.0, 1.05])
+plt.xlim([0.0, 1.0])
+plt.savefig("examples.jpg")
+
+np.savetxt("precision.txt",precision)
+np.savetxt("recall.txt",recall)
