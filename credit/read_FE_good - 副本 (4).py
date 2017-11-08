@@ -260,17 +260,6 @@ def has_trans_month(x):  #有几个月有消费
             cnt = cnt+1
     return cnt
 
-def mean_money_month_list(x):  #有几个月有消费
-    mean_list = []
-    for m in range(0,20):
-        colcnt = r"month_No-cnt_" + str(m)
-        colsum = r"month_sum_" + str(m)
-        if(x[colcnt]>0):
-            mean_list.append(float(x[colsum])/float(x[colcnt]))
-        else:
-            mean_list.append(0.0)
-    return mean_list
-
 
 #######################################
 def month_sum_mean(x,name):  #月消费金额平均
@@ -304,11 +293,11 @@ def month_sum_p2p(x,name):  #月消费金额p2p
 #####################################
 
 if __name__ == '__main__':
-    train_ori_df = pd.read_csv("small_data.csv", sep=",", low_memory=False, error_bad_lines=False)
-    #train_ori_df = pd.read_csv("train_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
+    #train_ori_df = pd.read_csv("small_data.csv", sep=",", low_memory=False, error_bad_lines=False)
+    train_ori_df = pd.read_csv("train_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 
-    test_ori_df = pd.read_csv("test_small.csv", sep=",", low_memory=False, error_bad_lines=False)
-    #test_ori_df = pd.read_csv("test_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
+    #test_ori_df = pd.read_csv("test_small.csv", sep=",", low_memory=False, error_bad_lines=False)
+    test_ori_df = pd.read_csv("test_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 
     Trans_ori_df = pd.concat([train_ori_df, test_ori_df], axis=0)
 
@@ -417,47 +406,25 @@ if __name__ == '__main__':
 
     # def month_sum_m0(subdf): #可以把每一个group过后的东西都是一个子dataframe，函数里面完全按照dataframe操作即可
     #     return subdf[subdf["month_No"]==0]["Trans_at"].sum()
-
-    ####################金额##############################
     def month_sum_list(subdf): #可以把每一个group过后的东西都是一个子dataframe，函数里面完全按照dataframe操作即可
         sum_list = []
         for m in range(0,20):
             sum_list.append(subdf[subdf["month_No"]==m]["Trans_at"].sum())
         return sum_list
 
-    month_sum_se = certid_grouped.apply(month_sum_list)
-    month_sum_df = pd.DataFrame(month_sum_se,columns=['lists'])
+    apply_grp_se = certid_grouped.apply(month_sum_list)
+    apply_grp_df = pd.DataFrame(apply_grp_se,columns=['lists'])
 
     for m in range(0, 20):
         newcol = "month_sum_" + str(m)
-        month_sum_df[newcol] = month_sum_df['lists'].apply(lambda x: x[m])
+        apply_grp_df[newcol] = apply_grp_df['lists'].apply(lambda x: x[m])
 
-    month_sum_df = month_sum_df.drop("lists", axis=1, inplace=False)
-
-####################次数##############################
-    def month_cnt_list(subdf):  # 可以把每一个group过后的东西都是一个子dataframe，函数里面完全按照dataframe操作即可
-        cnt_list = []
-        for m in range(0, 20):
-            cnt_list.append(subdf[subdf["month_No"] == m]["Trans_at"].count())
-        return cnt_list
-
-    month_cnt_se = certid_grouped.apply(month_cnt_list)
-    month_cnt_df = pd.DataFrame(month_cnt_se, columns=['lists'])
-
-    for m in range(0, 20):
-        newcol = "month_cnt_" + str(m)
-        month_cnt_df[newcol] = month_cnt_df['lists'].apply(lambda x: x[m])
-
-    month_cnt_df = month_cnt_df.drop("lists", axis=1, inplace=False)
-#########################################################
-    month_sum_df.to_csv("month_sum_temp.csv")
-    month_cnt_df.to_csv("month_cnt_temp.csv")
-
+    apply_grp_df = apply_grp_df.drop("lists", axis=1, inplace=False)
+    apply_grp_df.to_csv("apply_temp.csv")
 
     ########################################################################################################
     agg_stat_df = pd.read_csv("agg_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
-    month_sum_df = pd.read_csv("month_sum_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
-    month_cnt_df = pd.read_csv("month_cnt_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
+    apply_grp_df = pd.read_csv("apply_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
 
     train_certid_df = pd.read_csv("train_certid_date_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
     test_certid_df = pd.read_csv("test_certid_date_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
@@ -475,8 +442,7 @@ if __name__ == '__main__':
 
     Effect_df = pd.merge(left=Effect_df, right=agg_stat_df, how='left', left_on='certid', right_on='certid')
 
-    Effect_df = pd.merge(left=Effect_df, right=month_sum_df, how='left', left_on='certid', right_on='certid')
-    Effect_df = pd.merge(left=Effect_df, right=month_cnt_df, how='left', left_on='certid', right_on='certid')
+    Effect_df = pd.merge(left=Effect_df, right=apply_grp_df, how='left', left_on='certid', right_on='certid')
 
     #Effect_df = Effect_df.fillna(-1)
 
@@ -516,17 +482,6 @@ if __name__ == '__main__':
 
 
 ##########################消费稳定性分析###############################
-
-    Effect_df["mean_money_month_list"] = Effect_df.apply(mean_money_month_list, axis=1)
-    for m in range(0, 20):
-        newcol = "mean_money_m" + str(m)
-        Effect_df[newcol] = Effect_df["mean_money_month_list"].apply(lambda x: x[m])
-
-    Effect_df = Effect_df.drop("mean_money_month_list", axis=1, inplace=False)
-
-
-
-
     Effect_df["has_trans_month"] = Effect_df.apply(has_trans_month, axis=1)
     Effect_df["trans_month_var"] = Effect_df.apply(lambda x : month_sum_var(x, r"month_No-cnt_"), axis=1)
     Effect_df["trans_month_max"] = Effect_df.apply(lambda x : month_sum_max(x, r"month_No-cnt_"), axis=1)

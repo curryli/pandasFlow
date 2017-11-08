@@ -41,7 +41,7 @@ X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
 #                     'scale_pos_weight' : 1,
 #                     'seed' : 27}
 #                     ]
- 
+
 tuned_parameters = [{ 'learning_rate' :[0.15,0.1,0.05],
                     'n_estimators' :[200,500,1000],
                     'max_depth' : [4,5,8],
