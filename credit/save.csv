@@ -1,0 +1,6 @@
+certid,trans_id_cd-count,resp_cd-count,retri_ref_no-count,mchnt_cd-count,fwd_settle_conv_rt-count,pos_cond_cd-count,trans_chnl-count,rcv_settle_conv_rt-count,mcc_cd-count,card_attr_cd-count,rcv_settle_curr_cd-count,fwd_settle_cruu_cd-count,cdhd_curr_cd-count,orig_trans_st-count,term_cd-count,card_media_cd-count,cdhd_conv_rt-count,card_accprt_nm_loc-count,trans_st-count,iss_ins_cd-count,pos_entry_md_cd-count,auth_id_resp_cd-count,trans_curr_cd-count
+091c9c6e4ea10e6a1416a6520fbe9f49a34ad8c4643f998b8bc7733a41ad6434,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1
+4ed11bd1bc0d9f94a9fc82c035d2ca96556ebb1367994682c21017bfe9dd3de7,11,11,11,11,11,11,11,11,11,11,11,11,0,11,11,11,11,11,11,11,11,11,11
+910627efe5cc47dbbf6e42c7ef21ece98ce34d7d6044afca966a71b3499f304a,10,10,10,10,10,10,10,10,10,10,10,10,0,10,10,10,10,10,10,10,10,10,10
+cf4be33f0959d1a7b643635357bb72063d201fecd3c0e1f4cb2eb25a0f1f725c,18,18,18,18,18,18,18,18,18,18,18,18,0,18,18,18,18,18,18,18,18,18,18
+f03828156078d3a2b20783c4d89f7febec2fa763c66a9d21b74992868eb8e71e,59,59,59,59,59,59,59,59,59,59,59,59,0,59,59,59,59,59,59,59,59,59,59

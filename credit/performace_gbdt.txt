@@ -1,0 +1,86 @@
+
+(learning_rate=0.01, n_estimators=500,max_depth=50, min_samples_leaf =20, min_samples_split =2, max_features="auto", subsample=0.8, random_state=10)
+
+[[ 496  452]
+ [ 175 4279]]
+('Precision:', 0.5232067510548524)
+('Recall:', 0.7391952309985097)
+('F1_Score:', 0.6127239036442248)
+
+
+
+(learning_rate=0.02, n_estimators=300,max_depth=50, min_samples_leaf =20, min_samples_split =2, max_features="auto", subsample=0.8, random_state=10)
+
+[[ 570  445]
+ [ 169 4218]]
+('Precision:', 0.5615763546798029)
+('Recall:', 0.7713125845737483)
+('F1_Score:', 0.6499429874572406)
+
+(learning_rate=0.05, n_estimators=250,max_depth=50, min_samples_leaf =20, min_samples_split =2, max_features="auto", subsample=0.8, random_state=10)
+
+[[ 560  420]
+ [ 181 4241]]
+('Precision:', 0.5714285714285714)
+('Recall:', 0.7557354925775979)
+('F1_Score:', 0.6507844276583381)
+
+
+
+(learning_rate=0.1, n_estimators=250,max_depth=50, min_samples_leaf =5, min_samples_split =2, max_features="auto", subsample=0.8, random_state=10)
+aera
+[[ 582  424]
+ [ 184 4212]]
+('Precision:', 0.5785288270377733)
+('Recall:', 0.7597911227154047)
+('F1_Score:', 0.656884875846501)
+
+
+
+
+
+
+(learning_rate=0.1, n_estimators=250,max_depth=50, min_samples_leaf =5, min_samples_split =2, max_features="auto", subsample=0.8, random_state=10)
+aera   feature_importance
+[[ 605  444]
+ [ 160 4193]]
+('Precision:', 0.5767397521448999)
+('Recall:', 0.7908496732026143)
+('F1_Score:', 0.6670341786108048)
+
+
+
+
+xgboost
+learning_rate =0.1,n_estimators=1000,max_depth=5,gamma=0.1,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_lambda=1,seed=27
+[[ 610  380]
+ [ 200 4212]]
+('Precision:', 0.6161616161616161)
+('Recall:', 0.7530864197530864)
+('F1_Score:', 0.6777777777777777)
+
+
+learning_rate =0.1,n_estimators=500,max_depth=5,gamma=0.1,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_lambda=1,seed=27
+[[ 619  380]
+ [ 182 4221]]
+('Precision:', 0.6196196196196196)
+('Recall:', 0.7727840199750312)
+('F1_Score:', 0.6877777777777778)
+
+
+learning_rate =0.1,n_estimators=500,max_depth=5,gamma=0.05,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_lambda=1,seed=27)
+[[ 645  355]
+ [ 197 4205]]
+('Precision:', 0.645)
+('Recall:', 0.7660332541567696)
+('F1_Score:', 0.7003257328990228)
+
+
+
+#金额算对
+clf = XGBClassifier(learning_rate =0.1,n_estimators=1000,max_depth=5,gamma=0.05,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_lambda=1,seed=27)
+[[ 674  343]
+ [ 172 4213]]
+('Precision:', 0.6627335299901671)
+('Recall:', 0.7966903073286052)
+('F1_Score:', 0.7235641438539989)
