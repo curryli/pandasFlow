@@ -16,17 +16,19 @@ import datetime
 #from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report
 from xgboost.sklearn import XGBClassifier
-from sklearn.decomposition import PCA
-
+from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import precision_recall_fscore_support
+from sklearn.ensemble import IsolationForest
+from sklearn.neighbors import LocalOutlierFactor
 
+import numpy as np
 #df_All = pd.read_csv("train_new.csv", sep=',')
 #df_All = pd.read_csv("train_notest.csv", sep=',')
 df_All = pd.read_csv("train_1108.csv", sep=',')
 
 df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
 
-df_All = df_All.fillna(-1)
+df_All = df_All.fillna(-1000)
 
 
 df_All = shuffle(df_All)
@@ -34,28 +36,29 @@ df_All = shuffle(df_All)
 
 df_X = df_All.drop( ["certid","label"], axis=1,inplace=False)
 
-pca = PCA(n_components = 250, svd_solver = 'full')
-#pca = PCA(n_components ='mle')
-df_X = pd.DataFrame(pca.fit_transform(df_X))
 
 df_y = df_All["label"]
 
-X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
+# fit the model
+clf = IsolationForest(n_estimators=1000, contamination=0.2, n_jobs=-1, bootstrap=True)
+clf.fit(df_X)
+# clf.fit(X_train_normal)
+
+
+# predict
+y_pred = clf.predict(df_X)
+
+
+# change predict_labeks  (-1:1)->to (0,1)
+y_pred = np.where(y_pred < 0, 0, 1)
 
 
 
-#clf = XGBClassifier(learning_rate =0.1,n_estimators=500,max_depth=5,gamma=0.05,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_lambda=1,seed=27)
-clf = XGBClassifier(learning_rate =0.1,n_estimators=1000,max_depth=5,gamma=0.05,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_lambda=1,seed=27)
-
-clf.fit(X_train, y_train)
-
-pred = clf.predict(X_test)
-
-cm1=confusion_matrix(y_test,pred)
+cm1=confusion_matrix(df_y.values,y_pred)
 print  cm1
 
-#print "Each class\n"
-result = precision_recall_fscore_support(y_test,pred)
+print "minor class\n"
+result = precision_recall_fscore_support(df_y.values,y_pred)
 #print result
 precision_0 = result[0][0]
 recall_0 = result[1][0]

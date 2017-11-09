@@ -15,7 +15,7 @@ from sklearn.metrics import precision_recall_fscore_support
 
 starttime = datetime.datetime.now()
 
-df_All = pd.read_csv("train_shuffled.csv", sep=',')
+df_All = pd.read_csv("train_1108.csv", sep=',')
 
 df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
 
@@ -43,10 +43,10 @@ X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
 #                     ]
 
 tuned_parameters = [{ 'learning_rate' :[0.15,0.1,0.05],
-                    'n_estimators' :[200,500,1000],
+                    'n_estimators' :[200,500,1000,1500,2000],
                     'max_depth' : [4,5,8],
                     'min_child_weight' :[1,3,5],
-                    'gamma':[0.01,0.05,0.1],
+                    'gamma':[0.01,0.05,0.1,0.3],
                     'subsample' : [0.6, 0.8, 0.9],
                     'colsample_bytree' : [0.7, 0.8, 0.9],
                      'reg_alpha':[0.01, 0.1, 1, 10],   #L1正则参数
@@ -67,7 +67,7 @@ my_score = make_scorer(my_custom_loss_func, greater_is_better=True)
 # print(gsearch1.grid_scores_,gsearch1.best_params_, gsearch1.best_score_ )
 
 
-with open('XGBoost_grid.txt', 'w') as f:
+with open('XGBoost_grid_1108.txt', 'w') as f:
     print >>f, "# Tuning hyper-parameters:\n"
 
     clf = GridSearchCV(XGBClassifier(objective='binary:logistic',scale_pos_weight= 1, seed=27), tuned_parameters, cv=5, scoring=my_score)
@@ -91,9 +91,12 @@ with open('XGBoost_grid.txt', 'w') as f:
     f1_0 = result[2][0]
     detail_str = "precision_0: ", precision_0,"  recall_0: ", recall_0, "  f1_0: ", f1_0
     print >>f, detail_str
+    
+    endtime = datetime.datetime.now()
+    print>>f, (endtime - starttime).seconds     
 
-endtime = datetime.datetime.now()
-print ((endtime - starttime).seconds)          
+
+     
 print("over")
 
 

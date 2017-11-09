@@ -304,20 +304,13 @@ def month_sum_p2p(x,name):  #月消费金额p2p
 #####################################
 
 if __name__ == '__main__':
-    #train_ori_df = pd.read_csv("small_data.csv", sep=",", low_memory=False, error_bad_lines=False)
-    train_ori_df = pd.read_csv("train_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
-    #print train_ori_df.shape
+    train_ori_df = pd.read_csv("small_data.csv", sep=",", low_memory=False, error_bad_lines=False)
+    #train_ori_df = pd.read_csv("train_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 
-    #test_ori_df = pd.read_csv("test_small.csv", sep=",", low_memory=False, error_bad_lines=False)
-    test_ori_df = pd.read_csv("test_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
-    #print  test_ori_df.shape
+    test_ori_df = pd.read_csv("test_small.csv", sep=",", low_memory=False, error_bad_lines=False)
+    #test_ori_df = pd.read_csv("test_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 
     Trans_ori_df = pd.concat([train_ori_df, test_ori_df], axis=0)
-    #print  Trans_ori_df.shape
-
-    Trans_ori_df = Trans_ori_df[Trans_ori_df["card_attr_cd"]!="01"]
-    #print Trans_ori_df.shape
-
 
     label_df = pd.read_csv("train_label_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 
@@ -327,9 +320,7 @@ if __name__ == '__main__':
 
     Trans_ori_df["fund_shortage"] = Trans_ori_df["resp_cd"].map(lambda x: is_equal(x,"YD51"))  #是否出现资金不足
 
-
-
-
+    
     for col in catgory_list:
         le = preprocessing.LabelEncoder()
         le.fit(Trans_ori_df[col])
@@ -549,7 +540,7 @@ if __name__ == '__main__':
     Effect_df["month_sum_p2p"] = Effect_df.apply(lambda x : month_sum_p2p(x, r"month_sum_"), axis=1)
     #print Effect_df["month_No-cnt_0"]
 ###############################################
-    Effect_df.to_csv("train_1109_xyk.csv",index=False)
+    Effect_df.to_csv("train_1108.csv",index=False)
 
 
 

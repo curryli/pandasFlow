@@ -17,8 +17,7 @@ from woe_pandas import WOE_pandas
 
 catgory_many_list = ['mchnt_cd', 'card_accprt_nm_loc','term_cd',"auth_id_resp_cd"]
 catgory_little_list = ['iss_ins_cd', 'trans_chnl', 'mcc_cd', 'resp_cd', 'trans_id_cd', 'orig_trans_st','trans_st', 'trans_curr_cd',
-                'fwd_settle_cruu_cd', 'fwd_settle_conv_rt', 'rcv_settle_curr_cd','rcv_settle_conv_rt', 'cdhd_curr_cd',
-                'cdhd_conv_rt', 'card_attr_cd','card_media_cd', 'pos_cond_cd', 'pos_entry_md_cd']
+                'fwd_settle_cruu_cd', 'fwd_settle_conv_rt', 'rcv_settle_curr_cd','rcv_settle_conv_rt', 'card_attr_cd','card_media_cd', 'pos_cond_cd', 'pos_entry_md_cd']
 
 catgory_list = catgory_many_list + catgory_little_list
 
@@ -28,7 +27,7 @@ most_frequent_list = catgory_list + cal_catgory_list
 
 #countDistinct_list = most_frequent_list.append("card_no")
 
-math_list = ['Trans_at', 'fwd_settle_at', 'rcv_settle_at', 'cdhd_at']
+math_list = ['Trans_at']
 
 
 ########################################group 函数########################################
@@ -306,29 +305,17 @@ def month_sum_p2p(x,name):  #月消费金额p2p
 if __name__ == '__main__':
     #train_ori_df = pd.read_csv("small_data.csv", sep=",", low_memory=False, error_bad_lines=False)
     train_ori_df = pd.read_csv("train_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
-    #print train_ori_df.shape
 
     #test_ori_df = pd.read_csv("test_small.csv", sep=",", low_memory=False, error_bad_lines=False)
     test_ori_df = pd.read_csv("test_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
-    #print  test_ori_df.shape
 
     Trans_ori_df = pd.concat([train_ori_df, test_ori_df], axis=0)
-    #print  Trans_ori_df.shape
-
-    Trans_ori_df = Trans_ori_df[Trans_ori_df["card_attr_cd"]!="01"]
-    #print Trans_ori_df.shape
-
 
     label_df = pd.read_csv("train_label_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 
     Trans_ori_df = pd.merge(left=Trans_ori_df, right=label_df, how='left', left_on='certid', right_on='certid')
 
     Trans_ori_df = Trans_ori_df.fillna(-1)
-
-    Trans_ori_df["fund_shortage"] = Trans_ori_df["resp_cd"].map(lambda x: is_equal(x,"YD51"))  #是否出现资金不足
-
-
-
 
     for col in catgory_list:
         le = preprocessing.LabelEncoder()
@@ -376,6 +363,8 @@ if __name__ == '__main__':
         Trans_ori_df[new_col] = Trans_ori_df[col].map(lambda x: is_risk_items(x,risk_items))
 
 
+    Trans_ori_df["fund_shortage"] = Trans_ori_df["resp_cd"].map(lambda x: is_equal(x,"YD51"))  #是否出现资金不足
+
 
     Trans_ori_df = Trans_ori_df.fillna(-1)
 
@@ -395,16 +384,16 @@ if __name__ == '__main__':
 ##############################################groupby 之后agg################################################
     agg_dict = {}
     for item in most_frequent_list:
-        agg_dict[item] = [countDistinct, most_frequent_item, most_frequent_cnt]
+        agg_dict[item] = [countDistinct,  most_frequent_cnt]
 
     for item in math_list:
-        agg_dict[item] = ['min', 'max', 'mean', 'sum', 'median', 'std', 'var', peak_to_peak]
+        agg_dict[item] = ['min', 'max', 'mean', 'sum','var']
 
     agg_dict["card_no"] = [countDistinct]
     agg_dict['Trans_at'].append('count')
 
     for item in cal_catgory_list:
-        agg_dict[item] = agg_dict[item] + ['min', 'max', 'mean', 'sum', 'median', 'std', 'var', peak_to_peak]
+        agg_dict[item] = agg_dict[item] + ['min', 'max', 'mean', 'sum', 'var']
 
     agg_dict["month_No"] = [ cnt_0, cnt_1, cnt_2, cnt_3, cnt_4, cnt_5, cnt_6, cnt_7, cnt_8, cnt_9, cnt_10, cnt_11, cnt_12, cnt_13, cnt_14, cnt_15, cnt_16, cnt_17, cnt_18, cnt_19, cnt_20]
 
@@ -536,20 +525,18 @@ if __name__ == '__main__':
 
 
 
-
     Effect_df["has_trans_month"] = Effect_df.apply(has_trans_month, axis=1)
     Effect_df["trans_month_var"] = Effect_df.apply(lambda x : month_sum_var(x, r"month_No-cnt_"), axis=1)
     Effect_df["trans_month_max"] = Effect_df.apply(lambda x : month_sum_max(x, r"month_No-cnt_"), axis=1)
     Effect_df["trans_month_mean"] = Effect_df.apply(lambda x : month_sum_mean(x, r"month_No-cnt_"), axis=1)
-    Effect_df["trans_month_p2p"] = Effect_df.apply(lambda x : month_sum_p2p(x, r"month_No-cnt_"), axis=1)
 
     Effect_df["month_sum_var"] = Effect_df.apply(lambda x : month_sum_var(x, r"month_sum_"), axis=1)
     Effect_df["month_sum_max"] = Effect_df.apply(lambda x : month_sum_max(x, r"month_sum_"), axis=1)
     Effect_df["month_sum_mean"] = Effect_df.apply(lambda x : month_sum_mean(x, r"month_sum_"), axis=1)
-    Effect_df["month_sum_p2p"] = Effect_df.apply(lambda x : month_sum_p2p(x, r"month_sum_"), axis=1)
+
     #print Effect_df["month_No-cnt_0"]
 ###############################################
-    Effect_df.to_csv("train_1109_xyk.csv",index=False)
+    Effect_df.to_csv("train_1109_test.csv",index=False)
 
 
 
