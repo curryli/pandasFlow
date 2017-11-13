@@ -10,8 +10,8 @@ def read_csv_file(filename, first=1):
 
 if __name__ == '__main__':
     train = read_csv_file('test_certid_date_encrypt.csv')
-    result = read_csv_file('xgboost_results.csv')
-    fo = open('InnoDeep.csv', 'w')
+    result = read_csv_file('pred_label_right.csv')
+    fo = open('InnoDeep_1113.csv', 'w')
 
     index = 0
     for row in result:

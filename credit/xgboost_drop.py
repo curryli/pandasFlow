@@ -22,7 +22,7 @@ from sklearn.metrics import precision_recall_fscore_support
 
 #df_All = pd.read_csv("train_new.csv", sep=',')
 #df_All = pd.read_csv("train_notest.csv", sep=',')
-df_All = pd.read_csv("train_1108.csv", sep=',')
+df_All = pd.read_csv("train_1110_LS.csv", sep=',')
 
 df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
 
@@ -32,11 +32,14 @@ df_All = df_All.fillna(-1)
 df_All = shuffle(df_All)
 
 
+#df_X = df_All.drop( ["certid","label","term_cd-most_frequent_item","mchnt_cd-most_frequent_item",  "aera_code",  "apply_dateNo",  "card_accprt_nm_loc-most_frequent_item"], axis=1,inplace=False)
 df_X = df_All.drop( ["certid","label"], axis=1,inplace=False)
 
-pca = PCA(n_components = 250, svd_solver = 'full')
-#pca = PCA(n_components ='mle')
-df_X = pd.DataFrame(pca.fit_transform(df_X))
+# pca = PCA(n_components = 250, svd_solver = 'full')
+# #pca = PCA(n_components ='mle')
+# df_X = pd.DataFrame(pca.fit_transform(df_X))
+
+#df_X = df_X.iloc[:, 6:]
 
 df_y = df_All["label"]
 

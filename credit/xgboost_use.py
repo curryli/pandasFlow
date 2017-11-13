@@ -16,7 +16,7 @@ from sklearn.externals import joblib
 from xgboost.sklearn import XGBClassifier
 
 
-df_All = pd.read_csv("train.csv", sep=',')
+df_All = pd.read_csv("train_1108.csv", sep=',')
 df_All = df_All.fillna(-1)
 
 df_All_train = df_All[(df_All["label"] == 0) | (df_All["label"] == 1)]
@@ -29,7 +29,7 @@ print df_All_test.size
 
 df_All_train = shuffle(df_All_train)
 
-X_train = df_All_train.drop(["certid", "label"], axis=1, inplace=False)
+X_train = df_All_train.drop(["certid", "label","apply_dateNo"], axis=1, inplace=False)
 
 y_train = df_All_train["label"]
 
@@ -45,7 +45,7 @@ clf = joblib.load("xgboost.mdl")
 print "model loaded sucessfully."
 
 
-X_test = df_All_test.drop(["certid", "label"], axis=1, inplace=False)
+X_test = df_All_test.drop(["certid", "label", "apply_dateNo"], axis=1, inplace=False)
 
 pred = clf.predict(X_test).T
 
@@ -54,5 +54,5 @@ print pred.shape
 cerid_arr = np.array(df_All_test["certid"]).T
 
 result = np.vstack((cerid_arr,pred))
-print np.savetxt("xgboost_results.csv",result.T,delimiter=',', fmt = "%s")
+print np.savetxt("xgboost_results_1110.csv",result.T,delimiter=',', fmt = "%s")
 

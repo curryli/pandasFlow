@@ -18,10 +18,12 @@ from sklearn.metrics import classification_report
 from xgboost.sklearn import XGBClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import precision_recall_fscore_support
+import numpy as np
 
 #df_All = pd.read_csv("train_new.csv", sep=',')
 #df_All = pd.read_csv("train_notest.csv", sep=',')
 df_All = pd.read_csv("train_1108.csv", sep=',')
+
 
 df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
 
@@ -33,6 +35,27 @@ df_All = df_All.fillna(-1)
 
 df_X = df_All.drop( ["certid","label"], axis=1,inplace=False)
 
+
+
+df_All_xyk = pd.read_csv("train_1109_xyk.csv", sep=',')
+df_All_xyk = df_All_xyk[(df_All_xyk["label_xyk"]==0) | (df_All_xyk["label_xyk"]==1)]
+
+df_X_xyk = df_All_xyk.drop( ["certid","label_xyk"], axis=1,inplace=False)
+df_X_xyk = df_X_xyk.fillna(-1)
+
+
+# A = df_X.values
+# B = df_X_xyk.values
+# print A.shape
+# print B.shape
+# df_X = np.concatenate((A,B), axis=1)
+
+df_X = pd.concat([df_X, df_X_xyk], axis=1)
+
+
+
+
+print df_X.shape
 
 df_y = df_All["label"]
 
@@ -64,7 +87,7 @@ print ("Recall:", recall_p)
 print ("F1_Score:", F1_Score)
 
 FE_ip_tuples = zip(X_cols, clf.feature_importances_)
-pd.DataFrame(FE_ip_tuples).to_csv("FE_ip_xgboost_1108_2.csv",index=True)
+pd.DataFrame(FE_ip_tuples).to_csv("FE_ip_xgboost_1109_xyk.csv",index=True)
 
 
 #Compute precision, recall, F-measure and support for each class

@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.utils import shuffle 
 from sklearn.ensemble import GradientBoostingClassifier
   
-df_All = pd.read_csv("train.csv", sep=',')
+df_All = pd.read_csv("train_1108.csv", sep=',')
 df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
 
 df_All = df_All.fillna(-1)

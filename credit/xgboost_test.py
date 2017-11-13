@@ -21,7 +21,7 @@ from sklearn.metrics import precision_recall_fscore_support
 
 #df_All = pd.read_csv("train_new.csv", sep=',')
 #df_All = pd.read_csv("train_notest.csv", sep=',')
-df_All = pd.read_csv("train_1108.csv", sep=',')
+df_All = pd.read_csv("train_1109_xyk.csv", sep=',')
 
 df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
 
@@ -64,7 +64,7 @@ print ("Recall:", recall_p)
 print ("F1_Score:", F1_Score)
 
 FE_ip_tuples = zip(X_cols, clf.feature_importances_)
-pd.DataFrame(FE_ip_tuples).to_csv("FE_ip_xgboost_1108_2.csv",index=True)
+pd.DataFrame(FE_ip_tuples).to_csv("FE_ip_xgboost_1109_xyk.csv",index=True)
 
 
 #Compute precision, recall, F-measure and support for each class
