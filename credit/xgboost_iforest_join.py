@@ -24,7 +24,36 @@ import numpy as np
 
 # df_All = pd.read_csv("train_new.csv", sep=',')
 # df_All = pd.read_csv("train_notest.csv", sep=',')
-df_All = pd.read_csv("train_1108.csv", sep=',')
+#df_All = pd.read_csv("train_1108.csv", sep=',')
+
+df_All = pd.read_csv("agg_math_drop.csv", sep=',')
+
+df_All_stat_0 = pd.read_csv("agg_cat.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_0, how='left', left_on='certid', right_on='certid')
+
+
+df_All_stat = pd.read_csv("translabel_stat.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat, how='left', left_on='certid', right_on='certid')
+
+df_All_stat_2 = pd.read_csv("count_label.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_2, how='left', left_on='certid', right_on='certid')
+
+df_All_stat_3 = pd.read_csv("count_label_isnot.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_3, how='left', left_on='certid', right_on='certid')
+
+df_All_stat_4 = pd.read_csv("groupstat_2.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_4, how='left', left_on='certid', right_on='certid')
+
+df_All_stat_5 = pd.read_csv("addition_stat.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_5, how='left', left_on='certid', right_on='certid')
+
+df_All_stat_6 = pd.read_csv("groupMCC.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_6, how='left', left_on='certid', right_on='certid')
+
+df_All_stat_7 = pd.read_csv("addition_stat_2.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_7, how='left', left_on='certid', right_on='certid')
+
+
 
 df_All = df_All[(df_All["label"] == 0) | (df_All["label"] == 1)]
 
@@ -90,7 +119,7 @@ new_tran_df_a = new_tran_df_a.sample(frac=1, replace=False)
 print new_tran_df_a.shape
 
 new_tran_df_b = new_tran_df_0[new_tran_df_0["label_ori"] == 1]  #孤立森林的正常点里的正常样本
-new_tran_df_b = new_tran_df_b.sample(frac=0.1, replace=False)
+new_tran_df_b = new_tran_df_b.sample(frac=1, replace=False)
 print new_tran_df_b.shape
 
 
@@ -98,7 +127,7 @@ new_tran_df_1 =  new_tran_df[new_tran_df["label_IF"] == -1]       #孤立森林�
 print new_tran_df_1.shape
 
 new_tran_df_c = new_tran_df_1[new_tran_df_1["label_ori"] == 0]  #孤立森林的异常点里的违约样本
-new_tran_df_c = new_tran_df_c.sample(frac=0.1, replace=False)
+new_tran_df_c = new_tran_df_c.sample(frac=1, replace=False)
 print new_tran_df_c.shape
 
 new_tran_df_d = new_tran_df_1[new_tran_df_1["label_ori"] == 1]  #孤立森林的异常点里的正常样本

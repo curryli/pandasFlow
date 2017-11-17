@@ -68,7 +68,7 @@ np.savetxt("X_train_cols.csv",np.array(X_train.columns),fmt="%s" )
 
 
 ###############################################
-clf = XGBClassifier(learning_rate =0.1,n_estimators=500,max_depth=5,gamma=0.05,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_lambda=1,seed=27)
+clf = XGBClassifier(learning_rate =0.1,n_estimators=500,max_depth=5,gamma=0.05,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_alpha=0.5, reg_lambda=0.5,seed=133)
 
 print "start training"
 clf.fit(X_train, y_train)

@@ -19,11 +19,11 @@ from xgboost.sklearn import XGBClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import precision_recall_fscore_support
 
-df_All = pd.read_csv("train_1108.csv", sep=',')
-#df_All = pd.read_csv("train_notest.csv", sep=',')
-#df_All = pd.read_csv("train_1109_xyk.csv", sep=',')
+df_All = pd.read_csv("agg_math_drop.csv", sep=',')
 
-df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
+df_All_stat_0 = pd.read_csv("agg_cat.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_0, how='left', left_on='certid', right_on='certid')
+
 
 df_All_stat = pd.read_csv("translabel_stat.csv", sep=',')
 df_All = pd.merge(left=df_All, right=df_All_stat, how='left', left_on='certid', right_on='certid')
@@ -37,14 +37,27 @@ df_All = pd.merge(left=df_All, right=df_All_stat_3, how='left', left_on='certid'
 df_All_stat_4 = pd.read_csv("groupstat_2.csv", sep=',')
 df_All = pd.merge(left=df_All, right=df_All_stat_4, how='left', left_on='certid', right_on='certid')
 
+df_All_stat_5 = pd.read_csv("addition_stat.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_5, how='left', left_on='certid', right_on='certid')
+
+df_All_stat_6 = pd.read_csv("groupMCC.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_6, how='left', left_on='certid', right_on='certid')
+
+df_All_stat_7 = pd.read_csv("addition_stat_2.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_7, how='left', left_on='certid', right_on='certid')
+
+
+
+df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
 df_All = df_All.fillna(-1)
-
-
 df_All = shuffle(df_All)
 
 
 df_X = df_All.drop( ["certid","label"], axis=1,inplace=False)
 
+
+
+print df_X.columns
 
 df_y = df_All["label"]
 
@@ -76,7 +89,7 @@ print ("Recall:", recall_p)
 print ("F1_Score:", F1_Score)
 
 FE_ip_tuples = zip(X_cols, clf.feature_importances_)
-pd.DataFrame(FE_ip_tuples).to_csv("FE_ip_xgboost_1109_xyk.csv",index=True)
+pd.DataFrame(FE_ip_tuples).to_csv("FE_IP_xgboost_drop.csv",index=True)
 
 
 #Compute precision, recall, F-measure and support for each class

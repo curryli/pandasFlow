@@ -15,18 +15,12 @@ from dateutil import parser
 from woe_pandas import WOE_pandas
 #from month_cnt_func import Month_Cnt_class
 
-catgory_many_list = ['mchnt_cd', 'card_accprt_nm_loc','term_cd',"auth_id_resp_cd"]
-catgory_little_list = ['iss_ins_cd', 'trans_chnl', 'mcc_cd', 'resp_cd', 'trans_id_cd', 'orig_trans_st','trans_st', 'trans_curr_cd',
-                'fwd_settle_cruu_cd', 'fwd_settle_conv_rt', 'rcv_settle_curr_cd','rcv_settle_conv_rt', 'cdhd_curr_cd',
-                'cdhd_conv_rt', 'card_attr_cd','card_media_cd', 'pos_cond_cd', 'pos_entry_md_cd']
 
-catgory_list = catgory_many_list + catgory_little_list
 
 cal_catgory_list = ["dateNo", "month", "date", "hour", "weekday", "stageInMonth"]
 
-most_frequent_list = catgory_list + cal_catgory_list
+most_frequent_list = cal_catgory_list
 
-#countDistinct_list = most_frequent_list.append("card_no")
 
 math_list = ['Trans_at', 'fwd_settle_at', 'rcv_settle_at', 'cdhd_at']
 
@@ -328,14 +322,6 @@ if __name__ == '__main__':
     Trans_ori_df["fund_shortage"] = Trans_ori_df["resp_cd"].map(lambda x: is_equal(x,"YD51"))  #是否出现资金不足
 
 
-
-
-    for col in catgory_list:
-        le = preprocessing.LabelEncoder()
-        le.fit(Trans_ori_df[col])
-        Trans_ori_df[col] = le.transform(Trans_ori_df[col])
-
-
     ###############################
     DateDict = createDateDict((2015, 10, 1), (2017, 5, 1))
     Trans_ori_df["dateNo"] = Trans_ori_df["Settle_dt"].map(lambda x: DateDict[x])
@@ -359,30 +345,10 @@ if __name__ == '__main__':
     Good_df = Trans_ori_df[Trans_ori_df["label"] == 1]
     Bad_df = Trans_ori_df[Trans_ori_df["label"] == 0]
 
-
-
-    for col in catgory_many_list:
-        Bad_items = Bad_df[col].value_counts().axes[0].values
-        Good_items = Good_df[col].value_counts().axes[0].values
-        risk_items = np.setdiff1d(Bad_items[:int(Bad_items.shape[0] * 0.01)], Good_items[:int(Bad_items.shape[0] * 0.1)])
-        new_col = "is_risk_" + col
-        Trans_ori_df[new_col] = Trans_ori_df[col].map(lambda x: is_risk_items(x,risk_items))
-
-    for col in catgory_little_list:
-        Bad_items = Bad_df[col].value_counts().axes[0].values
-        Good_items = Good_df[col].value_counts().axes[0].values
-        risk_items = np.setdiff1d(Bad_items,Good_items)
-        new_col = "is_risk_" + col
-        Trans_ori_df[new_col] = Trans_ori_df[col].map(lambda x: is_risk_items(x,risk_items))
-
-
-
     Trans_ori_df = Trans_ori_df.fillna(-1)
 
 ####################################################################################################
     Trans_df = Trans_ori_df
-
-    #print Trans_df.dtypes
 
     certid_grouped = Trans_df.groupby([Trans_df['certid']], group_keys=True)
 
@@ -408,10 +374,6 @@ if __name__ == '__main__':
 
     agg_dict["month_No"] = [ cnt_0, cnt_1, cnt_2, cnt_3, cnt_4, cnt_5, cnt_6, cnt_7, cnt_8, cnt_9, cnt_10, cnt_11, cnt_12, cnt_13, cnt_14, cnt_15, cnt_16, cnt_17, cnt_18, cnt_19, cnt_20]
 
-    is_risk_cols = [("is_risk_"+col) for col in catgory_list]
-    for item in is_risk_cols:                 #是不是还要计算高危比例？
-        agg_dict[item] = ['sum']
-
     agg_dict["fund_shortage"] = ['sum']
 
     agg_stat_df = certid_grouped.agg(agg_dict)
@@ -422,7 +384,7 @@ if __name__ == '__main__':
     #agg_stat_df = agg_stat_df.fillna(-1)
 
     #print agg_stat_df.columns
-    agg_stat_df.to_csv("agg_temp.csv")
+    agg_stat_df.to_csv("agg_math.csv")
 #############################################groupby 之后apply##################################################
 
     # def month_sum_m0(subdf): #可以把每一个group过后的东西都是一个子dataframe，函数里面完全按照dataframe操作即可
@@ -465,7 +427,7 @@ if __name__ == '__main__':
 
 
     ########################################################################################################
-    agg_stat_df = pd.read_csv("agg_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
+    agg_stat_df = pd.read_csv("agg_math.csv", sep=",", low_memory=False, error_bad_lines=False)
     month_sum_df = pd.read_csv("month_sum_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
     month_cnt_df = pd.read_csv("month_cnt_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
 
@@ -549,7 +511,7 @@ if __name__ == '__main__':
     Effect_df["month_sum_p2p"] = Effect_df.apply(lambda x : month_sum_p2p(x, r"month_sum_"), axis=1)
     #print Effect_df["month_No-cnt_0"]
 ###############################################
-    Effect_df.to_csv("train_1109_xyk.csv",index=False)
+    Effect_df.to_csv("agg_math.csv",index=False)
 
 
 
