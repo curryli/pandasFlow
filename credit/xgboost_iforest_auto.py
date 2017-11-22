@@ -65,10 +65,13 @@ X_cols = list(X_stat.columns.values)
 print len(X_cols)
 X_test = df_All_test.drop(["certid", "label"], axis=1, inplace=False)
 
+cols = X_cols
+print len(X_cols)
+cols.append("label_ori")
+cols.append("label_IF")
 
-
-for i in range(5,15):
-    savename = "xgboost_iforest_1122_" + str(i) + r".csv"
+for i in range(0,20):
+    savename = "X_iforest_1122_" + str(i) + r".csv"
     # IF_clf = LocalOutlierFactor(contamination=0.1)
     # y_pred_train=IF_clf.fit_predict(X_train)
     IF_clf = IsolationForest(n_estimators=1000, contamination=0.1, n_jobs=-1, bootstrap=True)
@@ -83,76 +86,73 @@ for i in range(5,15):
     # print C.shape
 
     D = np.concatenate((A,B,C), axis=1)
+
     #D = np.concatenate((D,C), axis=1)
 
-    cols = X_cols
-    print len(X_cols)
-    cols.append("label_ori")
-    cols.append("label_IF")
 
-
+    #print X_cols
 
     new_tran_df = pd.DataFrame(D, columns = cols)
-#
-#     new_tran_df = shuffle(new_tran_df)
-#     print new_tran_df.shape
-#
-#     new_tran_df["label_IF"].to_csv("label_IF.csv")
-#     # new_tran_df = new_tran_df[new_tran_df["label_IF"]>0]
-#
-#     new_tran_df_0 = new_tran_df[new_tran_df["label_IF"] == 1]   #孤立森林的正常点
-#     print new_tran_df_0.shape
-#     new_tran_df_a = new_tran_df_0[new_tran_df_0["label_ori"] == 0]  #孤立森林的正常点里的违约样本
-#     new_tran_df_a = new_tran_df_a.sample(frac=1, replace=False)
-#     print new_tran_df_a.shape
-#
-#     new_tran_df_b = new_tran_df_0[new_tran_df_0["label_ori"] == 1]  #孤立森林的正常点里的正常样本
-#     new_tran_df_b = new_tran_df_b.sample(frac=0.28, replace=False)
-#     print new_tran_df_b.shape
-#
-#
-#     new_tran_df_1 =  new_tran_df[new_tran_df["label_IF"] == -1]       #孤立森林的异常点
-#     print new_tran_df_1.shape
-#
-#     new_tran_df_c = new_tran_df_1[new_tran_df_1["label_ori"] == 0]  #孤立森林的异常点里的违约样本
-#     new_tran_df_c = new_tran_df_c.sample(frac=1, replace=False)
-#     print new_tran_df_c.shape
-#
-#     new_tran_df_d = new_tran_df_1[new_tran_df_1["label_ori"] == 1]  #孤立森林的异常点里的正常样本
-#     new_tran_df_d = new_tran_df_d.sample(frac=0.1, replace=False)
-#     print new_tran_df_d.shape
-#
-#
-#     new_tran_df = pd.concat([new_tran_df_a, new_tran_df_b, new_tran_df_c , new_tran_df_d], axis=0)
-#
-#
-#     #new_tran_df =  new_tran_df_0.append(new_tran_df_1)
-#
-#     used_cols = X_cols[:-2]
-#     #print used_cols
-#     X_train = new_tran_df[used_cols]
-#     y_train = new_tran_df["label_ori"]
-#
-#     ###############第2轮训练####################
-#     clf2 = XGBClassifier(learning_rate =0.1,n_estimators=1000,max_depth=5,gamma=0.01,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_alpha=0.1, reg_lambda=0.1,seed=27)
-#
-#
-#     clf2.fit(X_train, y_train)
-#
-#
-#
-#     # pred_pre = clf1.predict_proba(X_test)
-#     # pred_rec = clf2.predict_proba(X_test)
-#     # pred = (pred_pre+pred_rec)/2
-#     # np.savetxt("pred_pre.txt", pred_pre)
-#     # np.savetxt("pred_rec.txt", pred_rec)
-#     # np.savetxt("y_test.txt", y_test)
-#
-#     pred = clf2.predict(X_test).T
-#
-#     #print pred.shape
-#
-#     cerid_arr = np.array(df_All_test["certid"]).T
-#
-#     result = np.vstack((cerid_arr,pred))
-#     np.savetxt(savename,result.T,delimiter=',', fmt = "%s")
+
+    new_tran_df = shuffle(new_tran_df)
+    print new_tran_df.shape
+
+    new_tran_df["label_IF"].to_csv("label_IF.csv")
+    # new_tran_df = new_tran_df[new_tran_df["label_IF"]>0]
+
+    new_tran_df_0 = new_tran_df[new_tran_df["label_IF"] == 1]   #孤立森林的正常点
+    print new_tran_df_0.shape
+    new_tran_df_a = new_tran_df_0[new_tran_df_0["label_ori"] == 0]  #孤立森林的正常点里的违约样本
+    new_tran_df_a = new_tran_df_a.sample(frac=1, replace=False)
+    print new_tran_df_a.shape
+
+    new_tran_df_b = new_tran_df_0[new_tran_df_0["label_ori"] == 1]  #孤立森林的正常点里的正常样本
+    new_tran_df_b = new_tran_df_b.sample(frac=0.28, replace=False)
+    print new_tran_df_b.shape
+
+
+    new_tran_df_1 =  new_tran_df[new_tran_df["label_IF"] == -1]       #孤立森林的异常点
+    print new_tran_df_1.shape
+
+    new_tran_df_c = new_tran_df_1[new_tran_df_1["label_ori"] == 0]  #孤立森林的异常点里的违约样本
+    new_tran_df_c = new_tran_df_c.sample(frac=1, replace=False)
+    print new_tran_df_c.shape
+
+    new_tran_df_d = new_tran_df_1[new_tran_df_1["label_ori"] == 1]  #孤立森林的异常点里的正常样本
+    new_tran_df_d = new_tran_df_d.sample(frac=0.1, replace=False)
+    print new_tran_df_d.shape
+
+
+    new_tran_df = pd.concat([new_tran_df_a, new_tran_df_b, new_tran_df_c , new_tran_df_d], axis=0)
+
+
+    #new_tran_df =  new_tran_df_0.append(new_tran_df_1)
+
+    used_cols = X_cols[:-2]
+    #print used_cols
+    X_train = new_tran_df[used_cols]
+    y_train = new_tran_df["label_ori"]
+
+    ###############第2轮训练####################
+    clf2 = XGBClassifier(learning_rate =0.1,n_estimators=1000,max_depth=5,gamma=0.01,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_alpha=0.1, reg_lambda=0.1,seed=27)
+
+
+    clf2.fit(X_train, y_train)
+
+
+
+    # pred_pre = clf1.predict_proba(X_test)
+    # pred_rec = clf2.predict_proba(X_test)
+    # pred = (pred_pre+pred_rec)/2
+    # np.savetxt("pred_pre.txt", pred_pre)
+    # np.savetxt("pred_rec.txt", pred_rec)
+    # np.savetxt("y_test.txt", y_test)
+
+    pred = clf2.predict(X_test).T
+
+    #print pred.shape
+
+    cerid_arr = np.array(df_All_test["certid"]).T
+
+    result = np.vstack((cerid_arr,pred))
+    np.savetxt(savename,result.T,delimiter=',', fmt = "%s")
