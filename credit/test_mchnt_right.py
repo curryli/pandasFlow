@@ -19,48 +19,12 @@ from xgboost.sklearn import XGBClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import precision_recall_fscore_support
 
-df_All = pd.read_csv("agg_math_new.csv", sep=',')
-
-df_All_stat_0 = pd.read_csv("agg_cat.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat_0, how='left', left_on='certid', right_on='certid')
-
-
-df_All_stat = pd.read_csv("translabel_stat.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat, how='left', left_on='certid', right_on='certid')
-
-df_All_stat_2 = pd.read_csv("count_label.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat_2, how='left', left_on='certid', right_on='certid')
-
-df_All_stat_3 = pd.read_csv("count_label_isnot.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat_3, how='left', left_on='certid', right_on='certid')
-
-df_All_stat_4 = pd.read_csv("groupstat_2.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat_4, how='left', left_on='certid', right_on='certid')
-
-df_All_stat_5 = pd.read_csv("addition_stat_1.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat_5, how='left', left_on='certid', right_on='certid')
-
-df_All_stat_6 = pd.read_csv("groupMCC.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat_6, how='left', left_on='certid', right_on='certid')
-
-df_All_stat_7 = pd.read_csv("addition_stat_3.csv", sep=',')  #把 addition_stat_2.csv  里面一些过拟合的标记去掉
-df_All = pd.merge(left=df_All, right=df_All_stat_7, how='left', left_on='certid', right_on='certid')
-
-# df_All_stat_8 = pd.read_csv("MCC_detail.csv", sep=',')
-# df_All = pd.merge(left=df_All, right=df_All_stat_8, how='left', left_on='certid', right_on='certid')
-
-df_All_stat_9 = pd.read_csv("Mchnt_stat.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat_9, how='left', left_on='certid', right_on='certid')
-##########################
-# df_All_stat_9 = pd.read_csv("mchnt_ratio.csv", sep=',')
-# df_All_stat_9 = df_All_stat_9[["certid","mchnt_Bad_cnt","mchnt_good_cnt"]]
-# df_All = pd.merge(left=df_All, right=df_All_stat_9, how='left', left_on='certid', right_on='certid')
-#["mchnt_Bad_cnt","mchnt_risk_cnt","mchntcd_Bad_cnt","mchntcd_risk_cnt","has_mchnt_Bad","has_mchnt_risk","has_mchntcd_Bad","has_mchntcd_risk","trans_cnt","mchntcd_Bad_ratio","mchnt_risk_ratio","mchntcd_risk_ratio"]
-
-#########################
+df_All = pd.read_csv("mchnt_ratio.csv", sep=',')
 
 
 
+#df_All = df_All[["certid","mchnt_Bad_cnt","mchntcd_Bad_cnt"]]
+#df_All = df_All[["certid","mchnt_risk_cnt","mchnt_Bad_cnt"]]
 
 label_df = pd.read_csv("train_label_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 df_All = pd.merge(left=df_All, right=label_df, how='left', left_on='certid', right_on='certid')

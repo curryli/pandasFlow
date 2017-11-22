@@ -49,8 +49,7 @@ df_All = pd.merge(left=df_All, right=df_All_stat_7, how='left', left_on='certid'
 # df_All_stat_8 = pd.read_csv("MCC_detail.csv", sep=',')
 # df_All = pd.merge(left=df_All, right=df_All_stat_8, how='left', left_on='certid', right_on='certid')
 
-df_All_stat_9 = pd.read_csv("Mchnt_stat.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat_9, how='left', left_on='certid', right_on='certid')
+
 ##########################
 # df_All_stat_9 = pd.read_csv("mchnt_ratio.csv", sep=',')
 # df_All_stat_9 = df_All_stat_9[["certid","mchnt_Bad_cnt","mchnt_good_cnt"]]
@@ -65,8 +64,11 @@ df_All = pd.merge(left=df_All, right=df_All_stat_9, how='left', left_on='certid'
 label_df = pd.read_csv("train_label_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 df_All = pd.merge(left=df_All, right=label_df, how='left', left_on='certid', right_on='certid')
 
-
-df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
+df_All_0 = df_All[(df_All["label"]==0)]
+df_All_1 = df_All[(df_All["label"]==1)]
+df_All_1 = df_All_1.sample(frac=0.5)
+df_All =  pd.concat([df_All_0, df_All_1], axis=0)
+#df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
 df_All = df_All.fillna(-1)
 df_All = shuffle(df_All)
 

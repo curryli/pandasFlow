@@ -48,7 +48,8 @@ df_All = pd.merge(left=df_All, right=df_All_stat_4, how='left', left_on='certid'
 df_All_stat_5 = pd.read_csv("groupMCC.csv", sep=',')
 df_All = pd.merge(left=df_All, right=df_All_stat_5, how='left', left_on='certid', right_on='certid')
 
-
+df_All_stat_6 = pd.read_csv("MCC_detail.csv", sep=',')
+df_All = pd.merge(left=df_All, right=df_All_stat_6, how='left', left_on='certid', right_on='certid')
 ############################################
 ############################################
 ############################################
@@ -584,13 +585,43 @@ def is_LR_WK_MFC(x):
 df_All["LR_WK_MFC"] = df_All["weekday-most_frequent_cnt"].map(lambda x: is_LR_WK_MFC(x))
 
 
+def is_LR_6012(x):
+    if(x >100):
+        return 1
+    else:
+        return 0
+df_All["LR_6012"] = df_All["jr_6012_cnt"].map(lambda x: is_LR_6012(x))
+
+
+def is_LR_6211(x):
+    if(x >0):
+        return 1
+    else:
+        return 0
+df_All["LR_6211"] = df_All["jr_6211_cnt"].map(lambda x: is_LR_6211(x))
+
+
+def is_HR_6051(x):
+    if(x >100):
+        return 1
+    else:
+        return 0
+df_All["HR_6051"] = df_All["jr_6051_cnt"].map(lambda x: is_HR_6051(x))
+
+def is_LR_CP(x):
+    if(x >10):
+        return 1
+    else:
+        return 0
+df_All["LR_CP"] = df_All["caipiao_mcc_cnt"].map(lambda x: is_LR_CP(x))
 
 df_All = df_All.fillna(-1)
 
 df_All = shuffle(df_All)
-
-save_lst = ["certid","LR_RC","LR_RC_min","LR_RC_MFI","LH_TC_CD","HR_TC_MFI","HR_chnl_MFI","LR_TCC_CD","LR_TCC_MFI","LR_TCC_PP","HR_TCC_max","HR_TCC_MFI","HR_TS_MFC","LR_TS_PP","HR_AIRC_MFC","HR_AIRC_MFI","HR_CANL_CD","HR_CANL_MFC","HR_CANL_MFI","LH_CAC_CD","LH_CAC_max","LH_CAC_MFC","LR_CCR_max","HR_CCR_MFC","LR_CCC_CD","HR_CCC_MFC","HR_FCR_MFC","LR_FCC_CD","HR_FCC_MFC","HR_risk1","HR_risk2","HR_risk3","HR_risk4","HR_risk5","HR_risk6","HR_risk7","HR_risk8","HR_IIC_MFC","HR_MC_CD","HR_MC_MFC","HR_MCF_CD","HR_mchnt_MFC","HR_OTS_MFC","LR_PCC_CD","HR_PCC_MFC","HR_RSC_MFC","LR_RSCC_CD","LR_fdc_mcc","HR_gg_mcc","LR_jt_mcc","LR_jy_mcc","LR_qc_mcc","LR_risk_mcc","LR_sy_mcc","LR_ws_mcc","LR_xx_mcc","LR_zb_mcc","LR_zf_mcc","LR_zs_mcc","LH_has_trans_month","LH_min_apply_delta","LR_m3","HR_month_CD","HR_month_med","HR_month_MFC","HR_month_PP","HR_month_max","LR_WK_med","LR_WK_MFC"]
-df_All[save_lst].to_csv("addition_stat_2.csv",index=False)
+#,"LR_6012","HR_6051","HR_6051","LR_CP"
+save_lst = ["certid","LR_RC","LR_RC_min","LR_RC_MFI","HR_TC_MFI","HR_chnl_MFI","LR_TCC_MFI","LR_TCC_PP","HR_TCC_max","HR_TCC_MFI","HR_AIRC_MFI","HR_CANL_MFI","LH_CAC_max","LR_CCR_max","HR_risk1","HR_risk2","HR_risk3","HR_risk4","HR_risk5","HR_risk6","HR_risk7","HR_risk8","LH_has_trans_month","LH_min_apply_delta","HR_month_med","HR_month_MFC","HR_month_PP","HR_month_max","LR_WK_med","LR_fdc_mcc","HR_gg_mcc","LR_jt_mcc","LR_jy_mcc","LR_qc_mcc","LR_risk_mcc","LR_sy_mcc","LR_ws_mcc","LR_xx_mcc","LR_zb_mcc","LR_zf_mcc","LR_zs_mcc"]
+#save_lst = ["certid","LR_RC","LR_RC_min","LR_RC_MFI","HR_TC_MFI","HR_chnl_MFI","LR_TCC_MFI","LR_TCC_PP","HR_TCC_max","HR_TCC_MFI","HR_AIRC_MFI","HR_CANL_MFI","LH_CAC_max","LR_CCR_max","HR_risk1","HR_risk2","HR_risk3","HR_risk4","HR_risk5","HR_risk6","HR_risk7","HR_risk8","LH_has_trans_month","LH_min_apply_delta","HR_month_med","HR_month_MFC","HR_month_PP","HR_month_max","LR_WK_med"]
+df_All[save_lst].to_csv("addition_stat_3.csv",index=False)
 ##########################################################################
 
 

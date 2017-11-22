@@ -28,7 +28,7 @@ df_All = pd.read_csv("agg_cat.csv", sep=',')
 # df_All_stat_0 = pd.read_csv("agg_cert.csv", sep=',')
 # df_All = pd.merge(left=df_All, right=df_All_stat_0, how='left', left_on='certid', right_on='certid')
 
-df_All_stat_0 = pd.read_csv("agg_math.csv", sep=',')
+df_All_stat_0 = pd.read_csv("agg_math_new.csv", sep=',')
 df_All = pd.merge(left=df_All, right=df_All_stat_0, how='left', left_on='certid', right_on='certid')
 
 #df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
@@ -146,7 +146,7 @@ df_All["LH_date_min"] = df_All["dateNo-min"].map(lambda x: is_LH_date_min(x))
 
 
 
-LR_date_freq = [-1,447,455,439,456,444,436,451,458,450,445,442,452,462,474,461,437,468,497,469,480,476,481,466,496,475,492,483,465,495,500,487,478,491,484,477,494,490,464,479,485,467,489,499,502,504,488,503,506,501,486,505]
+LR_date_freq = [447,455,439,456,444,436,451,458,450,445,442,452,462,474,461,437,468,497,469,480,476,481,466,496,475,492,483,465,495,500,487,478,491,484,477,494,490,464,479,485,467,489,499,502,504,488,503,506,501,486,505]
 def is_LR_date_freq(x):
     if(x in LR_date_freq):
         return 1

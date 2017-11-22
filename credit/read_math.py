@@ -197,7 +197,12 @@ def getTime(x):
 
 
 def getWeekday(x):
-    return parser.parse(x).weekday()
+    result = -1
+    try:
+        result = parser.parse(x).weekday()
+    except ValueError:
+        result = -1
+    return result
 
 
 def getWeektime(x):
@@ -224,7 +229,10 @@ def getDelta(x,col1,col2):
     return x[col1] - x[col2]
 
 def getRatio(x,col1,col2):
-    return float(x[col1])/float(x[col2])
+    if(float(x[col2])==0.0):
+        return -1
+    else:
+        return float(x[col1])/float(x[col2])
 
 def is_risk_items(x,riskitems):
     if(x in risk_items):
@@ -299,11 +307,11 @@ def month_sum_p2p(x,name):  #月消费金额p2p
 
 if __name__ == '__main__':
     #train_ori_df = pd.read_csv("small_data.csv", sep=",", low_memory=False, error_bad_lines=False)
-    train_ori_df = pd.read_csv("train_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
+    train_ori_df = pd.read_csv("train_spark.csv", sep=",", low_memory=False, error_bad_lines=False)
     #print train_ori_df.shape
 
     #test_ori_df = pd.read_csv("test_small.csv", sep=",", low_memory=False, error_bad_lines=False)
-    test_ori_df = pd.read_csv("test_trans_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
+    test_ori_df = pd.read_csv("test_spark.csv", sep=",", low_memory=False, error_bad_lines=False)
     #print  test_ori_df.shape
 
     Trans_ori_df = pd.concat([train_ori_df, test_ori_df], axis=0)
@@ -318,6 +326,8 @@ if __name__ == '__main__':
     Trans_ori_df = pd.merge(left=Trans_ori_df, right=label_df, how='left', left_on='certid', right_on='certid')
 
     Trans_ori_df = Trans_ori_df.fillna(-1)
+    #Trans_ori_df = Trans_ori_df[Trans_ori_df["certid"] != -1 & Trans_ori_df["Settle_dt"] != -1.0]
+    Trans_ori_df[["trans_id_cd"]].to_csv("trans_id_cd.csv", index=False)
 
     Trans_ori_df["fund_shortage"] = Trans_ori_df["resp_cd"].map(lambda x: is_equal(x,"YD51"))  #是否出现资金不足
 
@@ -511,7 +521,7 @@ if __name__ == '__main__':
     Effect_df["month_sum_p2p"] = Effect_df.apply(lambda x : month_sum_p2p(x, r"month_sum_"), axis=1)
     #print Effect_df["month_No-cnt_0"]
 ###############################################
-    Effect_df.to_csv("agg_math.csv",index=False)
+    Effect_df.to_csv("agg_math_new.csv",index=False)
 
 
 

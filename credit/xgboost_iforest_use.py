@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 import pandas as pd
 from sklearn.cross_validation import train_test_split
@@ -49,43 +50,26 @@ df_All = pd.merge(left=df_All, right=df_All_stat_6, how='left', left_on='certid'
 df_All_stat_7 = pd.read_csv("addition_stat_3.csv", sep=',')  #把 addition_stat_2.csv  里面一些过拟合的标记去掉
 df_All = pd.merge(left=df_All, right=df_All_stat_7, how='left', left_on='certid', right_on='certid')
 
-# df_All_stat_8 = pd.read_csv("MCC_detail.csv", sep=',')
-# df_All = pd.merge(left=df_All, right=df_All_stat_8, how='left', left_on='certid', right_on='certid')
-
-
 label_df = pd.read_csv("train_label_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 df_All = pd.merge(left=df_All, right=label_df, how='left', left_on='certid', right_on='certid')
 
-
-df_All = df_All[(df_All["label"]==0) | (df_All["label"]==1)]
 df_All = df_All.fillna(-1)
-df_All = shuffle(df_All)
 
-df_X = df_All.drop(["certid", "label"], axis=1, inplace=False)
+df_All_train = df_All[(df_All["label"] == 0) | (df_All["label"] == 1)]
+df_All_test = df_All[(df_All["label"] != 0) & (df_All["label"] != 1)]
+df_All_train = shuffle(df_All_train)
 
-df_y = df_All["label"]
-
-X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
+X_train = df_All_train.drop(["certid", "label"], axis=1, inplace=False)
+y_train = df_All_train["label"]
 X_cols = list(X_train.columns.values)
-y_train = y_train.values
-y_test = y_test.values
-
-
-###############第一轮训练###################
-clf1 = XGBClassifier(learning_rate=0.1, n_estimators=1000, max_depth=5, gamma=0.01, subsample=0.8, colsample_bytree=0.8,
-                    objective='binary:logistic', reg_lambda=0.1, reg_alpha=0.1, seed=27)
-
-clf1.fit(X_train, y_train)
-################################################
-
-
+X_test = df_All_test.drop(["certid", "label"], axis=1, inplace=False)
 
 
 
 
 # IF_clf = LocalOutlierFactor(contamination=0.1)
 # y_pred_train=IF_clf.fit_predict(X_train)
-IF_clf = IsolationForest(n_estimators=1000, contamination=0.3, n_jobs=-1, bootstrap=True)
+IF_clf = IsolationForest(n_estimators=1000, contamination=0.1, n_jobs=-1, bootstrap=True)
 IF_clf.fit(X_train)
 y_pred_train = IF_clf.predict(X_train)
 
@@ -107,6 +91,8 @@ cols.append("label_IF")
 
 
 new_tran_df = pd.DataFrame(D, columns = cols)
+
+new_tran_df = shuffle(new_tran_df)
 print new_tran_df.shape
 
 new_tran_df["label_IF"].to_csv("label_IF.csv")
@@ -119,7 +105,7 @@ new_tran_df_a = new_tran_df_a.sample(frac=1, replace=False)
 print new_tran_df_a.shape
 
 new_tran_df_b = new_tran_df_0[new_tran_df_0["label_ori"] == 1]  #孤立森林的正常点里的正常样本
-new_tran_df_b = new_tran_df_b.sample(frac=1, replace=False)
+new_tran_df_b = new_tran_df_b.sample(frac=0.3, replace=False)
 print new_tran_df_b.shape
 
 
@@ -146,8 +132,8 @@ X_train = new_tran_df[used_cols]
 y_train = new_tran_df["label_ori"]
 
 ###############第2轮训练####################
-clf2 = XGBClassifier(learning_rate=0.1, n_estimators=1000, max_depth=5, gamma=0.01, subsample=0.8, colsample_bytree=0.8,
-                    objective='binary:logistic', reg_lambda=0.1, reg_alpha=0.1, seed=27)
+clf2 = XGBClassifier(learning_rate =0.1,n_estimators=1000,max_depth=5,gamma=0.01,subsample=0.8,colsample_bytree=0.8,objective= 'binary:logistic', reg_alpha=0.1, reg_lambda=0.1,seed=27)
+
 
 clf2.fit(X_train, y_train)
 
@@ -160,38 +146,11 @@ clf2.fit(X_train, y_train)
 # np.savetxt("pred_rec.txt", pred_rec)
 # np.savetxt("y_test.txt", y_test)
 
-pred = clf2.predict_proba(X_test)
+pred = clf2.predict(X_test).T
 
-pred =  np.where(np.array(pred)<0.5,0,1)
-pred = [x[1] for x in pred]
+#print pred.shape
 
-print pred
+cerid_arr = np.array(df_All_test["certid"]).T
 
-cm1 = confusion_matrix(y_test, pred)
-print  cm1
-
-precision_p = float(cm1[0][0]) / float((cm1[0][0] + cm1[1][0]))
-recall_p = float(cm1[0][0]) / float((cm1[0][0] + cm1[0][1]))
-F1_Score = 2 * precision_p * recall_p / (precision_p + recall_p)
-
-print ("Precision:", precision_p)
-print ("Recall:", recall_p)
-print ("F1_Score:", F1_Score)
-
-FE_ip_tuples = zip(X_cols, clf2.feature_importances_)
-pd.DataFrame(FE_ip_tuples).to_csv("FE_ip_xgboost_1108_2.csv", index=True)
-
-# Compute precision, recall, F-measure and support for each class
-# print "weighted\n"
-# print precision_recall_fscore_support(y_test,pred, average='weighted')
-
-print "Each class\n"
-result = precision_recall_fscore_support(y_test, pred)
-# print result
-precision_0 = result[0][0]
-recall_0 = result[1][0]
-f1_0 = result[2][0]
-precision_1 = result[0][1]
-recall_1 = result[1][1]
-f1_1 = result[2][1]
-print "precision_0: ", precision_0, "  recall_0: ", recall_0, "  f1_0: ", f1_0
+result = np.vstack((cerid_arr,pred))
+np.savetxt("xgboost_iforest_1122_4.csv",result.T,delimiter=',', fmt = "%s")

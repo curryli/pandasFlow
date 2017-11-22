@@ -18,6 +18,10 @@ from sklearn.metrics import classification_report
 from xgboost.sklearn import XGBClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import precision_recall_fscore_support
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+import numpy as np
+
 
 df_All = pd.read_csv("agg_math_new.csv", sep=',')
 
@@ -49,18 +53,6 @@ df_All = pd.merge(left=df_All, right=df_All_stat_7, how='left', left_on='certid'
 # df_All_stat_8 = pd.read_csv("MCC_detail.csv", sep=',')
 # df_All = pd.merge(left=df_All, right=df_All_stat_8, how='left', left_on='certid', right_on='certid')
 
-df_All_stat_9 = pd.read_csv("Mchnt_stat.csv", sep=',')
-df_All = pd.merge(left=df_All, right=df_All_stat_9, how='left', left_on='certid', right_on='certid')
-##########################
-# df_All_stat_9 = pd.read_csv("mchnt_ratio.csv", sep=',')
-# df_All_stat_9 = df_All_stat_9[["certid","mchnt_Bad_cnt","mchnt_good_cnt"]]
-# df_All = pd.merge(left=df_All, right=df_All_stat_9, how='left', left_on='certid', right_on='certid')
-#["mchnt_Bad_cnt","mchnt_risk_cnt","mchntcd_Bad_cnt","mchntcd_risk_cnt","has_mchnt_Bad","has_mchnt_risk","has_mchntcd_Bad","has_mchntcd_risk","trans_cnt","mchntcd_Bad_ratio","mchnt_risk_ratio","mchntcd_risk_ratio"]
-
-#########################
-
-
-
 
 label_df = pd.read_csv("train_label_encrypt.csv", sep=",", low_memory=False, error_bad_lines=False)
 df_All = pd.merge(left=df_All, right=label_df, how='left', left_on='certid', right_on='certid')
@@ -71,7 +63,12 @@ df_All = df_All.fillna(-1)
 df_All = shuffle(df_All)
 
 
-df_X = df_All.drop( ["certid","label"], axis=1,inplace=False)
+df_X = df_All.drop( ["label"], axis=1,inplace=False)
+
+X_kmeans = df_All.drop( ["certid","label"], axis=1,inplace=False)
+y_kmeans = KMeans(n_clusters=10, precompute_distances=True, random_state=3).fit_predict(X_kmeans)
+
+
 
 #df_X = df_X.drop( ["card_attr_cd_filled_idx-mean","card_attr_cd_filled_idx-std","card_attr_cd_filled_idx-var","trans_id_cd_filled_idx-mean","trans_id_cd_filled_idx-std","pos_entry_md_cd_filled_idx-std","pos_entry_md_cd_filled_idx-var","trans_chnl_filled_idx-std","trans_chnl_filled_idx-var","card_media_cd_filled_idx-std","card_media_cd_filled_idx-var","card_media_cd_filled_idx-std","card_media_cd_filled_idx-var","resp_cd_filled_idx-std","resp_cd_filled_idx-var","mcc_cd_filled_idx-std","mcc_cd_filled_idx-var","iss_ins_cd_filled_idx-std","iss_ins_cd_filled_idx-var"], axis=1,inplace=False)
 
@@ -79,7 +76,19 @@ print df_X.columns
 
 df_y = df_All["label"]
 
-X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
+
+X_train, X_test, y_train, y_test , km_train, km_test = train_test_split(df_X, df_y, y_kmeans, test_size=0.2)
+
+km_test_df = pd.DataFrame(km_test, columns=['y_kmeans'])
+cert_test_df = X_train[["certid"]]
+km_test_df = pd.concat([km_test_df, cert_test_df], axis=1)
+km_test_df = pd.concat([km_test_df, y_test], axis=1)
+
+X_train = X_train.drop( ["certid"], axis=1,inplace=False)
+X_test = X_test.drop( ["certid"], axis=1,inplace=False)
+
+
+
 X_cols = X_train.columns
 sc = StandardScaler()    #MinMaxScaler()    不好
 
@@ -124,3 +133,27 @@ precision_1 = result[0][1]
 recall_1 = result[1][1]
 f1_1 = result[2][1]
 print "precision_0: ", precision_0,"  recall_0: ", recall_0, "  f1_0: ", f1_0
+
+
+
+####################################################
+y_test_kmeans = KMeans(n_clusters=10, precompute_distances=True, random_state=3).fit_predict(X_test)
+
+test_df = km_test_df
+
+
+pred_df = pd.DataFrame(pred, columns=['pred'])
+test_df  = pd.concat([test_df, pred_df], axis=1)
+
+test_df.to_csv('compare_kmeans.csv')
+# def compare(x):
+#     if(test_df["label"]== test_df["pred"]):
+#         return 1
+#     else:
+#         return 0
+#
+# test_df['compare'] = test_df.apply(compare, axis=1)
+#
+# test_df.to_csv('compare_kmeans.csv')
+
+
