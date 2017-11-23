@@ -19,13 +19,13 @@ from xgboost.sklearn import XGBClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import precision_recall_fscore_support
 
-df_All = pd.read_csv("agg_math_new.csv", sep=',')
+df_All = pd.read_csv("agg_math_stable.csv", sep=',')
 
 df_All_stat_0 = pd.read_csv("agg_cat.csv", sep=',')
 df_All = pd.merge(left=df_All, right=df_All_stat_0, how='left', left_on='certid', right_on='certid')
 
 
-df_All_stat = pd.read_csv("translabel_stat.csv", sep=',')
+df_All_stat = pd.read_csv("translabel_stat_2.csv", sep=',')
 df_All = pd.merge(left=df_All, right=df_All_stat, how='left', left_on='certid', right_on='certid')
 
 df_All_stat_2 = pd.read_csv("count_label.csv", sep=',')

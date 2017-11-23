@@ -289,19 +289,34 @@ def month_sum_max(x,name):  #月消费金额最大
         cnt_list.append(x[colname])
     return np.max(cnt_list)
 
-def month_sum_var(x,name):  #月消费金额方差
+def month_sum_var(x,name):  #月消费金额或者次数方差
     cnt_list = []
     for m in range(0,20):
         colname = name + str(m)
         cnt_list.append(x[colname])
     return np.var(cnt_list)
 
-def month_sum_p2p(x,name):  #月消费金额p2p
+def month_sum_p2p(x,name):  #月消费金额或者次数p2p
     cnt_list = []
     for m in range(0,20):
         colname = name + str(m)
         cnt_list.append(x[colname])
     return np.max(cnt_list)- np.min(cnt_list)
+
+def month_sum_stable(x,name):  #月消费金额或者次数的稳定性
+    cnt_list = []
+    for m in range(0,20):
+        colname = name + str(m)
+        cnt_list.append(x[colname])
+    avg = np.mean(cnt_list)
+    if (avg>0):
+        avg_list = []
+        for m in range(0,20):
+            colname = name + str(m)
+            avg_list.append(float(x[colname])/float(avg))
+        return np.var(avg_list)
+    else:
+        return -1
 
 #####################################
 
@@ -394,7 +409,7 @@ if __name__ == '__main__':
     #agg_stat_df = agg_stat_df.fillna(-1)
 
     #print agg_stat_df.columns
-    agg_stat_df.to_csv("agg_math.csv")
+    agg_stat_df.to_csv("agg_stat_temp.csv")
 #############################################groupby 之后apply##################################################
 
     # def month_sum_m0(subdf): #可以把每一个group过后的东西都是一个子dataframe，函数里面完全按照dataframe操作即可
@@ -437,7 +452,7 @@ if __name__ == '__main__':
 
 
     ########################################################################################################
-    agg_stat_df = pd.read_csv("agg_math.csv", sep=",", low_memory=False, error_bad_lines=False)
+    agg_stat_df = pd.read_csv("agg_stat_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
     month_sum_df = pd.read_csv("month_sum_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
     month_cnt_df = pd.read_csv("month_cnt_temp.csv", sep=",", low_memory=False, error_bad_lines=False)
 
@@ -514,14 +529,16 @@ if __name__ == '__main__':
     Effect_df["trans_month_max"] = Effect_df.apply(lambda x : month_sum_max(x, r"month_No-cnt_"), axis=1)
     Effect_df["trans_month_mean"] = Effect_df.apply(lambda x : month_sum_mean(x, r"month_No-cnt_"), axis=1)
     Effect_df["trans_month_p2p"] = Effect_df.apply(lambda x : month_sum_p2p(x, r"month_No-cnt_"), axis=1)
+    Effect_df["trans_month_stable"] = Effect_df.apply(lambda x: month_sum_stable(x, r"month_No-cnt_"), axis=1)
 
     Effect_df["month_sum_var"] = Effect_df.apply(lambda x : month_sum_var(x, r"month_sum_"), axis=1)
     Effect_df["month_sum_max"] = Effect_df.apply(lambda x : month_sum_max(x, r"month_sum_"), axis=1)
     Effect_df["month_sum_mean"] = Effect_df.apply(lambda x : month_sum_mean(x, r"month_sum_"), axis=1)
     Effect_df["month_sum_p2p"] = Effect_df.apply(lambda x : month_sum_p2p(x, r"month_sum_"), axis=1)
+    Effect_df["month_sum_stable"] = Effect_df.apply(lambda x: month_sum_stable(x, r"month_sum_"), axis=1)
     #print Effect_df["month_No-cnt_0"]
 ###############################################
-    Effect_df.to_csv("agg_math_new.csv",index=False)
+    Effect_df.to_csv("agg_math_stable.csv",index=False)
 
 
 
