@@ -141,11 +141,11 @@ mlstm_cell = tf.contrib.rnn.MultiRNNCell(cells)
 init_state = mlstm_cell.zero_state(batch_size, dtype=tf.float32)
 
 
-# **步骤6：方法一，调用 dynamic_rnn() 来让我们构建好的网络运行起来
+# **步骤6：方法一，调用 dynamic_rnn() 来让我们构建好的网络运行起来    https://blog.csdn.net/u010223750/article/details/71079036     https://zhuanlan.zhihu.com/p/28196873
 # ** 当 time_major==False 时， outputs.shape = [batch_size, timestep_size, hidden_size] 
 # ** 所以，可以取 h_state = outputs[:, -1, :] 作为最后输出
-# ** state.shape = [layer_num, 2, batch_size, hidden_size], 
-# ** 或者，可以取 h_state = state[-1][1] 作为最后输出
+# ** state.shape = [layer_num, 2, batch_size, hidden_size],  layer_num是因为MultiRNNCell有 多层LSTM    2是因为LSTM可以看做有两个隐状态h和c  返回的是由(c,h)组成的tuple，均为[batch,hidden_size]。   
+# ** 或者，可以取 h_state = state[-1][1] 作为最后输出     state[-1]表示我们只保留多层LSTM中最后一层的LSTM状态，  state[-1][1] 表示  其实我们只想要(c,h)中的h  
 # ** 最后输出维度是 [batch_size, hidden_size]
  
 X_reshape = tf.reshape(_X, [-1, timesteps, data_dim])
