@@ -1,0 +1,92 @@
+select * from tbl_qrhis_trans_flow_parquet where mchnt_cd='001980099990002' limit 10;
+
+
+select * from tbl_qrhis_trans_flow_parquet where trans_tm='20171206124538' and mchnt_cd='001980099990002' and sys_tra_no = '867894';
+
+select * from tbl_qrhis_trans_flow_parquet where pdate>='20180301' and pdate<='20180331' and mchnt_cd='001980099990002' 
+
+
+select A.mchnt_order_id, B.trans_idx from (select * from tbl_qrhis_trans_flow_parquet where pdate>='20180301' and pdate<='20180301' and mchnt_cd='001980099990002') A
+left join (select * from tbl_qrhis_trans_flow_parquet where pdate>='20180301' and pdate<='20180301' and mchnt_cd='001980099990002') B 
+on A.mchnt_order_id = B.trans_idx where B.trans_idx is not NUll limit 10;
+
+
+
+CREATE VIEW qr_03 AS
+select MCHNT_TP,PRI_ACCT_NO,CARD_ATTR,ISS_HEAD,ISS_INS_ID_CD,ACCT_CLASS,APP_INS_ID_CD,TRANS_DT,TRANS_TM,SYS_TM,FWD_INS_ID_CD,TRANS_AT,TRANS_CURR_CD,SETTLE_AT,TRANS_TP,PROC_ST,RESP_CD,INS_PAY_MODE,ORDER_TYPE,MSG_TP,POS_ENTRY_MD_CD,RCV_INS_ID_CD from tbl_qrhis_trans_flow_parquet
+where pdate>='20180301' and pdate<='20180331' and mchnt_cd='001980099990002'
+
+
+
+trans_idx,acq_ins_id_cd,mchnt_cd,mchnt_tp,term_id,pri_acct_no,token_id,name,card_attr,iss_head,iss_ins_id_cd,acct_class,app_ins_id_cd,trans_dt,sys_tra_no,sys_tm,fwd_ins_id_cd,trans_at,trans_curr_cd,settle_md,settle_at,settle_curr_cd,settle_dt,trans_tp,proc_st,resp_cd,ins_pay_mode,up_discount,app_discount,ctrl_rule1,mer_version,app_version,order_type,app_ntf_st,acq_ntf_st,proc_sys,mchnt_order_id,mchnt_back_url,app_back_url,mer_cert_id,app_cert_id,coupon_info,mchnt_nm,card_inf,app_ins_inf,rcv_ins_inf,acq_ins_inf,country_cd,area_cd,mer_discount,phone_no,pdate
+
+CREATE TABLE IF NOT EXISTS used_trans_03(
+trans_idx	string,
+acq_ins_id_cd	string,
+mchnt_cd	string,
+mchnt_tp	string,
+term_id	string,
+pri_acct_no	string,
+token_id	string,
+name	string,
+card_attr	string,
+iss_head	string,
+iss_ins_id_cd	string,
+acct_class	string,
+app_ins_id_cd	string,
+trans_dt	string,
+sys_tra_no	string,
+sys_tm	string,
+fwd_ins_id_cd	string,
+trans_at	decimal(12,0),
+trans_curr_cd	string,
+settle_md	string,
+settle_at	decimal(12,0),
+settle_curr_cd	string,
+settle_dt	string,
+trans_tp	string,
+proc_st	string,
+resp_cd	string,
+ins_pay_mode	string,
+up_discount	decimal(12,0),
+app_discount	decimal(12,0),
+ctrl_rule1	string,
+mer_version	string,
+app_version	string,
+order_type	string,
+app_ntf_st	string,
+acq_ntf_st	string,
+proc_sys	string,
+mchnt_order_id	string,
+mchnt_back_url	string,
+app_back_url	string,
+mer_cert_id	string,
+app_cert_id	string,
+coupon_info	string,
+mchnt_nm	string,
+card_inf	string,
+app_ins_inf	string,
+rcv_ins_inf	string,
+acq_ins_inf	string,
+country_cd	string,
+area_cd	string,
+mer_discount	decimal(12,0),
+phone_no	string,
+pdate	string
+);
+
+
+
+INSERT OVERWRITE TABLE used_trans_03
+select trans_idx,acq_ins_id_cd,mchnt_cd,mchnt_tp,term_id,pri_acct_no,token_id,name,card_attr,iss_head,iss_ins_id_cd,acct_class,app_ins_id_cd,trans_dt,sys_tra_no,sys_tm,fwd_ins_id_cd,trans_at,trans_curr_cd,settle_md,settle_at,settle_curr_cd,settle_dt,trans_tp,proc_st,resp_cd,ins_pay_mode,up_discount,app_discount,ctrl_rule1,mer_version,app_version,order_type,app_ntf_st,acq_ntf_st,proc_sys,mchnt_order_id,mchnt_back_url,app_back_url,mer_cert_id,app_cert_id,coupon_info,mchnt_nm,card_inf,app_ins_inf,rcv_ins_inf,acq_ins_inf,country_cd,area_cd,mer_discount,phone_no,pdate
+from tbl_qrhis_trans_flow_parquet where  pdate>='20180301' and pdate<='20180331' and mchnt_cd='001980099990002'
+
+
+
+create table if not exists black_seeds 
+(  
+    trans_tm	string,
+	sys_tra_no	string
+)  
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','  
+LOCATION '/user/hdxrli/myfiles/black_seed.csv'
