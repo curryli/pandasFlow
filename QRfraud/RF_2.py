@@ -72,7 +72,6 @@ df_All["trans_at"] = df_All["trans_at"].astype(np.double)
 df_All["settle_at"] = df_All["settle_at"].astype(np.double)
 
 dis_cols = ["resp_cd","app_ins_inf","acq_ins_id_cd","mchnt_tp","card_attr","acct_class","app_ins_id_cd","fwd_ins_id_cd","trans_curr_cd","trans_tp","proc_st","ins_pay_mode","up_discount","app_discount","ctrl_rule1","mer_version","app_version","order_type","app_ntf_st","acq_ntf_st","proc_sys","mchnt_back_url","app_back_url","mer_cert_id","mchnt_nm","acq_ins_inf","country_cd","area_cd"]
-df_dummies = pd.get_dummies(df_All[dis_cols])
 
 ########################################################################
 def cnt_89(x):
@@ -101,31 +100,31 @@ gened_cols = ["weekday", "hour", "is_night", "cnt_89", "cnt_89_ratio"]
 ##################################################################
 
 ############################特征交叉##############################
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import PolynomialFeatures
-#先把所有类别型变量变成数值性，然后调用PolynomialFeatures  计算变量相乘的扩展 获得 交叉特征   但其实相乘的数值有时候并不一定有意义，不过可以尝试。所以正确的做法是，先用原语义做简单字符串拼接，然后再做onehot编码。
-#interaction_only=True 例如[a,b]的多项式交互式输出[1,a,b,ab]。不存在自己与自己交互的情况如;a^2或者a*b^2之类的。
-poly = PolynomialFeatures(degree=2, interaction_only=True)
+#对dis_cols 两两拼接  https://blog.csdn.net/specter11235/article/details/71189486
+# for(int i=0;i< mylist.size()-1;i++)
+#           for(int j=i+1;j< mylist.size();j++)
 
-le = LabelEncoder()
-df_le= np.array(le.fit_transform(df_All[dis_cols[0]]))
-
-for i in dis_cols[1:]:
-    le_i = LabelEncoder()
-    df_le_tmp=  np.array(le_i.fit_transform(df_All[i]))
-    df_le  = np.vstack((df_le,df_le_tmp))
-
-df_le = df_le.T
-print df_le.shape
-df_poly = pd.DataFrame(poly.fit_transform(df_le))
+cross_cols = []
+import itertools
+for p in itertools.combinations(dis_cols, 2):
+    print(p)
+    new_col = p[0] + p[1]
+    cross_cols.append(new_col)
+    #df_All[new_col] = df_All.apply(lambda x: str(x[p[0]]) + str(x[p[1]]), axis=1)  #这个很慢
+    df_All[new_col] = np.core.defchararray.add(df_All[p[0]].values.astype(str) , df_All[p[1]].values.astype(str)) #这个快
+print("cross done")
 
 # ###################################################################
 
+df_dummies = pd.get_dummies(df_All[dis_cols + cross_cols])
 
 df_X = pd.concat([df_All[sus_cols],df_dummies,df_All[gened_cols]], axis=1)
-df_X = pd.concat([df_X.reset_index(),df_poly], axis=1)
 
+from sklearn.decomposition import PCA
+pca = PCA(n_components = 500, svd_solver = 'full')   #一万多维，PCA好像也很慢
+df_X = pd.DataFrame(pca.fit_transform(df_X))
 
+print(df_X)
 used_cols = df_X.columns
 
 
@@ -143,15 +142,15 @@ clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split
 clf = clf.fit(X_train, y_train)
 
 
-FE_ip_tuples = zip(used_cols, clf.feature_importances_)
-pd.DataFrame(FE_ip_tuples).to_csv("FE_ip.csv", index=True)
+# FE_ip_tuples = zip(used_cols, clf.feature_importances_)
+# pd.DataFrame(FE_ip_tuples).to_csv("FE_ip.csv", index=True)
 
 
 
 pred = clf.predict(X_test)
 
 cm1=confusion_matrix(y_test, pred)
-print  cm1
+print(cm1)
 
 result = precision_recall_fscore_support(y_test,pred)
 #print result
@@ -161,7 +160,7 @@ f1_0 = result[2][0]
 precision_1 = result[0][1]
 recall_1 = result[1][1]
 f1_1 = result[2][1]
-print "precision_1: ", precision_1,"  recall_1: ", recall_1, "  f1_1: ", f1_1
+print("precision_1: ", precision_1,"  recall_1: ", recall_1, "  f1_1: ", f1_1)
 
-print classification_report(y_test, pred)
+print(classification_report(y_test, pred))
 
