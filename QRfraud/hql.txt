@@ -90,3 +90,27 @@ create table if not exists black_seeds
 )  
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','  
 LOCATION '/user/hdxrli/myfiles/black_seed.csv'
+
+
+
+
+
+SELECT pri_acct_no,trans_tm,trans_at,
+       lag(trans_tm,1,"NAN") over (partition BY pri_acct_no ORDER BY trans_tm) AS ls_trans_tm,
+       lag(trans_at,1,-1) over (partition BY pri_acct_no ORDER BY trans_tm) AS ls_trans_at
+from used_trans_all;
+
+
+
+
+select count(*) from(
+select A.* from used_train A
+left join black_trans B on
+A.sys_tra_no = B.sys_tra_no and A.pdate = B.pdate where B.acct_class is not null) C
+
+
+
+select count(*) from (
+select A.* from used_test A
+left join black_trans B on
+A.sys_tra_no=B.sys_tra_no where B.mchnt_tp is null) C

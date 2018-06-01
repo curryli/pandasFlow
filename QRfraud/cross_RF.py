@@ -71,7 +71,10 @@ sus_cols = ["trans_at", "settle_at"]
 df_All["trans_at"] = df_All["trans_at"].astype(np.double)
 df_All["settle_at"] = df_All["settle_at"].astype(np.double)
 
-dis_cols = ["resp_cd","app_ins_inf","acq_ins_id_cd","mchnt_tp","card_attr","acct_class","app_ins_id_cd","fwd_ins_id_cd","trans_curr_cd","trans_tp","proc_st","ins_pay_mode","up_discount","app_discount","ctrl_rule1","mer_version","app_version","order_type","app_ntf_st","acq_ntf_st","proc_sys","mchnt_back_url","app_back_url","mer_cert_id","mchnt_nm","acq_ins_inf","country_cd","area_cd"]
+
+
+
+dis_cols = ["iss_head", "iss_ins_id_cd", "resp_cd","app_ins_inf","acq_ins_id_cd","mchnt_tp","card_attr","acct_class","app_ins_id_cd","fwd_ins_id_cd","trans_curr_cd","trans_tp","proc_st","ins_pay_mode","up_discount","app_discount","ctrl_rule1","mer_version","app_version","order_type","app_ntf_st","acq_ntf_st","proc_sys","mchnt_back_url","app_back_url","mer_cert_id","mchnt_nm","acq_ins_inf","country_cd","area_cd"]
 
 df_dummies = pd.get_dummies(df_All[dis_cols])
 ########################################################################
@@ -97,6 +100,9 @@ df_All["is_night"] = df_All["hour"].map(lambda x: 1 if (int(x)>=0 and int(x)<=6)
 
 df_All["cnt_89"] = df_All["trans_at"].map(lambda x: cnt_89(x))
 df_All["cnt_89_ratio"] = df_All["trans_at"].map(lambda x: cnt_89_ratio(x))
+
+
+
 gened_cols = ["weekday", "hour", "is_night", "cnt_89", "cnt_89_ratio"]
 ##################################################################
 
