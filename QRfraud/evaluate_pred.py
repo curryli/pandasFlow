@@ -49,53 +49,23 @@ sns.set_style('whitegrid')
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 
-fraudname = r'fraud.csv'
-normalname = r'normal_join.csv'
+all_df = read_csv("predictionResult2.csv",  sep=',')
+all_df.columns = ["label", "c1", "c2", "predic"]
 
-df_fraud = read_csv(fraudname,  sep=',', dtype=str)
-df_normal = read_csv(normalname,  sep=',',  dtype=str)
+y_test = all_df.label#.values()
 
-df_fraud["label"] = 1
-df_normal["label"] = 0
+def thred(x):
+    if(x.c1<0.2):
+        return 1
+    else:
+        return 0
 
-df_All = pd.concat([df_fraud,df_normal], axis = 0)
-df_All = df_All.fillna(-1)
+all_df["pred"] = all_df.apply(thred, axis=1)
 
-df_All = shuffle(df_All)
-
-sus_cols = ["trans_at", "settle_at"]
-df_All["trans_at"] = df_All["trans_at"].astype(np.double)
-df_All["settle_at"] = df_All["settle_at"].astype(np.double)
-
-dis_cols = ["mchnt_back_url","app_back_url","mer_cert_id","mchnt_nm","acq_ins_inf","country_cd","area_cd"]
-df_dummies = pd.get_dummies(df_All[dis_cols])
-df_X = pd.concat([df_All[sus_cols],df_dummies], axis=1)
-used_cols = df_X.columns
-
-
-sc =StandardScaler()
-df_X =sc.fit_transform(df_X)#对数据进行标准化
-
-df_y = df_All["label"]
-
-
-X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2)
-
-#n_estimators树的数量一般大一点。 max_features 对于分类的话一般特征束的sqrt，auto自动
-clf = RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_split=2, max_features="auto",max_leaf_nodes=None, bootstrap=True)
-
-clf = clf.fit(X_train, y_train)
-
-
-FE_ip_tuples = zip(used_cols, clf.feature_importances_)
-pd.DataFrame(FE_ip_tuples).to_csv("FE_ip.csv", index=True)
-
-
-
-pred = clf.predict(X_test)
+pred = all_df["pred"]
 
 cm1=confusion_matrix(y_test, pred)
-print  cm1
+print(cm1)
 
 result = precision_recall_fscore_support(y_test,pred)
 #print result
@@ -105,7 +75,12 @@ f1_0 = result[2][0]
 precision_1 = result[0][1]
 recall_1 = result[1][1]
 f1_1 = result[2][1]
-print "precision_1: ", precision_1,"  recall_1: ", recall_1, "  f1_1: ", f1_1
+print("precision_1: ", precision_1,"  recall_1: ", recall_1, "  f1_1: ", f1_1)
 
-print classification_report(y_test, pred)
+print(classification_report(y_test, pred))
+
+
+
+test_auc = metrics.roc_auc_score(y_test, all_df["c1"])#验证集上的auc值
+print(test_auc)
 
